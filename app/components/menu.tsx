@@ -24,7 +24,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
       return () => clearTimeout(timer);
     } else {
       setIsAnimating(false);
-      const timer = setTimeout(() => setShouldRender(false), 2000);
+      const timer = setTimeout(() => setShouldRender(false), 2000); // 2s exit to match original feel
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
@@ -39,14 +39,16 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
     { label: "Contact", href: "/contact" },
   ];
 
-  // User provided paths (extending to -25 for organic overlap)
-  const waterFlowPath = isAnimating
-    ? "M 100 0 L -25 0 C -15 8, -45 15, -20 25 C 5 35, -55 42, -15 52 C 15 62, -40 72, -25 82 C -10 88, -30 95, -20 100 L 100 100 Z"
-    : "M 100 0 L 100 0 C 100 8, 100 15, 100 25 C 100 35, 100 42, 100 52 C 100 62, 100 72, 100 82 C 100 88, 100 95, 100 100 L 100 100 Z";
-
-  const secondaryViscousPath = isAnimating
-    ? "M 100 0 L -15 0 C 0 12, -25 22, -5 32 C 10 42, -35 52, 0 62 C 20 72, -20 82, -5 92 C 5 97, -10 100, 0 100 L 100 100 Z"
-    : "M 100 0 L 100 0 C 100 12, 100 22, 100 32 C 100 42, 100 52, 100 62 C 100 72, 100 82, 100 92 C 100 97, 100 100, 100 100 L 100 100 Z";
+  // Brick Wall Rows Configuration (The new background)
+  const rows = [
+    { height: "10%", width: "115%", z: 10, border: "border-b border-l border-white/10" },
+    { height: "15%", width: "105%", z: 20, border: "border-b border-l border-white/20" },
+    { height: "10%", width: "125%", z: 15, border: "border-b border-l border-teal-500/30" },
+    { height: "20%", width: "110%", z: 12, border: "border-b border-l border-white/10" },
+    { height: "12%", width: "120%", z: 25, border: "border-b border-l border-teal-200/20" },
+    { height: "18%", width: "100%", z: 10, border: "border-b border-l border-white/10" },
+    { height: "15%", width: "115%", z: 18, border: "border-b border-l border-white/20" },
+  ];
 
   const handleNavigate = (href: string) => {
     router.push(href);
@@ -65,31 +67,35 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
         onClick={onClose}
       />
 
-      {/* Drawer Container (Right Side) - MATCHING SCREENSHOT STRUCTURE 
-          Crucial: 'overflow-visible' allows SVG to bleed left (negative x) */}
+      {/* Drawer Container (Right Side) */}
       <div className="relative w-full md:w-1/2 h-full pointer-events-none overflow-visible">
 
-        {/* Liquid SVG Background */}
-        {/* viewBox 0 0 100 100 matches the path coordinates. 
-            Since this div is 50% width, x=100 is right screen edge, x=0 is center screen.
-            x=-25 is extending LEFT past the center line. */}
-        <svg
-          className="absolute inset-0 w-full h-full overflow-visible"
-          preserveAspectRatio="none"
-          viewBox="0 0 100 100"
-        >
-          <path
-            className="fill-white/10 transition-all duration-[2200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-            d={secondaryViscousPath}
-          />
-          {/* Requested Brand Color */}
-          <path
-            className="fill-[#13343e] transition-all duration-[1800ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
-            d={waterFlowPath}
-          />
-        </svg>
+        {/* Brick Wall Background Animation (Replaces SVG) */}
+        <div className="absolute inset-0 flex flex-col items-end w-full h-full z-0 overflow-visible">
+          {rows.map((row, i) => (
+            <motion.div
+              key={i}
+              className={`relative bg-[#0d242b] backdrop-blur-md ${row.border}`}
+              style={{
+                height: row.height,
+                width: row.width, // Extensions to the left for uneven edge
+                zIndex: row.z
+              }}
+              initial={{ x: "100%" }}
+              animate={{ x: isAnimating ? "0%" : "100%" }}
+              transition={{
+                duration: 0.8,
+                delay: i * 0.05,
+                ease: [0.33, 1, 0.68, 1]
+              }}
+            >
+              {/* Internal Brick Detail Line (Sub-brick effect) */}
+              <div className="absolute right-1/2 top-0 bottom-0 w-px bg-white/5" />
+            </motion.div>
+          ))}
+        </div>
 
-        {/* Content Container */}
+        {/* Content Container - EXACT RESTORATION of Original UI */}
         <div
           className={`relative w-full h-full flex flex-col justify-center px-8 md:px-16 md:pr-32 py-24 md:py-32 pointer-events-auto transition-opacity duration-700 ${isAnimating ? "opacity-100" : "opacity-0"
             }`}
@@ -116,7 +122,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
                   <button
                     key={item.label}
                     onClick={() => handleNavigate(item.href)}
-                    onMouseEnter={() => setHoveredImage(null)} // Images disabled in blue mode as per screenshot/request simplicity? Keeping null.
+                    onMouseEnter={() => setHoveredImage(null)}
                     onMouseLeave={() => setHoveredImage(null)}
                     style={{
                       transitionDelay: isAnimating ? `${index * 80 + 800}ms` : "0ms",
