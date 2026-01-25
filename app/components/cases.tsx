@@ -52,7 +52,7 @@ export default function Cases() {
 
   return (
     <>
-      <div className="min-h-screen bg-[#F5F5F5] flex flex-col">
+      <div className="min-h-screen bg-white flex flex-col">
         {/* Header removed - using global layout */}
 
         <main className="flex-1 flex items-center justify-center px-6 py-24 w-full">

@@ -1,11 +1,21 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { Icon } from '@iconify/react';
 
 export default function Services() {
+  const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [services, setServices] = useState<any[]>([]);
+  const [selectedService, setSelectedService] = useState<any>(null);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const lastWheelTime = useRef(0);
+
+  useEffect(() => {
+    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+  }, []);
 
   useEffect(() => {
     fetch('/data/content.json')
@@ -157,6 +167,29 @@ export default function Services() {
     return null;
   };
 
+  // Handle Trackpad / MouseHorizontal Wheel
+  const handleWheel = (e: React.WheelEvent) => {
+    const now = Date.now();
+    if (now - lastWheelTime.current < 500) return; // 500ms throttle
+
+    // Check for horizontal scroll (swipe gesture on trackpad)
+    if (Math.abs(e.deltaX) > 30) {
+      if (e.deltaX > 0) {
+        // Swipe Right / Scroll Right -> Next
+        if (currentIndex < services.length - 1) {
+          setCurrentIndex(prev => prev + 1);
+          lastWheelTime.current = now;
+        }
+      } else {
+        // Swipe Left / Scroll Left -> Prev
+        if (currentIndex > 0) {
+          setCurrentIndex(prev => prev - 1);
+          lastWheelTime.current = now;
+        }
+      }
+    }
+  };
+
   if (services.length === 0) {
     return (
       <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center">
@@ -171,6 +204,7 @@ export default function Services() {
     <motion.div
       className="min-h-screen bg-[#F8F9FA] relative overflow-hidden flex flex-col items-center justify-center pb-20 touch-pan-y"
       onPanEnd={handleSwipe}
+      onWheel={handleWheel}
     >
       {/* pb-20 pulls visual center down */}
 
@@ -209,7 +243,7 @@ export default function Services() {
             return (
               <motion.div
                 key={index}
-                className="absolute flex flex-col items-center justify-center w-full max-w-2xl px-6 cursor-grab active:cursor-grabbing"
+                className="absolute flex flex-col items-center justify-center w-full max-w-2xl px-6"
                 initial={{ x: animateX, opacity: 0 }}
                 animate={{
                   x: animateX,
@@ -224,7 +258,7 @@ export default function Services() {
                   mass: 1
                 }}
                 style={{ zIndex }}
-                drag="x"
+                drag={isTouchDevice ? "x" : false}
                 dragConstraints={{ left: 0, right: 0 }}
                 dragElastic={0.1}
                 onDragEnd={handleSwipe}
@@ -251,7 +285,10 @@ export default function Services() {
                   {service.title}
                 </h2>
 
-                <button className="text-black font-black text-2xl px-4 py-2 transition-all duration-300 hover:bg-[#13343e] hover:text-white">
+                <button
+                  onClick={() => setSelectedService(service)}
+                  className="text-black font-black text-2xl px-4 py-2 transition-all duration-300 hover:bg-[#13343e] hover:text-white"
+                >
                   see more
                 </button>
               </motion.div>
@@ -262,21 +299,73 @@ export default function Services() {
 
       {/* Swipe Hand Icon SELECTION */}
       <div className="absolute bottom-28 w-full px-8 flex justify-center pointer-events-none">
-        {/* Option 1: Current Custom (Finalized) */}
         <motion.div
           className="flex flex-col items-center gap-2"
           animate={{ x: [-10, 10, -10] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
-          <svg width="48" height="32" viewBox="0 0 48 32" fill="none" stroke="#13343e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M 8 6 L 2 6 L 5 3 M 2 6 L 5 9" />
-            <path d="M 40 6 L 46 6 L 43 3 M 46 6 L 43 9" />
-            <path d="M 18 6 A 6 6 0 0 1 30 6" />
-            <path d="M 21 6 V 18 A 3 3 0 0 0 27 18 V 6" />
-            <path d="M 21 14 Q 16 16 16 22 Q 16 30 24 30 Q 32 30 32 22 Q 32 18 27 18" />
-          </svg>
+          <Icon icon="material-symbols:swipe" width="48" color="#13343e" />
         </motion.div>
       </div>
+
+      {/* Service Detail Modal */}
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-[#0023e6] text-white flex flex-col md:flex-row overflow-hidden"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedService(null)}
+              className="absolute top-8 right-8 md:top-16 md:right-16 z-50 p-2 hover:opacity-80 transition-opacity"
+            >
+              <Icon icon="ep:close" width="60" color="white" />
+            </button>
+
+            {/* Left Side (Title) - Empty on desktop to match screenshot layout pushing title to left-center? 
+               Screenshot shows "mobile apps." on the left/center vertically. 
+               Content on the right. */}
+            <div className="w-full md:w-1/2 flex items-center justify-center md:justify-start px-8 md:px-24 pt-24 md:pt-0">
+              <h2 className="text-[clamp(3rem,6vw,5rem)] font-black leading-none tracking-tight lowercase">
+                {selectedService.title}
+              </h2>
+            </div>
+
+            {/* Right Side (Content) */}
+            <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:pr-32 py-12 md:py-0 relative">
+              <div className="max-w-xl">
+                <p className="text-lg md:text-2xl font-light leading-relaxed mb-12 opacity-90">
+                  {selectedService.description}
+                  <br /><br />
+                  We develop business applications as well as applications addressed to individual customers. They are available for the following platforms: iOS and Android.
+                </p>
+
+                <div className="flex items-center gap-6">
+                  <span className="text-xl md:text-2xl font-bold">see Case Study</span>
+                  <button
+                    onClick={() => router.push('/cases')}
+                    className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center group cursor-pointer"
+                  >
+                    <Icon icon="formkit:arrowright" width="24" className="text-[#0023e6] group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Right Branding */}
+            <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-10 w-48 md:w-64 h-32 md:h-48 bg-gray-50/10 backdrop-blur-sm flex items-end justify-end p-4 md:p-6 opacity-0 md:opacity-100">
+              {/* Using opacity 0 on mobile if simpler, or keep it. The screenshot shows a white box. */}
+              <div className="bg-white absolute inset-0 text-[#0023e6] text-[0.6rem] font-bold tracking-[0.2em] flex items-end justify-center pb-4 uppercase">
+                The Cape Morris Company
+              </div>
+            </div>
+
+          </motion.div>
+        )}
+      </AnimatePresence>
 
     </motion.div>
   );

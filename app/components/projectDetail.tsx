@@ -180,10 +180,10 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
         <div className="max-w-4xl mx-auto px-6 relative">
 
           {/* Header Bar - Replaces Close Button */}
-          <div className="fixed top-0 left-0 w-full px-8 md:px-16 pt-[50px] pb-8 z-50 pointer-events-none flex justify-center">
+          <div className="absolute top-0 left-0 w-full px-8 md:px-16 pt-0 pb-8 z-50 pointer-events-none flex justify-center">
 
             {/* Centered 6-Dot Back Button - Absolute to ensure exact center regardless of other elements */}
-            <button onClick={onClose} className="hidden md:block pointer-events-auto hover:opacity-70 transition-opacity absolute top-[50px] left-1/2 -translate-x-1/2">
+            <button onClick={onClose} className="hidden md:block pointer-events-auto hover:opacity-70 transition-opacity absolute top-2 left-1/2 -translate-x-1/2">
               {/* Moved down to top-[50px] to match layout/menu height */}
               <div className="grid grid-cols-3 gap-1.5 has-tooltip">
                 {[...Array(6)].map((_, i) => (
@@ -280,10 +280,10 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
-            className="border-t border-gray-200 pt-16 mt-16 max-w-2xl mx-auto pl-0 md:pl-20"
+            className="border-t border-gray-200 pt-16 mt-16 max-w-2xl mx-auto"
           >
             <div
-              className="flex items-center gap-4 mb-8 cursor-pointer hover:opacity-70 transition-opacity"
+              className="flex items-center justify-center gap-4 mb-8 cursor-pointer hover:opacity-70 transition-opacity"
               onClick={() => router.push('/contact')}
             >
               <h2 className="text-[#13343e] text-xl font-bold">
@@ -296,7 +296,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
               </div>
             </div>
 
-            <div className="flex flex-col gap-6 items-start">
+            <div className="flex flex-col gap-6 items-center">
               <div className="w-16 h-16 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden relative grayscale">
                 <Image
                   src="/profilepic.png" // Using existing or fallback
@@ -306,8 +306,8 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
                 />
               </div>
 
-              <div className="flex flex-col gap-4">
-                <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-4 items-center text-center">
+                <div className="flex flex-col gap-1 items-center">
                   <h3 className="text-black font-bold text-lg leading-tight">
                     Mateusz Walaszczyk
                   </h3>
@@ -316,7 +316,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
                   </p>
                 </div>
 
-                <div className="text-sm text-gray-600 flex flex-col gap-1.5 leading-tight">
+                <div className="text-sm text-gray-600 flex flex-col gap-1.5 leading-tight items-center">
                   <p>Warsaw, Poland</p>
                   <p>m.walaszczyk@361.sh</p>
                   <p>+48 505 931 537</p>
@@ -328,10 +328,10 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
       </div>
 
       {/* Left Sidebar - Technology & Icons */}
-      <div className="fixed left-8 md:left-24 bottom-12 top-auto hidden md:flex flex-col gap-6 pointer-events-none z-40">
+      <div className="fixed left-8 md:left-24 bottom-12 top-auto hidden md:flex flex-col gap-6 items-center pointer-events-none z-40">
 
         {/* Vertical Text */}
-        <div className="mb-8 origin-bottom-left -rotate-90 translate-x-3">
+        <div className="mb-12 origin-center -rotate-90">
           <p className="text-[#13343e] text-[10px] font-bold tracking-[0.2em] uppercase whitespace-nowrap">
             TECHNOLOGY
           </p>

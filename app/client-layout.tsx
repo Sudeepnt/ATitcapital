@@ -20,25 +20,21 @@ export default function ClientLayout({
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
 
-    useEffect(() => {
-        // Initial load simulation
-        const timer = setTimeout(() => {
-            setLoading(false);
-            setTimeout(() => setShowCookies(true), 1000);
-        }, 2000);
-
-        return () => clearTimeout(timer);
-    }, []);
-
-    if (loading) {
-        return <LoadingScreen onComplete={() => setLoading(false)} />;
-    }
-
     return (
         <div className="min-h-screen bg-[#F8F9FA] relative font-sans overflow-hidden">
             <Cursor />
+
+            <AnimatePresence>
+                {loading && (
+                    <LoadingScreen onComplete={() => {
+                        setLoading(false);
+                        setTimeout(() => setShowCookies(true), 1000);
+                    }} />
+                )}
+            </AnimatePresence>
+
             {/* Global Header */}
-            <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-8 md:py-16 flex items-center justify-between pointer-events-none bg-[#F8F9FA]">
+            <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-8 md:py-16 flex items-center justify-between pointer-events-none">
                 <Link href="/" className="pointer-events-auto">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -48,9 +44,9 @@ export default function ClientLayout({
                         <Image
                             src="/logo.png"
                             alt="361 Logo"
-                            width={168}
-                            height={56}
-                            className="w-auto h-11 md:h-14 object-contain brightness-0"
+                            width={200}
+                            height={66}
+                            className="w-auto h-11 md:h-16 object-contain brightness-0"
                             priority
                         />
                     </motion.div>

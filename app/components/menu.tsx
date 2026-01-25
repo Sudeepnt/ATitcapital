@@ -40,14 +40,15 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
   ];
 
   // Brick Wall Rows Configuration (The new background)
+  // Brick Wall Rows Configuration (The new background)
   const rows = [
-    { height: "10%", width: "115%", z: 10, border: "border-b border-l border-white/10" },
-    { height: "15%", width: "105%", z: 20, border: "border-b border-l border-white/20" },
-    { height: "10%", width: "125%", z: 15, border: "border-b border-l border-teal-500/30" },
-    { height: "20%", width: "110%", z: 12, border: "border-b border-l border-white/10" },
-    { height: "12%", width: "120%", z: 25, border: "border-b border-l border-teal-200/20" },
-    { height: "18%", width: "100%", z: 10, border: "border-b border-l border-white/10" },
-    { height: "15%", width: "115%", z: 18, border: "border-b border-l border-white/20" },
+    { height: "10%", width: "115%", z: 10, border: "" },
+    { height: "15%", width: "105%", z: 20, border: "" },
+    { height: "10%", width: "125%", z: 15, border: "" },
+    { height: "20%", width: "110%", z: 12, border: "" },
+    { height: "12%", width: "120%", z: 25, border: "" },
+    { height: "18%", width: "100%", z: 10, border: "" },
+    { height: "15%", width: "115%", z: 18, border: "" },
   ];
 
   const handleNavigate = (href: string) => {
@@ -89,8 +90,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
                 ease: [0.33, 1, 0.68, 1]
               }}
             >
-              {/* Internal Brick Detail Line (Sub-brick effect) */}
-              <div className="absolute right-1/2 top-0 bottom-0 w-px bg-white/5" />
+
             </motion.div>
           ))}
         </div>
@@ -101,17 +101,28 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
             }`}
         >
           {/* Old Close Button Style */}
-          <button
+          <motion.button
             onClick={onClose}
             className="absolute top-8 right-8 md:top-16 md:right-32 z-[110] text-white p-2"
+            initial="initial"
+            whileHover="hover"
           >
-            <div className="relative w-10 h-10 flex items-center justify-center">
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white">
-                <path d="M5 12h14" />
-                <path d="M12 5l7 7-7 7" />
+            <div className="relative w-16 h-8 flex items-center justify-center">
+              <svg width="60" height="24" viewBox="0 0 60 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white overflow-visible">
+                {/* Tail Line - Animates length */}
+                <motion.path
+                  d="M20 12H58"
+                  variants={{
+                    initial: { d: "M20 12H58" },
+                    hover: { d: "M0 12H58" }
+                  }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                />
+                {/* Arrow Head - Fixed */}
+                <path d="M58 12L48 2M58 12L48 22" />
               </svg>
             </div>
-          </button>
+          </motion.button>
 
           {/* Links List (Restored Layout logic) */}
           <div className="flex-1 flex flex-col justify-center items-center md:items-end relative z-10 w-full">

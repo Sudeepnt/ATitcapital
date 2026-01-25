@@ -44,133 +44,98 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
         {showLoading && (
           <motion.div
             data-theme="dark-teal"
-            className="fixed inset-0 z-[100] bg-[#13343e] flex items-center justify-center overflow-hidden font-sans"
+            onClick={finishLoading}
+            className="fixed inset-0 z-[100] bg-[#13343e] flex items-center justify-center overflow-hidden font-sans cursor-pointer"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8, ease: "easeInOut" }}
           >
+            {/* Architectural Grid Background */}
+            <div
+              className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
+              style={{
+                backgroundImage: `linear-gradient(to right, #ffffff 1px, transparent 1px),
+                                 linear-gradient(to bottom, #ffffff 1px, transparent 1px)`,
+                backgroundSize: '40px 40px'
+              }}
+            />
+
             {/* Background Texture Text - Faint */}
-            <div className="absolute inset-0 flex items-center justify-center opacity-[0.03] select-none pointer-events-none overflow-hidden">
-              <div className="text-center transform scale-150 md:scale-100">
-                <h1 className="text-[15rem] md:text-[20rem] font-serif font-bold text-white leading-none whitespace-nowrap">BROWAR</h1>
-                <h2 className="text-[8rem] md:text-[10rem] font-serif text-white tracking-[1em] mt-4">1806</h2>
-                <p className="text-4xl md:text-6xl font-serif text-white tracking-widest mt-8">OD 1806 ROKU</p>
+            <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] select-none pointer-events-none overflow-hidden z-0">
+              <div className="text-center flex flex-col items-center justify-center gap-4">
+                <h1 className="text-[3rem] md:text-[6rem] lg:text-[7rem] font-serif font-bold text-white leading-none whitespace-nowrap uppercase tracking-wider">
+                  Invested in Land.
+                </h1>
+                <h2 className="text-[3rem] md:text-[6rem] lg:text-[7rem] font-serif font-bold text-white leading-none whitespace-nowrap uppercase tracking-wider">
+                  Invested in You.
+                </h2>
               </div>
             </div>
 
-
-            {/* Top Navigation */}
-            <div className="absolute top-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 flex justify-between items-start z-10">
-              <div className="relative w-auto h-8 md:h-10">
-                <Image
-                  src="/logo.png"
-                  alt="361 Logo"
-                  width={120}
-                  height={40}
-                  className="w-auto h-full object-contain brightness-0 invert"
-                />
-              </div>
-
-              <button
-                onClick={finishLoading}
-                className="group flex items-center gap-4 text-white hover:opacity-80 transition-opacity"
-              >
-                <span className="text-xs font-bold tracking-[0.2em] uppercase">Skip</span>
-                <span className="text-lg">⟶</span>
-              </button>
+            {/* Top Navigation - EMPTY */}
+            <div className="absolute top-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 flex justify-between items-start z-10 pointer-events-none">
             </div>
 
             {/* Center Content */}
-            <div className="relative z-10 flex flex-col items-center justify-center">
+            <div className="relative z-10 flex flex-col items-center justify-center pointer-events-none">
 
-              {/* Main Circle Graphic */}
-              <div className="relative w-[300px] h-[300px] md:w-[400px] md:h-[400px] flex items-center justify-center">
+              {/* Main Compass Graphic */}
+              <div className="relative w-[240px] h-[240px] md:w-[480px] md:h-[480px] flex items-center justify-center">
 
-                {/* Static White Ring */}
-                <div className="absolute inset-0 rounded-full border-[1.5px] border-white" />
+                {/* Static Outer Ring - Architectural Thin */}
+                <div className="absolute inset-0 rounded-full border border-white/10" />
+                <div className="absolute inset-2 rounded-full border border-white/5 border-dashed" />
 
-                {/* Orbiting Animation Container */}
-                {/* We create a larger SVG overlay for the orbit path */}
-                <svg className="absolute w-[140%] h-[140%] animate-spin-slow pointer-events-none" viewBox="0 0 560 560" style={{ animationDuration: '15s' }}>
-                  {/* Dotted Arc */}
-                  {/* M startX startY A radius radius 0 0 1 endX endY */}
-                  {/* A circle of roughly 560 size. Center 280, 280. Radius ~270 */}
-                  {/* Arc from roughly 10 o'clock to 2 o'clock */}
-                  <path
-                    id="orbitPath"
-                    d="M 100 280 A 180 180 0 0 1 460 280"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="1"
-                    strokeDasharray="4 8"
-                    opacity="0.5"
-                    className="hidden" // Hiding manual path, let's use a simpler rotating div approach
-                  />
+                {/* Cardinal Directions - Minimal */}
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 text-white/30 text-[10px] tracking-widest">N</div>
+                <div className="absolute bottom-2 left-1/2 -translate-x-1/2 text-white/30 text-[10px] tracking-widest">S</div>
+                <div className="absolute left-2 top-1/2 -translate-y-1/2 text-white/30 text-[10px] tracking-widest">W</div>
+                <div className="absolute right-2 top-1/2 -translate-y-1/2 text-white/30 text-[10px] tracking-widest">E</div>
 
-                  {/* Actual implementation: Rotating elements */}
-                </svg>
-
-                {/* Orbit Elements */}
+                {/* Rotating Survey Lines - Slower, Structural */}
                 <motion.div
-                  className="absolute inset-[-40px] md:inset-[-60px]"
+                  className="absolute inset-[40px]"
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                  transition={{ duration: 120, repeat: Infinity, ease: "linear" }}
                 >
-                  {/* The Dot */}
-                  <div className="absolute top-1/2 right-0 w-3 h-3 bg-white rounded-full translate-x-1/2 -translate-y-1/2" />
+                  {/* Crosshairs extending out */}
+                  <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-white/5" />
+                  <div className="absolute left-0 right-0 top-1/2 h-[1px] bg-white/5" />
 
-                  {/* The Dotted Trail (Simulated with SVG arc in a wrapper that rotates with it? No, trail follows) */}
-                  {/* Let's just put the dotted line on a separate rotation layer or static layer? Reference shows it following/leading */}
-                  {/* Simplification: Just a dot orbiting for now, user asked for 'similar'. */}
-                  <svg className="absolute inset-0 w-full h-full rotate-90" viewBox="0 0 100 100" overflow="visible">
-                    <path d="M 50 0 A 50 50 0 0 1 100 50" fill="none" stroke="white" strokeWidth="0.5" strokeDasharray="2 4" className="opacity-50" />
-                  </svg>
+                  <div className="absolute inset-0 rounded-full border-[1px] border-white/10 border-dashed opacity-50" />
                 </motion.div>
 
-
-                {/* Center Play Button */}
-                <button
-                  onClick={finishLoading}
-                  className="relative z-20 w-32 h-12 flex items-center justify-center group outline-none"
+                {/* Orbit Elements - Inner Ring */}
+                <motion.div
+                  className="absolute inset-[100px] md:inset-[120px]"
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
                 >
-                  {/* Border Box (Fades out on hover) */}
-                  <div className="absolute inset-0 border border-white/30 transition-opacity duration-300 group-hover:opacity-0">
-                    {/* Top notch */}
-                    <div className="absolute -top-[1px] left-1/2 -translate-x-1/2 w-8 h-[2px] bg-white transition-opacity duration-300 group-hover:opacity-0" />
-                  </div>
+                  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-white rounded-full" />
+                  <div className="absolute inset-0 rounded-full border-[1px] border-white/20 border-t-transparent border-l-transparent rotate-45" />
+                </motion.div>
 
-                  <span className="relative z-10 text-white text-xs font-bold tracking-[0.25em] transition-transform duration-300 group-hover:-translate-x-4">PLAY</span>
+                {/* Center Core - Logo (Increased Size) */}
+                <div className="relative z-20 w-32 md:w-48 aspect-square flex items-center justify-center">
+                  <Image
+                    src="/whitelogo.png"
+                    alt="ATit Capital Logo"
+                    fill
+                    className="object-contain drop-shadow-2xl"
+                    priority
+                  />
+                </div>
 
-                  {/* Hover Elements */}
-
-                  {/* Chevron Arrow (Large thin >) */}
-                  <div className="absolute right-[-40px] top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:right-[-20px] pointer-events-none">
-                    <svg width="40" height="80" viewBox="0 0 40 80" fill="none" stroke="white" strokeWidth="1" className="h-[80px] w-[40px]">
-                      <path d="M 0 0 L 40 40 L 0 80" />
-                    </svg>
-                  </div>
-
-                  {/* Translucent Circle with Dot */}
-                  <div className="absolute right-4 top-1/2 -translate-y-1/2 w-16 h-16 bg-white/10 rounded-full flex items-center justify-center backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 delay-75 pointer-events-none">
-                    <div className="w-1.5 h-1.5 bg-white rounded-full" />
-                  </div>
-
-                </button>
               </div>
             </div>
 
             {/* Bottom Elements */}
-            <div className="absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 flex justify-between items-end z-10">
-              <div className="text-white text-[10px] md:text-[11px] font-medium tracking-[0.25em] uppercase">
-                Software House
-              </div>
-
+            <div className="absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 flex justify-between items-end z-10 pointer-events-none">
               {/* Center Bottom Indicator */}
-              <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-8">
-                <div className="w-[1px] h-16 bg-gradient-to-b from-transparent to-white/30" />
-                <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center">
-                  <div className="w-1 h-1 bg-white rounded-full" />
-                </div>
+              <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
+
+                <div className="w-[1px] h-12 bg-gradient-to-b from-transparent to-white/30" />
+                <p className="text-white/60 text-[10px] tracking-widest uppercase animate-pulse">Click to Enter</p>
               </div>
             </div>
 

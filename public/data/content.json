@@ -109,11 +109,11 @@
       "street": "Niedzwiedzia 29a",
       "city": "02-737 Warsaw",
       "country": "Poland",
-      "phone": "+48 22 400 44 88",
-      "email": "contact@361.sh"
+      "phone": "",
+      "email": ""
     },
     "careers": {
-      "text": "Looking for new adventures?",
+      "text": "Looking for new advntures?",
       "email": "jobs@361.sh"
     }
   }

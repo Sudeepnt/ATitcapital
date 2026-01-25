@@ -14,14 +14,20 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #171717;
   }
 }
 
 body {
-  background: var(--background);
+  background: #ffffff;
+  color: #171717;
   cursor: none;
+  overscroll-behavior-y: none;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /* Prevent global scrollbar, components handle their own scrolling */
 }
 
 * {
