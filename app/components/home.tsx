@@ -1,15 +1,14 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import Menu from "./menu";
+import { useState, useEffect, useRef } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+// import Menu from "./menu"; // Removed
 
-interface HomeProps {
-  onNavigate: (view: "home" | "cases" | "services" | "technologies" | "contact") => void;
-}
+import { useRouter } from "next/navigation";
 
-export default function Home({ onNavigate }: HomeProps) {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+export default function Home() {
+  const router = useRouter();
+  // const [isMenuOpen, setIsMenuOpen] = useState(false); // Removed
   const [content, setContent] = useState<any>(null);
 
   useEffect(() => {
@@ -25,100 +24,108 @@ export default function Home({ onNavigate }: HomeProps) {
 
   if (!content) {
     return (
-      <div className="min-h-screen bg-[#F5F5F5] flex items-center justify-center">
-        <p>Loading...</p>
+      <div className="min-h-screen flex items-center justify-center">
+        {/* Loading handled by parent mostly, but good to have fallback */}
+        <p className="text-[#13343e]">Loading...</p>
       </div>
     );
   }
 
   return (
-    <>
-      <div className="min-h-screen bg-[#F5F5F5] flex flex-col relative overflow-hidden">
-        <header className="fixed top-0 left-0 right-0 z-40 p-6 flex items-center justify-between bg-[#F5F5F5]">
-          <motion.h1
-            className="text-[#2D2FE8] text-2xl font-bold tracking-wider cursor-pointer"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            onClick={() => onNavigate("home")}
-          >
-            361°
-          </motion.h1>
+    // Replaced outer div with main only, layout handled by page.tsx
+    // Main Content
+    <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-20 pb-20">
+      {/* Added padding top/bottom to account for fixed header/footer if needed, though flex centering usually handles it. */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="flex flex-col h-[70vh] justify-between items-center text-center md:h-auto md:block md:text-left md:space-y-12"
+      >
+        <div className="flex-1 flex items-center justify-center md:block md:flex-none">
+          <h2 className="text-[#13343e] text-[clamp(1.75rem,4.55vw,3.85rem)] leading-[1.1] font-black tracking-tight">
+            {content.title ? (
+              <>
+                {content.title.split(" based")[0]}
+                <br />
+                based{content.title.split(" based")[1]}
+              </>
+            ) : (
+              content.title
+            )}
+          </h2>
+        </div>
 
-          <motion.button
-            onClick={() => setIsMenuOpen(true)}
-            className="w-10 h-10 flex flex-col items-end justify-center gap-1.5 relative z-50"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-            whileTap={{ scale: 0.9 }}
-          >
-            <span className="w-8 h-0.5 bg-[#2D2FE8] transition-all" />
-            <span className="w-6 h-0.5 bg-[#2D2FE8] transition-all" />
-            <span className="w-8 h-0.5 bg-[#2D2FE8] transition-all" />
-          </motion.button>
-        </header>
-
-        <main className="flex-1 flex flex-col items-center justify-center px-6 pb-20">
-          <motion.div
-            className="text-center"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
-            <h2 className="text-[#2D2FE8] text-4xl md:text-7xl font-bold mb-3">
-              {content.title}
-            </h2>
-            <p className="text-[#2D2FE8] text-lg md:text-2xl font-medium">
-              {content.subtitle}
+        <div className="flex flex-col items-center gap-6 md:flex-row md:pl-1">
+          <div className="relative group cursor-pointer inline-block">
+            <p className="text-[#1A1A1A] text-[clamp(0.875rem,1.75vw,1.75rem)] font-black tracking-tight relative z-10 transition-colors">
+              {content.cta}
             </p>
-          </motion.div>
-        </main>
+            {/* Animated Underline */}
+            <span className="absolute bottom-[-4px] left-0 w-full h-[5px] bg-[#13343e] origin-bottom-right scale-x-0 transition-transform duration-300 ease-out group-hover:origin-bottom-left group-hover:scale-x-100" />
+          </div>
+          <CtaPulse onClick={() => router.push("/contact")} />
+        </div>
+      </motion.div>
+    </main>
+  );
+}
 
-     <footer className="absolute bottom-20 md:bottom-12 left-0 right-0">
-  <motion.div
-    className="text-center px-6"
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.8 }}
-  >
-    <p className="text-gray-900 text-base md:text-lg font-bold mb-4">
-      Let's talk about your project
-    </p>
-    
-    <div className="flex justify-center">
-      <motion.button
-        onClick={() => onNavigate("contact")}
-        className="relative w-8 h-8 flex items-center justify-center cursor-pointer"
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
+function CtaPulse({ onClick }: { onClick: () => void }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const springConfig = { damping: 15, stiffness: 150, mass: 0.1 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!ref.current) return;
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = ref.current.getBoundingClientRect();
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    const distanceX = clientX - centerX;
+    const distanceY = clientY - centerY;
+
+    x.set(distanceX * 0.35);
+    y.set(distanceY * 0.35);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.button
+      ref={ref}
+      onClick={onClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative w-12 h-12 flex items-center justify-center cursor-pointer ml-4"
+      whileTap={{ scale: 0.9 }}
+    >
+      {/* Pulse Animation */}
+      <motion.div
+        className="absolute top-1/2 left-1/2 rounded-full border border-[#13343e]"
+        style={{ x: "-50%", y: "-50%" }}
+        initial={{ width: 0, height: 0, opacity: 1 }}
+        animate={{ width: "100%", height: "100%", opacity: 0 }}
+        transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+      />
+
+      {/* Magnetic Dot Area */}
+      <motion.div
+        style={{ x: springX, y: springY }}
+        className="relative z-10 w-full h-full flex items-center justify-center p-3"
       >
         <motion.div
-          className="absolute w-8 h-8 rounded-full border-2 border-[#2D2FE8]"
-          animate={{
-            scale: [1, 1.8],
-            opacity: [0.6, 0],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeOut",
-          }}
+          className="w-2.5 h-2.5 rounded-full bg-[#13343e]"
+          layoutId="magnetic-dot-circle"
         />
-        <div className="w-2 h-2 rounded-full bg-[#2D2FE8]" />
-      </motion.button>
-    </div>
-  </motion.div>
-</footer>
-
-      </div>
-
-      <Menu 
-        isOpen={isMenuOpen} 
-        onClose={() => setIsMenuOpen(false)}
-        onNavigate={onNavigate}
-        currentView="home"
-      />
-    </>
+      </motion.div>
+    </motion.button>
   );
 }
