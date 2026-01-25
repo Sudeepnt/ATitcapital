@@ -54,7 +54,10 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex justify-end overflow-hidden pointer-events-none">
+    <div
+      className="fixed inset-0 z-[100] flex justify-end overflow-hidden pointer-events-none"
+      data-theme={isAnimating ? "dark-teal" : undefined}
+    >
       {/* Backdrop */}
       <div
         className={`absolute inset-0 bg-black/40 transition-opacity duration-1000 ease-in-out pointer-events-auto ${isAnimating ? "opacity-100" : "opacity-0"
