@@ -34,7 +34,7 @@ export default function ClientLayout({
             </AnimatePresence>
 
             {/* Global Header */}
-            <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-8 md:py-16 flex items-center justify-between pointer-events-none">
+            <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-4 md:py-8 flex items-center justify-between pointer-events-none">
                 <Link href="/" className="pointer-events-auto">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
