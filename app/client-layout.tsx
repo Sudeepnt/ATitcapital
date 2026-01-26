@@ -35,7 +35,7 @@ export default function ClientLayout({
 
             {/* Global Header */}
             <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-4 md:py-8 flex items-center justify-between pointer-events-none">
-                <Link href="/" className="pointer-events-auto">
+                <Link href="/" className="pointer-events-auto -ml-[20px]">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
