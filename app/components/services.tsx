@@ -31,7 +31,7 @@ export default function Services() {
 
   // Consolidated swipe handler for both Drag (Cards) and Pan (Background)
   const handleSwipe = (event: any, info: PanInfo) => {
-    const swipeThreshold = 50;
+    const swipeThreshold = 80;
     const { offset, velocity } = info;
 
     // Quick swipe (high velocity) or long drag (high offset)
@@ -226,7 +226,7 @@ export default function Services() {
 
       {/* Carousel Container - Adjusted margin */}
       <div className="relative w-full h-[50vh] flex items-center justify-center -mt-12">
-        <AnimatePresence initial={false} mode="popLayout">
+        <AnimatePresence mode="popLayout">
           {services.map((service, index) => {
             const position = getPosition(index);
             if (position === "hidden") return null;
@@ -298,7 +298,11 @@ export default function Services() {
                 </h2>
 
                 <button
-                  onClick={() => setSelectedService(service)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedService(service);
+                  }}
+                  onPointerDown={(e) => e.stopPropagation()}
                   className="text-black font-black text-2xl px-4 py-2 transition-all duration-300 hover:bg-[#13343e] hover:text-white"
                 >
                   see more
@@ -342,18 +346,18 @@ export default function Services() {
             </div>
 
             {/* Middle Block - Content Fit, Main Color (Solid) */}
-            <div className="h-auto py-12 w-full bg-[#244751] flex flex-col md:flex-row items-center gap-12 md:gap-24 px-8 md:px-24 relative">
+            <div className="min-h-[60vh] md:min-h-0 md:h-auto py-12 w-full bg-[#244751] flex flex-col md:flex-row items-center justify-center md:justify-start gap-12 md:gap-24 px-8 md:px-24 relative">
 
               {/* Title */}
               <div className="w-full md:w-1/3 mb-6 md:mb-0">
-                <h2 className="text-white text-[clamp(1.2rem,2.4vw,1.9rem)] font-black leading-none tracking-tight">
+                <h2 className="text-white text-[clamp(1.45rem,2.9vw,2.3rem)] font-black leading-none tracking-tight">
                   {selectedService.title}.
                 </h2>
               </div>
 
               {/* Content */}
-              <div className="w-full md:w-1/2 text-white/90">
-                <p className="text-[0.7rem] md:text-[0.8rem] font-light leading-relaxed mb-8">
+              <div className="w-full md:w-1/2 text-white/90 pr-20 md:pr-0">
+                <p className="text-[0.85rem] md:text-[1.0rem] font-light leading-relaxed mb-8">
                   {selectedService.description}
                   <br className="hidden md:block" />
                   We develop business applications as well as applications addressed to individual customers.
@@ -362,7 +366,7 @@ export default function Services() {
                   className="flex items-center gap-4 cursor-pointer group/link"
                   onClick={() => router.push('/cases')}
                 >
-                  <span className="font-[900] text-[0.8rem]">see Case Study</span>
+                  <span className="font-[900] text-[0.96rem]">see Case Study</span>
                   <button className="group relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-white transition-colors">
                     <motion.div
                       className="absolute top-1/2 left-1/2 rounded-full border border-white"
@@ -379,7 +383,7 @@ export default function Services() {
               {/* Close Button - Absolute Right Center */}
               <button
                 onClick={() => setSelectedService(null)}
-                className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 p-2 group transition-transform duration-300 hover:scale-75"
+                className="absolute right-8 md:right-16 top-8 md:top-1/2 md:-translate-y-1/2 p-2 group transition-transform duration-300 hover:scale-75 z-50"
               >
                 <Icon icon="ph:x-light" width="80" className="text-white/50 group-hover:text-white transition-colors" />
               </button>

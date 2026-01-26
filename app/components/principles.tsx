@@ -1,221 +1,271 @@
+
 "use client";
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+import { Icon } from '@iconify/react';
+
+// SVG Wireframe 1: Foundation (Grid/Base)
+const FoundationWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 300" className="w-full h-auto" fill="none" stroke="#6b7280" strokeWidth="1" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
+        {/* Base Grid */}
+        <motion.rect variants={draw} custom={1} x="0.5" y="0.5" width="599" height="299" rx="0" stroke="#13343e" strokeOpacity="0.2" />
+        <motion.line variants={draw} custom={2} x1="0" y1="150" x2="600" y2="150" stroke="#13343e" strokeOpacity="0.1" />
+        <motion.line variants={draw} custom={3} x1="300" y1="0" x2="300" y2="300" stroke="#13343e" strokeOpacity="0.1" />
+
+        {/* Solid Foundation Block */}
+        <motion.rect variants={draw} custom={4} x="100" y="200" width="400" height="60" rx="2" stroke="#13343e" strokeWidth="2" />
+        <motion.text variants={fadeIn} x="300" y="235" textAnchor="middle" fontSize="12" fill="#13343e" fontWeight="bold" letterSpacing="4" stroke="none">INTEGRITY</motion.text>
+
+        {/* Supporting Nodes */}
+        <motion.circle variants={draw} custom={5} cx="150" cy="200" r="4" fill="#13343e" stroke="none" />
+        <motion.circle variants={draw} custom={6} cx="450" cy="200" r="4" fill="#13343e" stroke="none" />
+        <motion.line variants={draw} custom={7} x1="150" y1="200" x2="150" y2="100" stroke="#13343e" />
+        <motion.line variants={draw} custom={8} x1="450" y1="200" x2="450" y2="100" stroke="#13343e" />
+    </motion.svg>
+);
+
+// SVG Wireframe 2: Pillars (Structure)
+const PillarsWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 300" className="w-full h-auto" fill="none" stroke="#6b7280" strokeWidth="1" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
+        {/* Columns with headers */}
+        {[100, 250, 400].map((x, i) => (
+            <g key={i}>
+                <motion.rect variants={draw} custom={i + 1} x={x} y="50" width="100" height="200" stroke="#13343e" />
+                <motion.line variants={draw} custom={i + 2} x1={x} y1="80" x2={x + 100} y2="80" stroke="#13343e" />
+                <motion.line variants={draw} custom={i + 3} x1={x + 50} y1="80" x2={x + 50} y2="250" stroke="#13343e" strokeDasharray="4 4" />
+            </g>
+        ))}
+        {/* Cross Beams */}
+        <motion.line variants={draw} custom={6} x1="50" y1="50" x2="550" y2="50" stroke="#13343e" strokeWidth="2" />
+        <motion.text variants={fadeIn} x="150" y="70" textAnchor="middle" fontSize="10" fill="#13343e" fontWeight="bold" stroke="none">CLIENT</motion.text>
+        <motion.text variants={fadeIn} x="300" y="70" textAnchor="middle" fontSize="10" fill="#13343e" fontWeight="bold" stroke="none">CAPITAL</motion.text>
+        <motion.text variants={fadeIn} x="450" y="70" textAnchor="middle" fontSize="10" fill="#13343e" fontWeight="bold" stroke="none">CULTURE</motion.text>
+    </motion.svg>
+);
+
+// SVG Wireframe 3: Growth (Network)
+const GrowthWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 300" className="w-full h-auto" fill="none" stroke="#6b7280" strokeWidth="1" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
+        {/* Central Hub */}
+        <motion.circle variants={draw} custom={1} cx="300" cy="150" r="40" stroke="#13343e" />
+        <motion.circle variants={draw} custom={2} cx="300" cy="150" r="20" stroke="#13343e" />
+
+        {/* Satellites */}
+        {[0, 60, 120, 180, 240, 300].map((deg, i) => {
+            const rad = deg * (Math.PI / 180);
+            const x = 300 + 120 * Math.cos(rad);
+            const y = 150 + 120 * Math.sin(rad);
+            return (
+                <g key={i}>
+                    <motion.line variants={draw} custom={i + 3} x1="300" y1="150" x2={x} y2={y} stroke="#13343e" />
+                    <motion.circle variants={draw} custom={i + 4} cx={x} cy={y} r="10" fill="white" stroke="#13343e" />
+                </g>
+            );
+        })}
+        <motion.text variants={fadeIn} x="300" y="153" textAnchor="middle" fontSize="8" fill="#13343e" fontWeight="bold" stroke="none">ATit</motion.text>
+    </motion.svg>
+);
 
 export default function Principles() {
     const router = useRouter();
-    const values = [
-        {
-            title: "Client & Capital Stewardship",
-            description: "We prioritize the interests of our capital partners through clarity, transparency, and disciplined decision-making."
-        },
-        {
-            title: "Elevation of Performance",
-            description: "We hold ourselves to institutional standards of execution, governance, reporting, and asset management."
-        },
-        {
-            title: "Deliberate Specialization",
-            description: "We believe real estate excellence is built through depth. Clear roles, domain expertise, and accountability enable consistent outcomes."
-        },
-        {
-            title: "Entrepreneurial Ownership",
-            description: "We think like builders and operators, not intermediaries—bringing initiative, urgency, and long-term conviction."
-        },
-        {
-            title: "Creative Intelligence",
-            description: "We apply cross-disciplinary thinking across finance, design, policy, and operations to unlock differentiated value."
-        },
-        {
-            title: "Agility & Adaptation",
-            description: "We anticipate shifts in markets, regulation, and demand—adapting strategy early to preserve resilience."
-        },
-        {
-            title: "Collective Alignment",
-            description: "We collaborate across partners, capabilities, and geographies—aligning incentives to build platforms larger than any single asset."
-        },
-        {
-            title: "Responsible Growth",
-            description: "We integrate sustainability and sound governance into how assets are underwritten, developed, and operated."
-        }
-    ];
+    const [scrollProgress, setScrollProgress] = useState(0);
+
+    const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+        const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
+        const progress = (scrollTop / (scrollHeight - clientHeight)) * 100;
+        setScrollProgress(progress);
+    };
+
+    const draw = {
+        hidden: { pathLength: 0, opacity: 0 },
+        visible: (i: number) => ({
+            pathLength: 1,
+            opacity: 1,
+            transition: {
+                pathLength: { delay: i * 0.05, type: "spring", duration: 1.5, bounce: 0 },
+                opacity: { delay: i * 0.05, duration: 0.01 }
+            }
+        })
+    };
+
+    const fadeIn = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { delay: 1, duration: 0.5 } }
+    };
 
     return (
-        <div className="h-screen w-full overflow-y-auto bg-white scrollbar-hide">
+        <div className="min-h-screen bg-[#F8F9FA] relative overflow-hidden">
+            {/* Navigation Button */}
+            <motion.button
+                onClick={() => router.push('/')}
+                className="fixed top-[54px] md:top-[96px] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[70] hover:opacity-70 transition-opacity"
+            >
+                <div className="grid grid-cols-3 gap-2 hidden md:grid">
+                    {[...Array(6)].map((_, i) => (
+                        <div key={i} className="w-2 h-2 bg-[#13343e] rounded-full"></div>
+                    ))}
+                </div>
+            </motion.button>
 
-            {/* 1. HERO SECTION */}
-            <div className="relative w-full pt-48 pb-20 md:pb-32 px-6 overflow-hidden">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between">
+            {/* Main Content Area */}
+            <div
+                className="h-screen overflow-y-auto pt-40 pb-20 scrollbar-hide"
+                onScroll={handleScroll}
+            >
+                <div className="max-w-4xl mx-auto px-6 relative">
+
+                    {/* Header */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                        className="w-full md:w-1/2 z-10"
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="mb-16 text-center mt-12"
                     >
-                        <h1 className="text-[#13343e] text-[clamp(2.5rem,5vw,5rem)] font-serif md:leading-[1.1] leading-tight">
-                            Our Principles <br /> <span className="italic">& Culture</span>
+                        <p className="text-gray-900 font-bold text-sm mb-2 uppercase tracking-widest">
+                            ethos
+                        </p>
+                        <h1 className="text-[#13343e] text-5xl md:text-6xl font-black mb-12 lowercase">
+                            principles & culture
                         </h1>
-                    </motion.div>
 
-                    {/* Abstract Shapes - Hero */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 1, delay: 0.3 }}
-                        className="w-full md:w-1/2 flex justify-center md:justify-end mt-12 md:mt-0 relative"
-                    >
-                        <div className="relative w-[300px] h-[150px] md:w-[400px] md:h-[200px]">
-                            {/* Shape 1: Left Semi-Circle (Orange in ref, Teal here) */}
-                            <div className="absolute left-0 top-0 w-1/3 h-full bg-[#13343e]/80 rounded-l-full"></div>
-                            {/* Shape 2: Circle (Pink in ref, Light Teal here) */}
-                            <div className="absolute left-[30%] top-[10%] w-[120px] h-[120px] bg-[#244751]/40 rounded-full"></div>
-                            {/* Shape 3: Right Semi-Circle (Green in ref, Dark here) */}
-                            <div className="absolute right-0 bottom-0 w-1/3 h-full bg-[#13343e] rounded-r-full opacity-90"></div>
+                        <div className="w-full max-w-2xl mx-auto mb-16 pl-0 md:pl-20">
+                            <FoundationWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
                     </motion.div>
-                </div>
-            </div>
 
-            {/* 2. INTRO SECTION */}
-            <div className="max-w-7xl mx-auto px-6 pb-32 flex flex-col md:flex-row gap-12 md:gap-24 items-start">
-                <h2 className="text-[#13343e] text-[clamp(2rem,3vw,3rem)] font-serif leading-tight w-full md:w-1/3">
-                    Values we <br /> believe in
-                </h2>
-                <div className="w-full md:w-1/2 space-y-6 text-[#13343e]/80 text-lg md:text-xl font-light leading-relaxed">
-                    <p>
-                        ATit Capital is committed to partnering with the next generation of real estate platforms emerging from India that set new standards for long-term value creation.
-                    </p>
-                    <p>
-                        Delivering transformative capital requires a diverse team of investment professionals, technologists, and operators who are united by this common purpose and live the firm's values.
-                    </p>
-                </div>
-            </div>
+                    {/* Section 1: Foundations */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="mb-16 pl-0 md:pl-20 max-w-2xl mx-auto"
+                    >
+                        <h2 className="text-[#13343e] text-xs font-bold uppercase tracking-wide mb-6">
+                            FOUNDATION
+                        </h2>
+                        <p className="text-black text-sm leading-relaxed mb-16">
+                            ATit Capital is committed to partnering with the next generation of real estate platforms emerging from India that set new standards for long-term value creation.
+                            <br /><br />
+                            Delivering transformative capital requires a diverse team of investment professionals, technologists, and operators who are united by this common purpose and live the firm's values.
+                        </p>
 
-            {/* 3. PRINCIPLES SECTION (Curved Top) */}
-            <div className="relative bg-[#13343e] pb-32">
-                {/* Curve Divider (White on top of Teal) */}
-                <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0] transform -translate-y-[98%]">
-                    <svg className="relative block w-full h-[80px] md:h-[120px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                        <path d="M0,120 C400,0 800,0 1200,120 L1200,120 L0,120 Z" fill="#13343e"></path>
-                    </svg>
-                </div>
+                        <div className="w-full mb-16">
+                            <PillarsWireframe draw={draw} fadeIn={fadeIn} />
+                        </div>
+                    </motion.div>
 
-                <div className="relative z-10 max-w-7xl mx-auto px-6 pt-12 md:pt-20">
-                    <h2 className="text-white text-[clamp(1.5rem,2.5vw,2.5rem)] text-center max-w-4xl mx-auto font-serif leading-snug mb-20">
-                        To attract and grow independent thinkers who will consistently execute on this commitment, we have intentionally designed the organisation on fundamental principles of:
-                    </h2>
+                    {/* Section 2: Core Principles */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="mb-20 pl-0 md:pl-20 max-w-2xl mx-auto"
+                    >
+                        <h2 className="text-[#13343e] text-xs font-bold uppercase tracking-wide mb-6">
+                            CORE PRINCIPLES
+                        </h2>
+                        <div className="text-black text-sm leading-relaxed mb-16 space-y-6">
+                            <p><strong className="text-[#13343e]">01. Client & Capital Stewardship:</strong> Prioritizing interests through clarity, transparency, and discipline.</p>
+                            <p><strong className="text-[#13343e]">02. Elevation of Performance:</strong> Institutional standards of execution, governance, and reporting.</p>
+                            <p><strong className="text-[#13343e]">03. Deliberate Specialization:</strong> Excellence built through depth, clear roles, and domain expertise.</p>
+                            <p><strong className="text-[#13343e]">04. Entrepreneurial Ownership:</strong> Thinking like builders—initiative, urgency, conviction.</p>
+                            <p><strong className="text-[#13343e]">05. Creative Intelligence:</strong> Cross-disciplinary thinking to unlock differentiated value.</p>
+                        </div>
 
-                    {/* Arched Cards Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        {values.map((item, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="flex flex-col items-center text-center group"
-                            >
-                                {/* Arched Top White Card */}
-                                <div className="bg-white w-full pt-16 pb-12 px-6 rounded-t-[100px] md:rounded-t-[140px] rounded-b-2xl h-full flex flex-col items-center transition-transform duration-500 group-hover:-translate-y-2">
-                                    <span className="text-[#13343e]/20 font-serif text-6xl mb-4 font-black">
-                                        {index + 1}.
-                                    </span>
-                                    <h3 className="text-[#13343e] text-xl font-serif mb-4 leading-tight">
-                                        {item.title}
+                        <h2 className="text-[#13343e] text-xs font-bold uppercase tracking-wide mb-6">
+                            CULTURE
+                        </h2>
+                        <p className="text-black text-sm leading-relaxed mb-16">
+                            The culture of our firm demands high standards because the opportunity requires it. We champion diversity not as a metric, but as an engine for thinking differently.
+                            <br /><br />
+                            Identifying unique opportunities requires unique perspectives.
+                        </p>
+
+                        <div className="w-full mb-16">
+                            <GrowthWireframe draw={draw} fadeIn={fadeIn} />
+                        </div>
+                    </motion.div>
+
+                    {/* Footer - Contact */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="border-t border-gray-200 pt-16 mt-16 max-w-2xl mx-auto"
+                    >
+                        <div
+                            className="flex items-center justify-center gap-4 mb-8 cursor-pointer hover:opacity-70 transition-opacity"
+                            onClick={() => router.push('/contact')}
+                        >
+                            <h2 className="text-[#13343e] text-xl font-bold">
+                                Start a conversation
+                            </h2>
+                            <div className="relative flex h-6 w-6 items-center justify-center">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#13343e] opacity-20"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#13343e]"></span>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-col gap-6 items-center">
+                            <div className="w-16 h-16 rounded-full bg-gray-300 flex-shrink-0 overflow-hidden relative grayscale">
+                                <Image
+                                    src="/profilepic.png"
+                                    alt="Utsav Shetty"
+                                    fill
+                                    className="object-cover"
+                                />
+                            </div>
+
+                            <div className="flex flex-col gap-4 items-center text-center">
+                                <div className="flex flex-col gap-1 items-center">
+                                    <h3 className="text-black font-bold text-lg leading-tight">
+                                        Utsav Shetty
                                     </h3>
-                                    <p className="text-[#13343e]/70 text-sm leading-relaxed">
-                                        {item.description}
+                                    <p className="text-[#13343e] text-sm font-bold opacity-80 uppercase tracking-wide">
+                                        Founding Partner
                                     </p>
                                 </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-
-            {/* 4. CULTURE & SHAPES SECTION */}
-            <div className="bg-white py-32 px-6 relative overflow-hidden">
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16 md:gap-32">
-                    <div className="w-full md:w-1/2">
-                        <h2 className="text-[#13343e] text-[clamp(2.5rem,4vw,3.5rem)] font-serif mb-8 leading-tight">
-                            The culture of our firm demands high standards.
-                        </h2>
-                        <div className="space-y-6 text-[#13343e]/80 text-lg leading-relaxed">
-                            <p>
-                                The early-stage ecosystem has radically transformed in India. So the role of venture capital has to grow beyond the mere provision of capital to true partnership in new value creation.
-                            </p>
-                            <p>
-                                Early-stage experience compounds aggressively, and the team at ATit Capital has purpose-built the organisation to stay in resonance with the innovation engines of the next decade.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Abstract Totem Shape */}
-                    <div className="w-full md:w-1/2 flex justify-center">
-                        <div className="w-[300px] flex flex-col items-center gap-2">
-                            {/* Top Semi-Circle (Orange ref) */}
-                            <div className="w-[200px] h-[100px] bg-[#244751] rounded-t-full opacity-80"></div>
-
-                            <div className="flex gap-2 w-[200px]">
-                                {/* Left Leaf (Green ref) */}
-                                <div className="w-1/2 h-[100px] bg-[#13343e] rounded-bl-full rounded-tr-none"></div>
-                                {/* Right Leaf frame */}
-                                <div className="w-1/2 h-[100px] border border-[#13343e]/30 rounded-br-full rounded-tl-none"></div>
-                            </div>
-
-                            <div className="flex gap-2 w-[200px]">
-                                {/* Left frame */}
-                                <div className="w-1/2 h-[100px] border border-[#13343e]/30 rounded-bl-full rounded-tr-none"></div>
-                                {/* Right Leaf */}
-                                <div className="w-1/2 h-[100px] bg-[#13343e] rounded-br-full rounded-tl-none opacity-80"></div>
+                                <div className="text-sm text-gray-600 flex flex-col gap-1.5 leading-tight items-center">
+                                    <p>Bangalore, India</p>
+                                    <p>utsav@atitcapital.com</p>
+                                </div>
                             </div>
                         </div>
+                    </motion.div>
+
+                </div>
+            </div>
+
+            {/* Left Sidebar - Icons */}
+            <div className="fixed left-8 md:left-24 bottom-12 top-auto hidden md:flex flex-col gap-6 items-center pointer-events-none z-40">
+                <div className="mb-12 origin-center -rotate-90">
+                    <p className="text-[#13343e] text-[10px] font-bold tracking-[0.2em] uppercase whitespace-nowrap">
+                        STRUCTURE
+                    </p>
+                </div>
+                <div className="flex flex-col gap-0 items-center">
+                    <div className="w-12 h-12 bg-[#13343e] flex items-center justify-center text-white select-none">
+                        <Icon icon="ph:buildings" className="w-5 h-5" />
+                    </div>
+                    <div className="w-12 h-12 bg-[#13343e] border-t border-[#1a4b59] flex items-center justify-center text-white select-none">
+                        <Icon icon="ph:users" className="w-5 h-5" />
                     </div>
                 </div>
             </div>
 
-            {/* 5. INCLUSION SECTION (Curved Top Convex) */}
-            <div className="relative bg-[#244751] pt-32 pb-40 px-6">
-                {/* Curve Divider (Convex) */}
-                <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0]">
-                    <svg className="relative block w-full h-[60px] md:h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="#ffffff" opacity=".2"></path>
-                        <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="#ffffff"></path>
-                    </svg>
-                </div>
-
-                <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-                    <div className="w-full md:w-1/2">
-                        <h2 className="text-white text-[clamp(2.5rem,4vw,4rem)] font-serif mb-8">
-                            Diversity and Inclusion
-                        </h2>
-                    </div>
-                    <div className="w-full md:w-1/2 text-white/90 text-lg space-y-6 font-light">
-                        <p>
-                            At ATit Capital, we are directed by a zero-compromise approach towards building an institution while being fully committed to our values. As young professionals ourselves, we are grounded in the reality of intense competition.
-                        </p>
-                        <p>
-                            We champion diversity because it is essential to our ability to think differently, identify opportunities, and work with the best founding teams across markets.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            {/* FOOTER CTA SECTION */}
-            <div className="bg-white py-32 flex flex-col items-center justify-center relative">
-                <h2 className="text-[#13343e] text-[clamp(4rem,10vw,8rem)] font-serif leading-none opacity-10">
-                    ATit
-                </h2>
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div
-                        onClick={() => router.push('/contact')}
-                        className="flex items-center gap-4 group cursor-pointer"
-                    >
-                        <span className="text-[#13343e] text-2xl font-serif italic group-hover:underline decoration-1 underline-offset-4">
-                            Let's Connect
-                        </span>
-                        <span className="text-[#13343e] text-2xl transition-transform group-hover:translate-x-2">→</span>
+            {/* Right Sidebar - Scroll Indicator */}
+            <div className="fixed right-[300px] top-24 h-32 hidden md:block pointer-events-none sticky z-50">
+                <div className="flex flex-col items-end gap-2">
+                    <div className="w-16 h-[2px] bg-[#FF0000]"></div>
+                    <div className="w-8 h-[2px] bg-[#FF0000]"></div>
+                    <div className="w-[2px] h-32 bg-gray-200 mt-4 relative">
+                        <motion.div
+                            className="absolute top-0 left-0 w-full bg-[#FF0000]"
+                            style={{ height: `${scrollProgress}% ` }}
+                        />
                     </div>
                 </div>
             </div>
@@ -223,3 +273,4 @@ export default function Principles() {
         </div>
     );
 }
+

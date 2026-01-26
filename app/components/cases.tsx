@@ -52,11 +52,11 @@ export default function Cases() {
 
   return (
     <>
-      <div className="min-h-screen bg-white flex flex-col">
+      <div className="h-screen bg-white flex flex-col overflow-hidden items-center justify-center">
         {/* Header removed - using global layout */}
 
-        <main className="flex-1 flex items-center justify-center px-6 py-16 md:py-24 w-full">
-          <div className="max-w-7xl w-full relative">
+        <main className="flex-1 w-full flex items-center justify-center px-4 md:px-6">
+          <div className="max-w-7xl w-full">
             {/* Center Circle Decoration - Desktop Only */}
 
 
@@ -73,26 +73,26 @@ export default function Cases() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
                     className={`
-                      w-full p-4 md:p-16 border-gray-200 hover:border-[#13343e] transition-all duration-500 group relative
+                      w-full p-4 md:p-10 border-gray-200 hover:border-[#13343e] transition-all duration-500 group relative
                       ${!isLastItem ? 'border-b' : ''}
                       ${isDesktopBottomRow ? 'md:border-b-0' : ''}
                       ${isDesktopLeftCol ? 'md:border-r' : ''}
-                      md:border-solid
+                      md:border-solid flex flex-col justify-between h-full
                     `}
                   >
                     <button
                       onClick={() => handleProjectSelect(project)}
                       className="block w-full text-left transition-transform duration-500 group-hover:scale-[1.02]"
                     >
-                      <p className="text-black text-[clamp(0.75rem,2vw,0.875rem)] uppercase tracking-wider mb-2 md:mb-4 font-bold opacity-100">
+                      <p className="text-black text-[clamp(0.65rem,1.7vw,0.75rem)] uppercase tracking-wider mb-0 md:mb-4 font-bold opacity-100">
                         {project.category}
                       </p>
-                      <h2 className="text-[#13343e] text-[clamp(1.75rem,3.5vw,3rem)] font-bold mb-4 md:mb-6 leading-tight">
+                      <h2 className="text-[#13343e] text-[clamp(1.275rem,2.55vw,2.125rem)] font-bold mb-0 md:mb-6 leading-tight">
                         {project.title}
                       </h2>
 
                       {/* Hover Arrow - Moved Higher */}
-                      <div className="h-8 overflow-hidden -mt-2">
+                      <div className="h-8 overflow-hidden mt-1">
                         <span className="text-[#13343e] text-4xl block transform -translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out origin-left">
                           ⟶
                         </span>
