@@ -19,7 +19,7 @@ export default function Home() {
   return (
     // Replaced outer div with main only, layout handled by page.tsx
     // Main Content
-    <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-20 pb-20 mt-10 md:mt-24">
+    <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-0 pb-0">
       {/* Added padding top/bottom to account for fixed header/footer if needed, though flex centering usually handles it. */}
       <motion.div
         className="flex flex-col h-[70vh] justify-between items-center text-center md:h-auto md:block md:text-left md:space-y-12"
