@@ -42,11 +42,11 @@ export default function ClientLayout({
                         transition={{ delay: 0.3 }}
                     >
                         <Image
-                            src="/logo.png"
-                            alt="361 Logo"
-                            width={200}
-                            height={66}
-                            className="w-auto h-11 md:h-16 object-contain brightness-0"
+                            src="/favicons.png"
+                            alt="ATit Capital Logo"
+                            width={32}
+                            height={32}
+                            className="w-10 h-10 md:w-16 md:h-16 object-contain"
                             priority
                         />
                     </motion.div>
@@ -71,7 +71,7 @@ export default function ClientLayout({
 
             {/* Global Footer */}
             <footer className="hidden md:flex absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 justify-between items-end text-[10px] md:text-[11px] font-medium tracking-[0.25em] text-[#5A5A80] uppercase select-none z-[10] pointer-events-none w-full">
-                <div className="hidden md:block text-[#13343e]">Software House</div>
+                <div className="hidden md:block text-[#13343e]"></div>
                 <div className="w-full md:w-auto text-center md:text-left text-[#13343e]">© 2026</div>
                 <div className="hidden md:block text-[#13343e]">The Cape Morris Company</div>
             </footer>
