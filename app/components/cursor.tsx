@@ -10,6 +10,11 @@ export default function Cursor() {
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
+    // Spring configuration for the trailing effect
+    const springConfig = { damping: 25, stiffness: 300, mass: 0.5 };
+    const springX = useSpring(cursorX, springConfig);
+    const springY = useSpring(cursorY, springConfig);
+
     useEffect(() => {
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX);
@@ -54,6 +59,7 @@ export default function Cursor() {
 
     return (
         <>
+            {/* Central Dot - Always Visible & Instant Movement */}
             <motion.div
                 className="hidden md:flex fixed top-0 left-0 pointer-events-none z-[9999] items-center justify-center"
                 style={{
@@ -69,17 +75,32 @@ export default function Cursor() {
                     opacity: { duration: 0.2 }
                 }}
             >
-                {/* Central Dot - Always Visible */}
                 <div
-                    className="absolute w-1.5 h-1.5 rounded-full z-10 transition-colors duration-200"
+                    className="w-1 h-1 rounded-full z-10 transition-colors duration-200"
                     style={{ backgroundColor: isDarkBg ? "#FFFFFF" : "#13343e" }}
                 />
+            </motion.div>
 
-                {/* Outer Circle - Changes based on state */}
+            {/* Outer Circle - Changes based on state & Trailing Movement */}
+            <motion.div
+                className="hidden md:flex fixed top-0 left-0 pointer-events-none z-[9999] items-center justify-center"
+                style={{
+                    x: springX,
+                    y: springY,
+                    translateX: "-50%",
+                    translateY: "-50%",
+                }}
+                animate={{
+                    opacity: isVisible ? 1 : 0,
+                }}
+                transition={{
+                    opacity: { duration: 0.2 }
+                }}
+            >
                 <motion.div
                     animate={{
-                        width: isHovered ? 45 : 34,
-                        height: isHovered ? 45 : 34,
+                        width: isHovered ? 36 : 27,
+                        height: isHovered ? 36 : 27,
                         backgroundColor: isHovered
                             ? (isDarkBg ? "rgba(255, 255, 255, 0.2)" : "rgba(19, 52, 62, 0.2)")
                             : "transparent",
@@ -87,7 +108,7 @@ export default function Cursor() {
                             ? "none"
                             : `1px solid ${isDarkBg ? "rgba(255, 255, 255, 0.5)" : "rgba(19, 52, 62, 0.5)"}`,
                     }}
-                    transition={{ duration: 0.15 }} // Faster transition for snappier feel
+                    transition={{ duration: 0.15 }}
                     className="rounded-full flex items-center justify-center"
                 />
             </motion.div>
