@@ -98,7 +98,7 @@ export default function Services() {
           className="overflow-visible" // Allow lines to go outside if needed
         >
           {/* Main Content Group with Opacity 40% */}
-          <g className="opacity-40">
+          <g className="opacity-40" transform="translate(0, -40)">
             {children}
           </g>
 
@@ -115,45 +115,61 @@ export default function Services() {
     if (t.includes("hotel")) {
       return (
         <Wrapper viewBox="0 0 400 300">
-          {/* Hotel Building Shape */}
-          <motion.rect variants={draw} x="100" y="50" width="200" height="250" rx="5" strokeWidth="2" />
-          <motion.line variants={draw} x1="100" y1="90" x2="300" y2="90" />
-          <motion.line variants={draw} x1="100" y1="130" x2="300" y2="130" />
-          <motion.line variants={draw} x1="100" y1="170" x2="300" y2="170" />
-          <motion.line variants={draw} x1="100" y1="210" x2="300" y2="210" />
-          <motion.rect variants={draw} x="130" y="250" width="40" height="50" /> {/* Door */}
-          <motion.rect variants={draw} x="230" y="250" width="40" height="50" /> {/* Door */}
-          <motion.path variants={draw} d="M 80 290 L 320 290" /> {/* Ground */}
+          {/* Hotel - Converted to paths for better draw animation */}
+          {/* Main Building Outline */}
+          <motion.path variants={draw} d="M 100 50 L 300 50 L 300 300 L 100 300 Z" strokeWidth="2" />
+
+          {/* Floors */}
+          <motion.path variants={draw} d="M 100 90 L 300 90" />
+          <motion.path variants={draw} d="M 100 130 L 300 130" />
+          <motion.path variants={draw} d="M 100 170 L 300 170" />
+          <motion.path variants={draw} d="M 100 210 L 300 210" />
+
+          {/* Doors */}
+          <motion.path variants={draw} d="M 130 250 L 170 250 L 170 300" />
+          <motion.path variants={draw} d="M 230 250 L 270 250 L 270 300" />
+
+          {/* Ground */}
+          <motion.path variants={draw} d="M 50 300 L 350 300" strokeWidth="2" />
         </Wrapper>
       );
     } else if (t.includes("capital")) {
       return (
         <Wrapper viewBox="0 0 400 300">
-          {/* Chart / Graph for Capital */}
-          <motion.line variants={draw} x1="50" y1="250" x2="350" y2="250" strokeWidth="2" /> {/* X Axis */}
-          <motion.line variants={draw} x1="50" y1="250" x2="50" y2="50" strokeWidth="2" />   {/* Y Axis */}
-          <motion.path variants={draw} d="M 50 250 L 100 200 L 150 220 L 200 150 L 250 180 L 300 100 L 350 80" strokeWidth="2" /> {/* Trend Line */}
-          <motion.circle variants={draw} cx="100" cy="200" r="4" fill="#13343e" />
-          <motion.circle variants={draw} cx="200" cy="150" r="4" fill="#13343e" />
-          <motion.circle variants={draw} cx="300" cy="100" r="4" fill="#13343e" />
-          <motion.rect variants={draw} x="280" y="150" width="30" height="100" opacity="0.5" /> {/* Bar */}
-          <motion.rect variants={draw} x="320" y="120" width="30" height="130" opacity="0.5" /> {/* Bar */}
+          {/* Capital Graph - Converted to paths */}
+          {/* Axes */}
+          <motion.path variants={draw} d="M 50 50 L 50 250 L 350 250" strokeWidth="2" />
+
+          {/* Trend Line */}
+          <motion.path variants={draw} d="M 50 250 L 100 200 L 150 220 L 200 150 L 250 180 L 300 100 L 350 80" strokeWidth="2" />
+
+          {/* Data Points (Circles) - Simulated with small paths for draw animation */}
+          <motion.path variants={draw} d="M 98 200 L 102 200 M 100 198 L 100 202" strokeWidth="4" strokeLinecap="round" />
+          <motion.path variants={draw} d="M 198 150 L 202 150 M 200 148 L 200 152" strokeWidth="4" strokeLinecap="round" />
+          <motion.path variants={draw} d="M 298 100 L 302 100 M 300 98 L 300 102" strokeWidth="4" strokeLinecap="round" />
+
+          {/* Bar Chart Bars (Wireframe style) */}
+          <motion.path variants={draw} d="M 280 250 L 280 150 L 310 150 L 310 250" />
+          <motion.path variants={draw} d="M 320 250 L 320 120 L 350 120 L 350 250" />
         </Wrapper>
       );
     } else if (t.includes("development")) {
       return (
         <Wrapper viewBox="0 0 400 300">
-          {/* Construction / Crane / Gear */}
-          <motion.rect variants={draw} x="150" y="100" width="100" height="150" strokeWidth="2" /> {/* Building Frame */}
-          <motion.line variants={draw} x1="150" y1="100" x2="250" y2="250" /> {/* Cross brace */}
-          <motion.line variants={draw} x1="250" y1="100" x2="150" y2="250" /> {/* Cross brace */}
+          {/* Construction / Crane / Gear - Converted to paths */}
+          {/* Building Frame */}
+          <motion.path variants={draw} d="M 150 250 L 150 100 L 250 100 L 250 250" strokeWidth="2" />
+          <motion.path variants={draw} d="M 150 100 L 250 250" /> {/* Cross brace */}
+          <motion.path variants={draw} d="M 250 100 L 150 250" /> {/* Cross brace */}
 
           {/* Crane Arm */}
-          <motion.line variants={draw} x1="250" y1="100" x2="350" y2="50" strokeWidth="2" />
-          <motion.line variants={draw} x1="350" y1="50" x2="350" y2="120" strokeWidth="1" /> {/* Cable */}
-          <motion.rect variants={draw} x="330" y="120" width="40" height="20" /> {/* Load */}
+          <motion.path variants={draw} d="M 250 250 L 250 100" strokeWidth="2" />
+          <motion.path variants={draw} d="M 250 100 L 350 50" strokeWidth="2" />
+          <motion.path variants={draw} d="M 350 50 L 350 120" /> {/* Cable */}
+          <motion.path variants={draw} d="M 330 120 L 370 120 L 370 140 L 330 140 Z" />
 
-          <motion.path variants={draw} d="M 120 250 L 280 250" /> {/* Ground */}
+          {/* Ground */}
+          <motion.path variants={draw} d="M 100 250 L 300 250" />
         </Wrapper>
       );
     }
@@ -202,14 +218,14 @@ export default function Services() {
       {/* pb-20 pulls visual center down */}
 
       {/* Intro Paragraph */}
-      <div className="relative w-full max-w-4xl px-8 text-center mt-24 mb-10 z-10">
-        <p className="text-[#13343e] text-lg md:text-xl font-medium leading-relaxed opacity-90">
+      <div className="relative w-full max-w-4xl px-8 text-center mt-12 mb-0 z-10">
+        <p className="text-[#13343e] text-[15px] md:text-xl font-medium leading-relaxed opacity-90">
           ATit Capital is organized into complementary, senior-led real estate business lines supported by an integrated platform spanning acquisition, execution, and capital management. This structure produces proprietary, bottom-up insights that inform strategy and risk discipline.
         </p>
       </div>
 
       {/* Carousel Container - Adjusted margin */}
-      <div className="relative w-full h-[60vh] flex items-center justify-center mt-0">
+      <div className="relative w-full h-[50vh] flex items-center justify-center -mt-12">
         <AnimatePresence initial={false} mode="popLayout">
           {services.map((service, index) => {
             const position = getPosition(index);
@@ -258,10 +274,6 @@ export default function Services() {
                   mass: 1
                 }}
                 style={{ zIndex }}
-                drag={isTouchDevice ? "x" : false}
-                dragConstraints={{ left: 0, right: 0 }}
-                dragElastic={0.1}
-                onDragEnd={handleSwipe}
               >
                 {/* Dynamic Background */}
                 <motion.div
@@ -281,8 +293,8 @@ export default function Services() {
                   )}
                 </motion.div>
 
-                <h2 className="text-[#13343e] text-[clamp(2rem,4vw,3rem)] font-black mb-4 tracking-tight lowercase">
-                  {service.title}
+                <h2 className="text-[#13343e] text-[clamp(1.7rem,3.4vw,2.55rem)] font-black mb-4 tracking-tight text-center">
+                  {service.title}.
                 </h2>
 
                 <button
@@ -315,55 +327,67 @@ export default function Services() {
       <AnimatePresence>
         {selectedService && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-[#0023e6] text-white flex flex-col md:flex-row overflow-hidden"
+            initial={{ x: "-100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
+            className="fixed inset-0 z-[200] flex flex-col"
+            data-theme="dark-teal"
           >
-            {/* Close Button */}
-            <button
-              onClick={() => setSelectedService(null)}
-              className="absolute top-8 right-8 md:top-16 md:right-16 z-50 p-2 hover:opacity-80 transition-opacity"
-            >
-              <Icon icon="ep:close" width="60" color="white" />
-            </button>
+            {/* Backdrop Blur for empty areas - Optional, keeping transparent as per "not full page" implication */}
 
-            {/* Left Side (Title) - Empty on desktop to match screenshot layout pushing title to left-center? 
-               Screenshot shows "mobile apps." on the left/center vertically. 
-               Content on the right. */}
-            <div className="w-full md:w-1/2 flex items-center justify-center md:justify-start px-8 md:px-24 pt-24 md:pt-0">
-              <h2 className="text-[clamp(3rem,6vw,5rem)] font-black leading-none tracking-tight lowercase">
-                {selectedService.title}
-              </h2>
+            {/* Top Block - 50% width, Main Color */}
+            <div className="flex-1 w-[50%] bg-[#13343e] flex items-center justify-end pr-10 border-r border-white/10">
+              {/* Decorative Lines Removed */}
             </div>
 
-            {/* Right Side (Content) */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center px-8 md:pr-32 py-12 md:py-0 relative">
-              <div className="max-w-xl">
-                <p className="text-lg md:text-2xl font-light leading-relaxed mb-12 opacity-90">
-                  {selectedService.description}
-                  <br /><br />
-                  We develop business applications as well as applications addressed to individual customers. They are available for the following platforms: iOS and Android.
-                </p>
+            {/* Middle Block - Content Fit, Main Color (Solid) */}
+            <div className="h-auto py-12 w-full bg-[#244751] flex flex-col md:flex-row items-center gap-12 md:gap-24 px-8 md:px-24 relative">
 
-                <div className="flex items-center gap-6">
-                  <span className="text-xl md:text-2xl font-bold">see Case Study</span>
-                  <button
-                    onClick={() => router.push('/cases')}
-                    className="w-8 h-8 md:w-10 md:h-10 bg-white rounded-full flex items-center justify-center group cursor-pointer"
-                  >
-                    <Icon icon="formkit:arrowright" width="24" className="text-[#0023e6] group-hover:translate-x-1 transition-transform" />
+              {/* Title */}
+              <div className="w-full md:w-1/3 mb-6 md:mb-0">
+                <h2 className="text-white text-[clamp(1.2rem,2.4vw,1.9rem)] font-black leading-none tracking-tight">
+                  {selectedService.title}.
+                </h2>
+              </div>
+
+              {/* Content */}
+              <div className="w-full md:w-1/2 text-white/90">
+                <p className="text-[0.7rem] md:text-[0.8rem] font-light leading-relaxed mb-8">
+                  {selectedService.description}
+                  <br className="hidden md:block" />
+                  We develop business applications as well as applications addressed to individual customers.
+                </p>
+                <div
+                  className="flex items-center gap-4 cursor-pointer group/link"
+                  onClick={() => router.push('/cases')}
+                >
+                  <span className="font-[900] text-[0.8rem]">see Case Study</span>
+                  <button className="group relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-white transition-colors">
+                    <motion.div
+                      className="absolute top-1/2 left-1/2 rounded-full border border-white"
+                      style={{ x: "-50%", y: "-50%" }}
+                      initial={{ width: 0, height: 0, opacity: 1 }}
+                      animate={{ width: "100%", height: "100%", opacity: 0 }}
+                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+                    />
+                    <div className="w-3 h-3 bg-white rounded-full group-hover:bg-[#244751] transition-colors relative z-10"></div>
                   </button>
                 </div>
               </div>
+
+              {/* Close Button - Absolute Right Center */}
+              <button
+                onClick={() => setSelectedService(null)}
+                className="absolute right-8 md:right-16 top-1/2 -translate-y-1/2 p-2 group transition-transform duration-300 hover:scale-75"
+              >
+                <Icon icon="ph:x-light" width="80" className="text-white/50 group-hover:text-white transition-colors" />
+              </button>
             </div>
 
-            {/* Bottom Right Branding */}
-            <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-10 w-48 md:w-64 h-32 md:h-48 bg-gray-50/10 backdrop-blur-sm flex items-end justify-end p-4 md:p-6 opacity-0 md:opacity-100">
-              {/* Using opacity 0 on mobile if simpler, or keep it. The screenshot shows a white box. */}
-              <div className="bg-white absolute inset-0 text-[#0023e6] text-[0.6rem] font-bold tracking-[0.2em] flex items-end justify-center pb-4 uppercase">
-                The Cape Morris Company
-              </div>
+            {/* Bottom Block - 70% width, Main Color */}
+            <div className="flex-1 w-[75%] bg-[#13343e] flex items-end justify-end p-8 md:p-12 border-r border-white/10">
+              {/* Text Removed */}
             </div>
 
           </motion.div>

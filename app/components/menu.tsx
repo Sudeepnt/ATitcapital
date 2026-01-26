@@ -34,9 +34,12 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
   const menuItems = [
     { label: "Home", href: "/" },
     { label: "Cases", href: "/cases" },
-    { label: "Services", href: "/services" },
-    { label: "Technologies", href: "/technologies" },
-    { label: "Contact", href: "/contact" },
+    { label: "Principles and Culture", href: "/principles-and-culture" },
+    { label: "The India Thesis", href: "/india-thesis" },
+    { label: "Business", href: "/services" }, // Renamed from Services, then Business Lines
+    { label: "Who We Work With", href: "/technologies" }, // Renamed from Technologies
+    { label: "People", href: "/people" },
+    { label: "Contact Us", href: "/contact" },
   ];
 
   // Brick Wall Rows Configuration (The new background)
@@ -69,7 +72,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
       />
 
       {/* Drawer Container (Right Side) */}
-      <div className="relative w-full md:w-[25%] h-full pointer-events-none overflow-visible">
+      <div className="relative w-full md:w-auto md:min-w-[25%] md:max-w-[50%] h-full pointer-events-none overflow-visible">
 
         {/* Brick Wall Background Animation (Replaces SVG) */}
         <div className="absolute inset-0 flex flex-col items-end w-full h-full z-0 overflow-visible">
@@ -97,13 +100,13 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
 
         {/* Content Container - EXACT RESTORATION of Original UI */}
         <div
-          className={`relative w-full h-full flex flex-col justify-center px-8 md:px-16 md:pr-32 py-24 md:py-32 pointer-events-auto transition-opacity duration-700 ${isAnimating ? "opacity-100" : "opacity-0"
+          className={`relative w-full h-full flex flex-col justify-center px-8 md:px-24 py-24 md:py-32 pointer-events-auto transition-opacity duration-700 ${isAnimating ? "opacity-100" : "opacity-0"
             }`}
         >
           {/* Old Close Button Style */}
           <motion.button
             onClick={onClose}
-            className="absolute top-8 right-8 md:top-16 md:right-32 z-[110] text-white p-2"
+            className="absolute top-8 right-8 md:top-16 md:right-16 z-[110] text-white p-2"
             initial="initial"
             whileHover="hover"
           >
@@ -140,7 +143,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
                       transform: isAnimating ? "translateY(0)" : "translateY(25px)",
                       opacity: isAnimating ? 1 : 0,
                     }}
-                    className="group relative text-xl md:text-[clamp(0.6rem,1.5vw,1.1rem)] font-bold tracking-wide transition-opacity text-white py-2"
+                    className="group relative text-xl md:text-[clamp(1rem,1.5vw,1.4rem)] font-bold tracking-wide transition-opacity text-white py-2 whitespace-nowrap"
                   >
                     <span>
                       {item.label}
