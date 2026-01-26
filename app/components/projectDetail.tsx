@@ -293,7 +293,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
               onClick={() => router.push('/contact')}
             >
               <h2 className="text-[#13343e] text-xl font-bold">
-                Let's talk about your project
+                Start a conversation
               </h2>
               {/* Pulsing Dot */}
               <div className="relative flex h-6 w-6 items-center justify-center">

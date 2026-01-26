@@ -11,23 +11,26 @@ export default function Home() {
 
   // Static content to avoid fetch delay
   const content = {
-    title: "ATit Capital operates at the intersection of people, capital, and land in India. We bring mission-aligned partners together to acquire, develop, and operate real estate assets that unlock neighborhoods, shape cities, and compound value over time.",
-    subtitle: "",
+    title: "ATit Capital operates at the intersection of people, capital, and land in India.",
+    subtitle: "We bring mission-aligned partners together to acquire, develop, and operate real estate assets that unlock neighborhoods, shape cities, and compound value over time.",
     cta: "Start a conversation"
   };
 
   return (
     // Replaced outer div with main only, layout handled by page.tsx
     // Main Content
-    <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-20 pb-20">
+    <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-20 pb-20 mt-10 md:mt-24">
       {/* Added padding top/bottom to account for fixed header/footer if needed, though flex centering usually handles it. */}
       <motion.div
         className="flex flex-col h-[70vh] justify-between items-center text-center md:h-auto md:block md:text-left md:space-y-12"
       >
-        <div className="flex-1 flex items-center justify-center md:block md:flex-none">
-          <h2 className="text-[#13343e] text-[clamp(1.75rem,4.55vw,3.85rem)] leading-[1.1] font-black tracking-tight">
+        <div className="flex-1 flex flex-col items-center justify-center md:block md:flex-none">
+          <h2 className="text-[#13343e] text-[clamp(1.75rem,4.55vw,3.85rem)] leading-[1.1] font-black tracking-tight mb-6">
             {content.title}
           </h2>
+          <p className="text-[#13343e] text-[clamp(1rem,2vw,1.5rem)] leading-relaxed font-medium max-w-4xl opacity-90">
+            {content.subtitle}
+          </p>
         </div>
 
         <div className="flex flex-col items-center gap-6 md:flex-row md:pl-1">
