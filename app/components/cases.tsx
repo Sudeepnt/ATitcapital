@@ -55,7 +55,7 @@ export default function Cases() {
       <div className="min-h-screen bg-white flex flex-col">
         {/* Header removed - using global layout */}
 
-        <main className="flex-1 flex items-center justify-center px-6 py-24 w-full">
+        <main className="flex-1 flex items-center justify-center px-6 py-16 md:py-24 w-full">
           <div className="max-w-7xl w-full relative">
             {/* Center Circle Decoration - Desktop Only */}
 
@@ -73,7 +73,7 @@ export default function Cases() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
                     className={`
-                      w-full p-8 md:p-16 border-gray-200 hover:border-[#13343e] transition-all duration-500 group relative
+                      w-full p-4 md:p-16 border-gray-200 hover:border-[#13343e] transition-all duration-500 group relative
                       ${!isLastItem ? 'border-b' : ''}
                       ${isDesktopBottomRow ? 'md:border-b-0' : ''}
                       ${isDesktopLeftCol ? 'md:border-r' : ''}

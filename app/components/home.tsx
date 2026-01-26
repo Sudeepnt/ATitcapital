@@ -8,28 +8,13 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const router = useRouter();
-  // const [isMenuOpen, setIsMenuOpen] = useState(false); // Removed
-  const [content, setContent] = useState<any>(null);
 
-  useEffect(() => {
-    fetch('/data/content.json')
-      .then(res => res.json())
-      .then(data => {
-        if (data?.home) {
-          setContent(data.home);
-        }
-      })
-      .catch(error => console.error('Failed to load home content:', error));
-  }, []);
-
-  if (!content) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        {/* Loading handled by parent mostly, but good to have fallback */}
-        <p className="text-[#13343e]">Loading...</p>
-      </div>
-    );
-  }
+  // Static content to avoid fetch delay
+  const content = {
+    title: "Software house based in Warsaw",
+    subtitle: "",
+    cta: "Let's talk about your project"
+  };
 
   return (
     // Replaced outer div with main only, layout handled by page.tsx
@@ -39,7 +24,7 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5, duration: 0.8 }}
+        transition={{ delay: 0.1, duration: 0.8 }} // Reduced delay for faster appearance
         className="flex flex-col h-[70vh] justify-between items-center text-center md:h-auto md:block md:text-left md:space-y-12"
       >
         <div className="flex-1 flex items-center justify-center md:block md:flex-none">
