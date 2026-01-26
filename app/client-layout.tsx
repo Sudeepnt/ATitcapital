@@ -46,7 +46,7 @@ export default function ClientLayout({
                             alt="ATit Capital Logo"
                             width={256}
                             height={256}
-                            className="w-20 h-20 md:w-32 md:h-32 object-contain"
+                            className="w-20 h-20 md:w-auto md:h-16 object-contain"
                             priority
                         />
                     </motion.div>
