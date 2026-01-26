@@ -69,7 +69,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
       />
 
       {/* Drawer Container (Right Side) */}
-      <div className="relative w-full md:w-1/2 h-full pointer-events-none overflow-visible">
+      <div className="relative w-full md:w-[35%] h-full pointer-events-none overflow-visible">
 
         {/* Brick Wall Background Animation (Replaces SVG) */}
         <div className="absolute inset-0 flex flex-col items-end w-full h-full z-0 overflow-visible">
