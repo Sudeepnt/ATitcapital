@@ -112,56 +112,48 @@ export default function Services() {
       </div>
     );
 
-    if (t.includes("mobile")) {
-      return (
-        <Wrapper viewBox="0 0 300 400">
-          <motion.rect variants={draw} x="75" y="50" width="150" height="300" rx="20" />
-          <motion.line variants={draw} x1="100" y1="80" x2="200" y2="80" />
-          <motion.line variants={draw} x1="75" y1="280" x2="225" y2="280" />
-          <motion.circle variants={draw} cx="150" cy="315" r="10" />
-          <motion.path variants={draw} d="M 40 100 L 60 100" />
-          <motion.path variants={draw} d="M 240 200 L 260 200" />
-          <motion.circle variants={draw} cx="50" cy="300" r="5" />
-        </Wrapper>
-      );
-    } else if (t === "websites.") {
+    if (t.includes("hotel")) {
       return (
         <Wrapper viewBox="0 0 400 300">
-          <motion.rect variants={draw} x="30" y="50" width="340" height="220" rx="4" />
-          <motion.line variants={draw} x1="30" y1="80" x2="370" y2="80" />
-          <motion.rect variants={draw} x="40" y="90" width="50" height="130" />
-          <motion.rect variants={draw} x="100" y="90" width="230" height="60" />
-          <motion.rect variants={draw} x="100" y="160" width="110" height="60" />
-          <motion.rect variants={draw} x="220" y="160" width="110" height="60" />
-          <motion.path variants={draw} d="M 20 150 L 50 150" />
-          <motion.circle variants={draw} cx="360" cy="65" r="4" />
+          {/* Hotel Building Shape */}
+          <motion.rect variants={draw} x="100" y="50" width="200" height="250" rx="5" strokeWidth="2" />
+          <motion.line variants={draw} x1="100" y1="90" x2="300" y2="90" />
+          <motion.line variants={draw} x1="100" y1="130" x2="300" y2="130" />
+          <motion.line variants={draw} x1="100" y1="170" x2="300" y2="170" />
+          <motion.line variants={draw} x1="100" y1="210" x2="300" y2="210" />
+          <motion.rect variants={draw} x="130" y="250" width="40" height="50" /> {/* Door */}
+          <motion.rect variants={draw} x="230" y="250" width="40" height="50" /> {/* Door */}
+          <motion.path variants={draw} d="M 80 290 L 320 290" /> {/* Ground */}
         </Wrapper>
       );
-    } else if (t.includes("web apps")) {
+    } else if (t.includes("capital")) {
       return (
         <Wrapper viewBox="0 0 400 300">
-          <motion.rect variants={draw} x="20" y="50" width="360" height="200" rx="5" />
-          <motion.line variants={draw} x1="20" y1="90" x2="380" y2="90" />
-          <motion.circle variants={draw} cx="40" cy="70" r="3" fill="#13343e" stroke="none" opacity={isCenter ? 1 : 0} transition={{ delay: 1 }} />
-          <motion.circle variants={draw} cx="55" cy="70" r="3" fill="#13343e" stroke="none" opacity={isCenter ? 1 : 0} transition={{ delay: 1 }} />
-          <motion.circle variants={draw} cx="70" cy="70" r="3" fill="#13343e" stroke="none" opacity={isCenter ? 1 : 0} transition={{ delay: 1 }} />
-          <motion.rect variants={draw} x="40" y="110" width="100" height="80" />
-          <motion.line variants={draw} x1="160" y1="120" x2="340" y2="120" />
-          <motion.line variants={draw} x1="160" y1="140" x2="300" y2="140" />
-          <motion.path variants={draw} d="M 370 270 L 390 270" />
-          <motion.path variants={draw} d="M 10 150 L 30 150" />
+          {/* Chart / Graph for Capital */}
+          <motion.line variants={draw} x1="50" y1="250" x2="350" y2="250" strokeWidth="2" /> {/* X Axis */}
+          <motion.line variants={draw} x1="50" y1="250" x2="50" y2="50" strokeWidth="2" />   {/* Y Axis */}
+          <motion.path variants={draw} d="M 50 250 L 100 200 L 150 220 L 200 150 L 250 180 L 300 100 L 350 80" strokeWidth="2" /> {/* Trend Line */}
+          <motion.circle variants={draw} cx="100" cy="200" r="4" fill="#13343e" />
+          <motion.circle variants={draw} cx="200" cy="150" r="4" fill="#13343e" />
+          <motion.circle variants={draw} cx="300" cy="100" r="4" fill="#13343e" />
+          <motion.rect variants={draw} x="280" y="150" width="30" height="100" opacity="0.5" /> {/* Bar */}
+          <motion.rect variants={draw} x="320" y="120" width="30" height="130" opacity="0.5" /> {/* Bar */}
         </Wrapper>
       );
-    } else if (t.includes("commerce")) {
+    } else if (t.includes("development")) {
       return (
-        <Wrapper viewBox="0 0 350 300">
-          {/* Can't easily animate rotate group with simple variants logic without structure change, keeping simple path animations */}
-          <motion.rect variants={draw} x="50" y="80" width="200" height="120" rx="10" transform="rotate(-5 150 140)" />
-          <motion.line variants={draw} x1="50" y1="110" x2="250" y2="110" transform="rotate(-5 150 140)" />
-          <motion.rect variants={draw} x="80" y="60" width="200" height="120" rx="10" fill="white" stroke="#13343e" transform="rotate(5 180 120)" style={{ fillOpacity: 0.5 }} />
-          <motion.line variants={draw} x1="80" y1="90" x2="280" y2="90" transform="rotate(5 180 120)" />
-          <motion.circle variants={draw} cx="300" cy="80" r="8" />
-          <motion.path variants={draw} d="M 20 200 L 40 200" />
+        <Wrapper viewBox="0 0 400 300">
+          {/* Construction / Crane / Gear */}
+          <motion.rect variants={draw} x="150" y="100" width="100" height="150" strokeWidth="2" /> {/* Building Frame */}
+          <motion.line variants={draw} x1="150" y1="100" x2="250" y2="250" /> {/* Cross brace */}
+          <motion.line variants={draw} x1="250" y1="100" x2="150" y2="250" /> {/* Cross brace */}
+
+          {/* Crane Arm */}
+          <motion.line variants={draw} x1="250" y1="100" x2="350" y2="50" strokeWidth="2" />
+          <motion.line variants={draw} x1="350" y1="50" x2="350" y2="120" strokeWidth="1" /> {/* Cable */}
+          <motion.rect variants={draw} x="330" y="120" width="40" height="20" /> {/* Load */}
+
+          <motion.path variants={draw} d="M 120 250 L 280 250" /> {/* Ground */}
         </Wrapper>
       );
     }
@@ -209,8 +201,15 @@ export default function Services() {
     >
       {/* pb-20 pulls visual center down */}
 
-      {/* Carousel Container - Added mt-20 to push it down further */}
-      <div className="relative w-full h-[60vh] flex items-center justify-center mt-20">
+      {/* Intro Paragraph */}
+      <div className="relative w-full max-w-4xl px-8 text-center mt-24 mb-10 z-10">
+        <p className="text-[#13343e] text-lg md:text-xl font-medium leading-relaxed opacity-90">
+          ATit Capital is organized into complementary, senior-led real estate business lines supported by an integrated platform spanning acquisition, execution, and capital management. This structure produces proprietary, bottom-up insights that inform strategy and risk discipline.
+        </p>
+      </div>
+
+      {/* Carousel Container - Adjusted margin */}
+      <div className="relative w-full h-[60vh] flex items-center justify-center mt-0">
         <AnimatePresence initial={false} mode="popLayout">
           {services.map((service, index) => {
             const position = getPosition(index);

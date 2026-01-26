@@ -51,20 +51,16 @@
   "services": {
     "items": [
       {
-        "title": "mobile apps.",
-        "description": "Native and cross-platform mobile applications designed for performance and user experience."
+        "title": "Hotel Brand Management",
+        "description": "Strategic oversight and operational excellence to maximize asset value and guest experience."
       },
       {
-        "title": "websites.",
-        "description": "Modern, responsive websites that showcase your brand and engage your audience effectively."
+        "title": "Capital Solutions & Investment Vehicles",
+        "description": "Tailored financial structures and investment strategies to optimize capital deployment and returns."
       },
       {
-        "title": "web apps.",
-        "description": "Scalable and secure web applications built with modern technologies to meet your business needs."
-      },
-      {
-        "title": "e-commerce.",
-        "description": "Custom e-commerce solutions that drive sales and provide seamless shopping experiences."
+        "title": "Development & Execution Services",
+        "description": "End-to-end project management and execution capabilities ensuring timely and quality delivery."
       }
     ]
   },
