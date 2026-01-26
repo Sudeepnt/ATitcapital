@@ -44,9 +44,9 @@ export default function ClientLayout({
                         <Image
                             src="/favicons.png"
                             alt="ATit Capital Logo"
-                            width={128}
-                            height={128}
-                            className="w-10 h-10 md:w-16 md:h-16 object-contain"
+                            width={256}
+                            height={256}
+                            className="w-20 h-20 md:w-32 md:h-32 object-contain"
                             priority
                         />
                     </motion.div>
