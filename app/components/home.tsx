@@ -22,9 +22,6 @@ export default function Home() {
     <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-20 pb-20">
       {/* Added padding top/bottom to account for fixed header/footer if needed, though flex centering usually handles it. */}
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1, duration: 0.8 }} // Reduced delay for faster appearance
         className="flex flex-col h-[70vh] justify-between items-center text-center md:h-auto md:block md:text-left md:space-y-12"
       >
         <div className="flex-1 flex items-center justify-center md:block md:flex-none">

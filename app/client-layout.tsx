@@ -65,17 +65,9 @@ export default function ClientLayout({
             </header>
 
             {/* Page Content */}
-            <AnimatePresence mode="wait">
-                <motion.div
-                    key={pathname}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="h-full"
-                >
-                    {children}
-                </motion.div>
-            </AnimatePresence>
+            <div className="h-full">
+                {children}
+            </div>
 
             {/* Global Footer */}
             <footer className="hidden md:flex absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 justify-between items-end text-[10px] md:text-[11px] font-medium tracking-[0.25em] text-[#5A5A80] uppercase select-none z-[10] pointer-events-none w-full">
