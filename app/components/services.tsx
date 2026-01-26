@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { Icon } from '@iconify/react';
+import IconSelector from "./IconSelector";
 
 export default function Services() {
   const router = useRouter();
@@ -367,6 +368,7 @@ export default function Services() {
         )}
       </AnimatePresence>
 
+      <IconSelector />
     </motion.div>
   );
 }
