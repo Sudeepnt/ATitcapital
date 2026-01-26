@@ -9,8 +9,8 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "361 Software House",
-  description: "Software house based in Warsaw",
+  title: "ATit Capital",
+  description: "ATit Capital operates at the intersection of people, capital, and land in India.",
   icons: {
     icon: "/favicons.png",
     shortcut: "/favicons.png",

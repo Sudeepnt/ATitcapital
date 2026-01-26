@@ -11,9 +11,9 @@ export default function Home() {
 
   // Static content to avoid fetch delay
   const content = {
-    title: "Software house based in Warsaw",
+    title: "ATit Capital operates at the intersection of people, capital, and land in India. We bring mission-aligned partners together to acquire, develop, and operate real estate assets that unlock neighborhoods, shape cities, and compound value over time.",
     subtitle: "",
-    cta: "Let's talk about your project"
+    cta: "Start a conversation"
   };
 
   return (
@@ -26,15 +26,7 @@ export default function Home() {
       >
         <div className="flex-1 flex items-center justify-center md:block md:flex-none">
           <h2 className="text-[#13343e] text-[clamp(1.75rem,4.55vw,3.85rem)] leading-[1.1] font-black tracking-tight">
-            {content.title ? (
-              <>
-                {content.title.split(" based")[0]}
-                <br />
-                based{content.title.split(" based")[1]}
-              </>
-            ) : (
-              content.title
-            )}
+            {content.title}
           </h2>
         </div>
 
