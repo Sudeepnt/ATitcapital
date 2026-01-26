@@ -35,7 +35,7 @@ export default function Home() {
 
         <div className="flex flex-col items-center gap-6 md:flex-row md:pl-1">
           <div className="relative group cursor-pointer inline-block">
-            <p className="text-[#1A1A1A] text-[clamp(0.875rem,1.75vw,1.75rem)] font-black tracking-tight relative z-10 transition-colors">
+            <p className="text-[#1A1A1A] text-[clamp(1.05rem,2.1vw,2.1rem)] font-black tracking-tight relative z-10 transition-colors">
               {content.cta}
             </p>
             {/* Animated Underline */}
@@ -81,7 +81,7 @@ function CtaPulse({ onClick }: { onClick: () => void }) {
       onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative w-12 h-12 flex items-center justify-center cursor-pointer ml-4"
+      className="relative w-12 h-12 flex items-center justify-center cursor-pointer md:ml-4"
       whileTap={{ scale: 0.9 }}
     >
       {/* Pulse Animation */}
