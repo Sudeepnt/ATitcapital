@@ -11,8 +11,8 @@ export default function Home() {
 
   // Static content to avoid fetch delay
   const content = {
-    title: "ATit Capital operates at the intersection of people, capital, and land in India.",
-    subtitle: "We bring mission-aligned partners together to acquire, develop, and operate real estate assets that unlock neighborhoods, shape cities, and compound value over time.",
+    title: "Invested in Land. Invested in You.",
+    subtitle: "ATit Capital operates at the intersection of people, capital, and land in India. We bring mission-aligned partners together to acquire, develop, and operate real estate assets that unlock neighborhoods, shape cities, and compound value over time.",
     cta: "Start a conversation"
   };
 
@@ -26,7 +26,7 @@ export default function Home() {
       >
         <div className="flex-1 flex flex-col items-center justify-center md:block md:flex-none">
           <h2 className="text-[#13343e] text-[clamp(1.75rem,4.55vw,3.85rem)] leading-[1.1] font-black tracking-tight mb-6">
-            {content.title}
+            Invested in Land.<br />Invested in You.
           </h2>
           <p className="text-[#13343e] text-[clamp(1rem,2vw,1.5rem)] leading-relaxed font-medium max-w-4xl opacity-90">
             {content.subtitle}
