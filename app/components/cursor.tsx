@@ -6,6 +6,7 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 export default function Cursor() {
     const [isHovered, setIsHovered] = useState(false);
     const [isDarkBg, setIsDarkBg] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
     const cursorX = useMotionValue(-100);
     const cursorY = useMotionValue(-100);
 
@@ -13,6 +14,7 @@ export default function Cursor() {
         const moveCursor = (e: MouseEvent) => {
             cursorX.set(e.clientX);
             cursorY.set(e.clientY);
+            setIsVisible(true);
 
             const target = e.target as HTMLElement;
 
@@ -31,10 +33,22 @@ export default function Cursor() {
             setIsDarkBg(!!darkThemeElement);
         };
 
+        const handleMouseLeave = () => {
+            setIsVisible(false);
+        };
+
+        const handleMouseEnter = () => {
+            setIsVisible(true);
+        };
+
         window.addEventListener("mousemove", moveCursor);
+        document.addEventListener("mouseleave", handleMouseLeave);
+        document.addEventListener("mouseenter", handleMouseEnter);
 
         return () => {
             window.removeEventListener("mousemove", moveCursor);
+            document.removeEventListener("mouseleave", handleMouseLeave);
+            document.removeEventListener("mouseenter", handleMouseEnter);
         };
     }, [cursorX, cursorY]);
 
@@ -47,6 +61,12 @@ export default function Cursor() {
                     y: cursorY,
                     translateX: "-50%",
                     translateY: "-50%",
+                }}
+                animate={{
+                    opacity: isVisible ? 1 : 0,
+                }}
+                transition={{
+                    opacity: { duration: 0.2 }
                 }}
             >
                 {/* Central Dot - Always Visible */}

@@ -134,6 +134,7 @@ const Wireframe3 = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
 export default function ProjectDetail({ project, onClose }: ProjectDetailProps) {
   const router = useRouter();
   const [scrollProgress, setScrollProgress] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -146,6 +147,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     const progress = (scrollTop / (scrollHeight - clientHeight)) * 100;
     setScrollProgress(progress);
+    setIsScrolled(scrollTop > 50);
   };
 
   // Animation variants
@@ -173,26 +175,30 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-50 bg-[#F8F9FA]"
     >
+      {/* Centered 6-Dot Back Button - Fixed Positioning */}
+      <motion.button
+        onClick={onClose}
+        initial={{ y: 0, opacity: 1 }}
+        animate={{
+          y: isScrolled ? -50 : 0,
+          opacity: isScrolled ? 0 : 1,
+          pointerEvents: isScrolled ? "none" : "auto"
+        }}
+        transition={{ duration: 0.3 }}
+        className="hidden md:block fixed top-[54px] md:top-[96px] left-1/2 -translate-x-1/2 -translate-y-1/2 z-[70] hover:opacity-70 transition-opacity"
+      >
+        <div className="grid grid-cols-3 gap-2">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="w-2 h-2 bg-[#13343e] rounded-full"></div>
+          ))}
+        </div>
+      </motion.button>
+
       <div
-        className="h-screen overflow-y-auto pt-28 pb-20 scrollbar-hide"
+        className="h-screen overflow-y-auto pt-40 pb-20 scrollbar-hide"
         onScroll={handleScroll}
       >
         <div className="max-w-4xl mx-auto px-6 relative">
-
-          {/* Header Bar - Replaces Close Button */}
-          <div className="absolute top-0 left-0 w-full px-8 md:px-16 pt-0 pb-8 z-50 pointer-events-none flex justify-center">
-
-            {/* Centered 6-Dot Back Button - Absolute to ensure exact center regardless of other elements */}
-            <button onClick={onClose} className="hidden md:block pointer-events-auto hover:opacity-70 transition-opacity absolute top-2 left-1/2 -translate-x-1/2">
-              {/* Moved down to top-[50px] to match layout/menu height */}
-              <div className="grid grid-cols-3 gap-1.5 has-tooltip">
-                {[...Array(6)].map((_, i) => (
-                  <div key={i} className="w-1.5 h-1.5 bg-[#13343e] rounded-full"></div>
-                ))}
-              </div>
-            </button>
-          </div>
-
 
           {/* Header Section */}
           <motion.div
@@ -209,7 +215,7 @@ export default function ProjectDetail({ project, onClose }: ProjectDetailProps) 
             </h1>
 
             {/* Main Wireframe 1 */}
-            <div className="w-full max-w-2xl mx-auto mb-16 px-8">
+            <div className="w-full max-w-2xl mx-auto mb-16 pl-0 md:pl-20">
               <Wireframe1 draw={draw} fadeIn={fadeIn} />
             </div>
           </motion.div>

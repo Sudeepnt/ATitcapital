@@ -12,23 +12,32 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #ffffff;
-    --foreground: #171717;
-  }
+/* Strongly enforce white background to prevent dark mode overscroll void */
+html {
+  background-color: #ffffff;
+  overscroll-behavior: none;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  /* Lock root */
 }
 
 body {
-  background: #ffffff;
+  background-color: #ffffff;
   color: #171717;
   cursor: none;
   overscroll-behavior-y: none;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
-  /* Prevent global scrollbar, components handle their own scrolling */
+  /* Prevent global scrollbar */
+  position: fixed;
+  /* Lock viewport on iOS */
+  left: 0;
+  top: 0;
 }
+
+
 
 * {
   cursor: none !important;
