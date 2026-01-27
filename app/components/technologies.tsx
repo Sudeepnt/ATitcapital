@@ -53,7 +53,7 @@ export default function Technologies() {
                   viewport={{ once: true }}
                   transition={{
                     delay: 0.1 + index * 0.3, // Staggering manually
-                    duration: 1.5,
+                    duration: 0.6,
                     ease: [0.16, 1, 0.3, 1]
                   }}
                   className={`

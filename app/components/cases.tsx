@@ -52,11 +52,11 @@ export default function Cases() {
 
   return (
     <>
-      <div className="h-screen bg-white flex flex-col overflow-hidden items-center justify-center">
+      <div className="h-[100dvh] bg-white flex flex-col overflow-hidden">
         {/* Header removed - using global layout */}
 
-        <main className="flex-1 w-full flex items-center justify-center px-4 md:px-6">
-          <div className="max-w-7xl w-full">
+        <main className="flex-1 px-4 md:px-6 w-full flex flex-col overflow-y-auto pb-20">
+          <div className="max-w-7xl w-full mx-auto my-auto py-12 md:py-16 pt-[100px]">
             {/* Center Circle Decoration - Desktop Only */}
 
 
@@ -70,7 +70,7 @@ export default function Cases() {
                   <motion.div
                     key={project.slug}
                     className={`
-                      w-full p-4 md:p-10 border-gray-200 hover:border-[#13343e] transition-all duration-500 group relative
+                      w-full p-6 md:p-10 border-gray-200 hover:border-[#13343e] transition-all duration-500 group relative
                       ${!isLastItem ? 'border-b' : ''}
                       ${isDesktopBottomRow ? 'md:border-b-0' : ''}
                       ${isDesktopLeftCol ? 'md:border-r' : ''}
@@ -93,7 +93,7 @@ export default function Cases() {
                           animate={{ y: 0 }}
                           transition={{
                             delay: 0.2 + index * 0.2, // Stagger text appearance
-                            duration: 1.5,
+                            duration: 0.6,
                             ease: [0.77, 0, 0.175, 1] // Smooth Quart ease
                           }}
                         >
@@ -109,7 +109,7 @@ export default function Cases() {
                           animate={{ y: 0 }}
                           transition={{
                             delay: 0.3 + index * 0.2, // Slightly later than category
-                            duration: 1.5,
+                            duration: 0.6,
                             ease: [0.77, 0, 0.175, 1]
                           }}
                         >

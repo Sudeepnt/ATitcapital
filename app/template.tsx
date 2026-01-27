@@ -9,8 +9,10 @@ export default function Template({ children }: { children: React.ReactNode }) {
     return (
         <motion.div
             key={pathname}
-            initial={{ opacity: 1 }}
-            exit={{ x: 100, opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 100 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
             className="h-full"
         >
             {children}
