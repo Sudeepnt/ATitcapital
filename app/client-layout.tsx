@@ -64,18 +64,18 @@ export default function ClientLayout({
 
             {/* Global Header */}
             <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-5 md:py-10 flex items-center justify-between pointer-events-none">
-                <Link href="/" className="pointer-events-auto -ml-[20px]">
+                <Link href="/" className="pointer-events-auto">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
                     >
                         <Image
-                            src="/favicons.png"
+                            src="/favicon.png"
                             alt="ATit Capital Logo"
-                            width={256}
-                            height={256}
-                            className="w-20 h-20 md:w-auto md:h-16 object-contain"
+                            width={384}
+                            height={384}
+                            className="w-10 h-10 md:w-auto md:h-12 object-contain"
                             priority
                         />
                     </motion.div>
@@ -100,11 +100,11 @@ export default function ClientLayout({
             </div>
 
             {/* Global Footer */}
-            <footer className="hidden md:flex absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 justify-between items-end text-[10px] md:text-[11px] font-medium tracking-[0.25em] text-[#5A5A80] uppercase select-none z-[10] pointer-events-none w-full">
-                <div className="hidden md:block text-[#13343e]">ATit Capital</div>
-                <div className="w-full md:w-auto text-center md:text-left text-[#13343e]">© 2026</div>
-                <div className="hidden md:block text-[#13343e]">The Cape Morris Company</div>
-            </footer>
+            {!pathname?.includes('principles') && (
+                <footer className="hidden md:flex absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 justify-end items-end text-[10px] md:text-[11px] font-medium tracking-[0.25em] text-[#5A5A80] select-none z-[10] pointer-events-none w-full">
+                    <div className="hidden md:block text-[#13343e]">©2026 ATit Capital</div>
+                </footer>
+            )}
 
             {/* Global Menu */}
             <Menu

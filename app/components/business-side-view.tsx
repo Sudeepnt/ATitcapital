@@ -20,7 +20,6 @@ export default function BusinessSideView({ slug }: BusinessSideViewProps) {
             .then(res => res.json())
             .then(data => {
                 if (data?.services?.items) {
-                    // Find service by slugifying titles
                     const found = data.services.items.find((item: any) =>
                         slugify(item.title) === slug
                     );
@@ -55,61 +54,74 @@ export default function BusinessSideView({ slug }: BusinessSideViewProps) {
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
-            transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-[200] flex flex-col"
+            transition={{ type: "tween", duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[200] flex flex-col h-screen w-screen overflow-hidden"
             data-theme="dark-teal"
         >
-            {/* Top Block - 50% width, Main Color */}
-            <div className="flex-1 w-[50%] bg-[#13343e] flex items-center justify-end pr-10 border-r border-white/10">
-            </div>
+            {/* 1. Top Block - 50% width */}
+            <div className="flex-1 w-[50%] bg-[#13343e] border-r border-white/10"></div>
 
-            {/* Middle Block - Content Fit, Main Color (Solid) */}
-            <div className="min-h-[60vh] md:min-h-0 md:h-auto py-12 w-full bg-[#244751] flex flex-col items-start gap-6 px-8 md:px-24 relative">
+            {/* 2. Middle Block - Content Section */}
+            <div className="min-h-[60vh] md:min-h-0 md:h-auto py-12 md:py-16 w-full bg-[#244751] flex flex-col px-8 md:px-24 relative">
 
-                {/* Close Button - Navigate Back to Services - At the top for mobile */}
-                <div className="w-full flex justify-end">
-                    <button
-                        onClick={() => router.back()}
-                        className="p-2 group transition-transform duration-300 hover:scale-75"
-                    >
-                        <Icon icon="ph:x-light" width="40" height="40" className="text-white/50 group-hover:text-white transition-colors" />
+                {/* Mobile-only Close Button (Top Right) */}
+                <div className="md:hidden w-full flex justify-end mb-6">
+                    <button onClick={() => router.back()} className="p-2">
+                        <Icon icon="ph:x-light" className="w-12 h-12 text-white/50" />
                     </button>
                 </div>
 
-                {/* Title */}
-                <h2 className="text-white text-[clamp(1.45rem,2.9vw,2.3rem)] font-black leading-none tracking-tight">
-                    {service.title}.
-                </h2>
+                {/* Content Layout Wrapper */}
+                <div className="flex flex-col md:flex-row md:items-center justify-between w-full gap-8 md:gap-16">
 
-                {/* Content */}
-                <div className="w-full text-white/90">
-                    <p className="text-[0.85rem] md:text-[1.0rem] font-light leading-relaxed mb-8">
-                        {service.description}
-                        <br className="hidden md:block" />
-                        We develop business applications as well as applications addressed to individual customers.
-                    </p>
-                    <div
-                        className="flex items-center gap-4 cursor-pointer group/link w-fit"
-                        onClick={() => router.push('/cases')}
-                    >
-                        <span className="font-[900] text-[0.96rem]">see Case Study</span>
-                        <div className="group relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-white transition-colors">
-                            <motion.div
-                                className="absolute top-1/2 left-1/2 rounded-full border border-white"
-                                style={{ x: "-50%", y: "-50%" }}
-                                initial={{ width: 0, height: 0, opacity: 1 }}
-                                animate={{ width: "100%", height: "100%", opacity: 0 }}
-                                transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
-                            />
-                            <div className="w-3 h-3 bg-white rounded-full group-hover:bg-[#244751] transition-colors relative z-10"></div>
+                    {/* Title Section (Left on PC) */}
+                    <div className="md:w-[45%]">
+                        <h2 className="text-white text-[clamp(2.4rem,4vw,4.2rem)] font-black leading-[1.05] tracking-tighter lowercase">
+                            {service.title}.
+                        </h2>
+                    </div>
+
+                    {/* Description Section (Center on PC) */}
+                    <div className="md:w-[35%] text-white/90">
+                        <p className="text-[1.05rem] md:text-[1.15rem] font-light leading-relaxed mb-10">
+                            {service.description}
+                        </p>
+
+                        <div
+                            className="flex items-center gap-6 cursor-pointer group/link w-fit"
+                            onClick={() => router.push('/contact')}
+                        >
+                            <span className="font-black text-[1.1rem] md:text-[0.96rem]">Start a conversation</span>
+                            <div className="group relative w-10 h-10 rounded-full flex items-center justify-center">
+                                <motion.div
+                                    className="absolute top-1/2 left-1/2 rounded-full border border-white"
+                                    style={{ x: "-50%", y: "-50%" }}
+                                    initial={{ width: 0, height: 0, opacity: 1 }}
+                                    animate={{ width: "100%", height: "100%", opacity: 0 }}
+                                    transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+                                />
+                                <div className="w-3 h-3 bg-white rounded-full relative z-10"></div>
+                            </div>
                         </div>
+                    </div>
+
+                    {/* PC-only Close Button (Right side, centered vertically with text) */}
+                    <div className="hidden md:flex md:w-[10%] justify-end">
+                        <button
+                            onClick={() => router.back()}
+                            className="p-2 group transition-transform duration-300 hover:scale-75"
+                        >
+                            <Icon
+                                icon="ph:x-light"
+                                className="w-20 h-20 text-white/30 group-hover:text-white transition-colors"
+                            />
+                        </button>
                     </div>
                 </div>
             </div>
 
-            {/* Bottom Block - 70% width, Main Color */}
-            <div className="flex-1 w-[75%] bg-[#13343e] flex items-end justify-end p-8 md:p-12 border-r border-white/10">
-            </div>
+            {/* 3. Bottom Block - 75% width */}
+            <div className="flex-1 w-[75%] bg-[#13343e] border-r border-white/10"></div>
 
         </motion.div>
     );

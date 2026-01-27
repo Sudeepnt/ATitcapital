@@ -12,9 +12,9 @@ export const metadata: Metadata = {
   title: "ATit Capital",
   description: "ATit Capital operates at the intersection of people, capital, and land in India.",
   icons: {
-    icon: "/favicons.png",
-    shortcut: "/favicons.png",
-    apple: "/favicons.png",
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 

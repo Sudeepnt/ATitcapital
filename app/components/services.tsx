@@ -65,7 +65,7 @@ export default function Services() {
       pathLength: 1,
       opacity: 1,
       transition: {
-        pathLength: { duration: 1.5, bounce: 0 },
+        pathLength: { duration: 2, bounce: 0, repeat: Infinity, repeatDelay: 1, ease: "easeInOut" },
         opacity: { duration: 0.01 }
       }
     }
@@ -84,7 +84,7 @@ export default function Services() {
       height: "100%",
       viewBox: "0 0 300 400",
       fill: "none",
-      stroke: "#13343e",
+      stroke: "#9CA3AF",
       strokeWidth: "2",
       initial: "hidden",
       animate: animationState
@@ -106,10 +106,10 @@ export default function Services() {
 
           {/* Decorative Lines - 100% Opacity and moved further away */}
           {/* Right Side Lines - Moved from 260/270 to 320/330 range (outside standard 300 box) */}
-          <motion.path variants={draw} d="M 310 140 L 350 140" strokeWidth="2" className="opacity-100" />
-          <motion.path variants={draw} d="M 320 150 L 350 150" strokeWidth="2" className="opacity-100" />
+          <motion.path variants={draw} d="M 310 140 L 350 140" strokeWidth="4" className="opacity-100" />
+          <motion.path variants={draw} d="M 320 150 L 350 150" strokeWidth="4" className="opacity-100" />
           {/* Bottom Left Line - Moved further left/down */}
-          <motion.path variants={draw} d="M -20 340 L 40 340" strokeWidth="2" className="opacity-100" />
+          <motion.path variants={draw} d="M -20 340 L 40 340" strokeWidth="4" className="opacity-100" />
         </motion.svg>
       </div>
     );
@@ -146,9 +146,9 @@ export default function Services() {
           <motion.path variants={draw} d="M 50 250 L 100 200 L 150 220 L 200 150 L 250 180 L 300 100 L 350 80" strokeWidth="2" />
 
           {/* Data Points (Circles) - Simulated with small paths for draw animation */}
-          <motion.path variants={draw} d="M 98 200 L 102 200 M 100 198 L 100 202" strokeWidth="4" strokeLinecap="round" />
-          <motion.path variants={draw} d="M 198 150 L 202 150 M 200 148 L 200 152" strokeWidth="4" strokeLinecap="round" />
-          <motion.path variants={draw} d="M 298 100 L 302 100 M 300 98 L 300 102" strokeWidth="4" strokeLinecap="round" />
+          <motion.path variants={draw} d="M 98 200 L 102 200 M 100 198 L 100 202" strokeWidth="5" strokeLinecap="round" stroke="#9CA3AF" />
+          <motion.path variants={draw} d="M 198 150 L 202 150 M 200 148 L 200 152" strokeWidth="5" strokeLinecap="round" stroke="#9CA3AF" />
+          <motion.path variants={draw} d="M 298 100 L 302 100 M 300 98 L 300 102" strokeWidth="5" strokeLinecap="round" stroke="#9CA3AF" />
 
           {/* Bar Chart Bars (Wireframe style) */}
           <motion.path variants={draw} d="M 280 250 L 280 150 L 310 150 L 310 250" />
@@ -220,8 +220,8 @@ export default function Services() {
       {/* pb-20 pulls visual center down */}
 
       {/* Intro Paragraph */}
-      <div className="relative w-full max-w-4xl px-8 text-center mt-12 mb-0 z-10">
-        <p className="text-[#13343e] text-[15px] md:text-xl font-medium leading-relaxed opacity-90">
+      <div className="relative w-full max-w-4xl px-8 md:px-32 text-center mt-12 mb-0 z-10">
+        <p className="text-black text-[15px] md:text-xl font-medium leading-relaxed">
           ATit Capital is organized into complementary, senior-led real estate business lines supported by an integrated platform spanning acquisition, execution, and capital management. This structure produces proprietary, bottom-up insights that inform strategy and risk discipline.
         </p>
       </div>
@@ -280,15 +280,19 @@ export default function Services() {
                 {/* Dynamic Background */}
                 <motion.div
                   className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none"
-                  animate={{ x: [-10, 10, -10] }}
+                  animate={{ y: [-10, 10, -10] }}
                   transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 >
                   {renderBackground(service.title, isCenter)}
                   {isCenter && (
                     <motion.div
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="absolute top-0 right-[20%] text-[#13343e] font-bold"
+                      initial={{ opacity: 0, x: -5 }}
+                      animate={{ opacity: 1, x: [-5, 5, -5] }}
+                      transition={{
+                        opacity: { duration: 0.5 },
+                        x: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                      }}
+                      className="absolute top-0 right-[20%] text-[#9CA3AF] text-3xl font-black"
                     >
                       +
                     </motion.div>
@@ -304,7 +308,7 @@ export default function Services() {
                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                   onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
                   onTouchStart={(e: React.TouchEvent) => e.stopPropagation()}
-                  className="text-black font-black text-2xl px-4 py-2 transition-all duration-300 hover:bg-[#13343e] hover:text-white block"
+                  className="text-black font-black text-2xl px-4 py-2 bg-gradient-to-r from-[#13343e] to-[#13343e] bg-no-repeat bg-[length:0%_100%] bg-right transition-[background-size,color] duration-500 hover:bg-[length:100%_100%] hover:bg-left hover:text-white block"
                 >
                   see more
                 </Link>

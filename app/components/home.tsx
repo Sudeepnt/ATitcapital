@@ -24,14 +24,25 @@ export default function Home() {
       <motion.div
         className="flex flex-col h-[70vh] justify-between items-center text-center md:h-auto md:block md:text-left md:space-y-12"
       >
-        <div className="flex-1 flex flex-col items-center justify-center md:block md:flex-none">
-          <h2 className="text-[#13343e] text-[clamp(1.75rem,4.55vw,3.85rem)] leading-[1.1] font-black tracking-tight mb-6">
+        <motion.div
+          className="flex-1 flex flex-col items-center justify-center md:block md:flex-none"
+          initial={{ opacity: 0, y: -50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+        >
+          <h2 className="text-[#13343e] text-[clamp(1.75rem,4vw,3.85rem)] leading-[1.1] font-black tracking-tight mb-6">
             Invested in Land.<br />Invested in You.
           </h2>
-          <p className="text-[#13343e] text-[clamp(1rem,2vw,1.5rem)] leading-relaxed font-medium max-w-4xl opacity-90">
-            {content.subtitle}
+          <p className="text-[#13343e] text-[clamp(1rem,1.5vw,1.5rem)] leading-relaxed font-medium max-w-4xl opacity-90">
+            ATit Capital operates at the intersection of people, capital, and land in India.
+            <br className="block mb-4" />
+            We bring mission-aligned partners together to acquire, develop, and operate
+            <br className="block mb-4" />
+            real estate assets that unlock neighborhoods, shape cities, and compound
+            <br className="block mb-4" />
+            value over time.
           </p>
-        </div>
+        </motion.div>
 
         <div className="flex flex-col items-center gap-6 md:flex-row md:pl-1">
           <div className="relative group cursor-pointer inline-block">

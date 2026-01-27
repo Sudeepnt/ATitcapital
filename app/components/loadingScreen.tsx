@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
@@ -14,6 +14,13 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
     setShowLoading(false);
     onComplete();
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      finishLoading();
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <>
@@ -41,10 +48,10 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
             {/* Background Texture Text - Faint */}
             <div className="absolute inset-0 flex items-center justify-center opacity-[0.05] select-none pointer-events-none overflow-hidden z-0">
               <div className="text-center flex flex-col items-center justify-center gap-4">
-                <h1 className="text-[3rem] md:text-[6rem] lg:text-[7rem] font-serif font-bold text-white leading-none whitespace-nowrap uppercase tracking-wider">
+                <h1 className="text-[2rem] md:text-[6rem] lg:text-[7rem] font-serif font-bold text-white leading-none whitespace-nowrap uppercase tracking-wider">
                   Invested in Land.
                 </h1>
-                <h2 className="text-[3rem] md:text-[6rem] lg:text-[7rem] font-serif font-bold text-white leading-none whitespace-nowrap uppercase tracking-wider">
+                <h2 className="text-[2rem] md:text-[6rem] lg:text-[7rem] font-serif font-bold text-white leading-none whitespace-nowrap uppercase tracking-wider">
                   Invested in You.
                 </h2>
               </div>
@@ -94,7 +101,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
                 </motion.div>
 
                 {/* Center Core - Logo (Increased Size) */}
-                <div className="relative z-20 w-32 md:w-48 aspect-square flex items-center justify-center">
+                <div className="relative z-20 w-42 md:w-58 aspect-square flex items-center justify-center">
                   <Image
                     src="/whitelogo.png"
                     alt="ATit Capital Logo"
@@ -107,14 +114,8 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
               </div>
             </div>
 
-            {/* Bottom Elements */}
+            {/* Bottom Elements - EMPTY */}
             <div className="absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 flex justify-between items-end z-10 pointer-events-none">
-              {/* Center Bottom Indicator */}
-              <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4">
-
-                <div className="w-[1px] h-12 bg-gradient-to-b from-transparent to-white/30" />
-                <p className="text-white/60 text-[10px] tracking-widest uppercase animate-pulse">Click to Enter</p>
-              </div>
             </div>
 
           </motion.div>
