@@ -37,7 +37,9 @@ export default function Technologies() {
     <div className="h-[100dvh] bg-white flex flex-col overflow-hidden">
       <main id="tech-container" className="flex-1 px-4 md:px-6 w-full flex flex-col overflow-y-auto pb-20">
         <div className="max-w-7xl w-full mx-auto my-auto py-12 md:py-16 pt-[100px]">
-          <div className="grid grid-cols-1 md:grid-cols-2">
+          <div
+            className="grid grid-cols-1 md:grid-cols-2"
+          >
             {technologies.map((tech, index) => {
               const isLastItem = index === technologies.length - 1;
               const isDesktopBottomRow = index >= technologies.length - (technologies.length % 2 === 0 ? 2 : 1);
@@ -46,10 +48,14 @@ export default function Technologies() {
               return (
                 <motion.div
                   key={tech.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0 }}
+                  whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.1 + index * 0.1, duration: 0.6 }}
+                  transition={{
+                    delay: 0.1 + index * 0.3, // Staggering manually
+                    duration: 1.5,
+                    ease: [0.16, 1, 0.3, 1]
+                  }}
                   className={`
                     w-full p-6 md:p-10 border-gray-200 hover:border-[#13343e] transition-all duration-500 group relative
                     ${!isLastItem ? 'border-b' : ''}

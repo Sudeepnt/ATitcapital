@@ -15,20 +15,49 @@ export default function ClientLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // Default to true to prevent flash of content
     const [showCookies, setShowCookies] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isChecking, setIsChecking] = useState(true); // Block rendering until storage check
     const pathname = usePathname();
 
+    useEffect(() => {
+        // Check if user has visited in this session
+        const hasVisited = sessionStorage.getItem("hasVisited");
+        const cookiesAccepted = localStorage.getItem("cookiesAccepted");
+
+        if (hasVisited) {
+            setLoading(false);
+            if (!cookiesAccepted) {
+                setTimeout(() => setShowCookies(true), 1000); // Show cookies if skipped loading
+            }
+        } else {
+            // First visit, loading stays true
+            // Cookies will be handled by LoadingScreen onComplete
+        }
+
+        setIsChecking(false);
+    }, []);
+
+    // Function to handle cookie acceptance
+    const handleAcceptCookies = () => {
+        setShowCookies(false);
+        localStorage.setItem("cookiesAccepted", "true");
+    };
+
     return (
-        <div className="min-h-screen bg-[#F8F9FA] relative font-sans overflow-hidden">
+        <div className={`min-h-screen bg-[#F8F9FA] relative font-sans overflow-hidden ${isChecking ? 'invisible' : 'visible'}`}>
             <Cursor />
 
             <AnimatePresence>
-                {loading && (
+                {!isChecking && loading && (
                     <LoadingScreen onComplete={() => {
                         setLoading(false);
-                        setTimeout(() => setShowCookies(true), 1000);
+                        sessionStorage.setItem("hasVisited", "true"); // Mark as visited
+                        // Check cookies after loading
+                        if (!localStorage.getItem("cookiesAccepted")) {
+                            setTimeout(() => setShowCookies(true), 1000);
+                        }
                     }} />
                 )}
             </AnimatePresence>
@@ -64,6 +93,7 @@ export default function ClientLayout({
                 </motion.button>
             </header>
 
+            {/* Page Content */}
             {/* Page Content */}
             <div className="h-full">
                 {children}
@@ -108,7 +138,7 @@ export default function ClientLayout({
                         </div>
 
                         <button
-                            onClick={() => setShowCookies(false)}
+                            onClick={handleAcceptCookies}
                             className="group flex items-center gap-6 text-[#13343e] hover:opacity-70 transition-opacity whitespace-nowrap self-end md:self-auto"
                         >
                             <span className="hidden md:block text-2xl font-light">⟶</span>

@@ -60,7 +60,7 @@ export default function Cases() {
             {/* Center Circle Decoration - Desktop Only */}
 
 
-            <div className="grid grid-cols-1 md:grid-cols-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0">
               {projectsData.map((project, index) => {
                 const isLastItem = index === projectsData.length - 1;
                 const isDesktopBottomRow = index >= projectsData.length - (projectsData.length % 2 === 0 ? 2 : 1);
@@ -69,30 +69,56 @@ export default function Cases() {
                 return (
                   <motion.div
                     key={project.slug}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 + index * 0.1, duration: 0.6 }}
                     className={`
                       w-full p-4 md:p-10 border-gray-200 hover:border-[#13343e] transition-all duration-500 group relative
                       ${!isLastItem ? 'border-b' : ''}
                       ${isDesktopBottomRow ? 'md:border-b-0' : ''}
                       ${isDesktopLeftCol ? 'md:border-r' : ''}
-                      md:border-solid flex flex-col justify-between h-full
+                       md:border-solid flex flex-col md:justify-between justify-center h-full overflow-hidden
                     `}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
                   >
                     <button
                       onClick={() => handleProjectSelect(project)}
                       className="block w-full text-left transition-transform duration-500 group-hover:scale-[1.02]"
                     >
-                      <p className="text-black text-[clamp(0.65rem,1.7vw,0.75rem)] uppercase tracking-wider mb-0 md:mb-4 font-bold opacity-100">
-                        {project.category}
-                      </p>
-                      <h2 className="text-[#13343e] text-[clamp(1.275rem,2.55vw,2.125rem)] font-bold mb-0 md:mb-6 leading-tight">
-                        {project.title}
-                      </h2>
+                      {/* Masked Text Reveal Wrapper - Category */}
+                      <div className="overflow-hidden mb-0 md:mb-4">
+                        <motion.p
+                          className="text-black text-[clamp(0.65rem,1.7vw,0.75rem)] uppercase tracking-wider font-bold opacity-100 block"
+                          initial={{ y: "110%" }}
+                          animate={{ y: 0 }}
+                          transition={{
+                            delay: 0.2 + index * 0.2, // Stagger text appearance
+                            duration: 1.5,
+                            ease: [0.77, 0, 0.175, 1] // Smooth Quart ease
+                          }}
+                        >
+                          {project.category}
+                        </motion.p>
+                      </div>
+
+                      {/* Masked Text Reveal Wrapper - Title */}
+                      <div className="overflow-hidden mb-0 md:mb-6">
+                        <motion.h2
+                          className="text-[#13343e] text-[clamp(1.275rem,2.55vw,2.125rem)] font-bold leading-tight block"
+                          initial={{ y: "110%" }}
+                          animate={{ y: 0 }}
+                          transition={{
+                            delay: 0.3 + index * 0.2, // Slightly later than category
+                            duration: 1.5,
+                            ease: [0.77, 0, 0.175, 1]
+                          }}
+                        >
+                          {project.title}
+                        </motion.h2>
+                      </div>
 
                       {/* Hover Arrow - Moved Higher */}
-                      <div className="h-8 overflow-hidden mt-1">
+                      <div className="hidden md:block h-8 overflow-hidden mt-1">
                         <span className="text-[#13343e] text-4xl block transform -translate-x-full opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 ease-out origin-left">
                           ⟶
                         </span>
