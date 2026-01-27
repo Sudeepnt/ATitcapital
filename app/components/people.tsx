@@ -32,8 +32,8 @@ export default function People() {
                     {/* Header - Optional, keeping minimal as per reference */}
                     {/* <h1 className="text-[#13343e] text-4xl font-bold mb-12">Team</h1> */}
 
-                    {/* Grid Layout */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-12">
+                    {/* Grid Layout - 2 cols on mobile now */}
+                    <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-8 md:gap-x-6 md:gap-y-12">
                         {people.map((person, index) => (
                             <motion.div
                                 key={person.name}
@@ -46,18 +46,19 @@ export default function People() {
                                     setSelectedPerson(person);
                                 }}
                                 onPointerDown={(e) => e.stopPropagation()}
+                                onTouchStart={(e) => e.stopPropagation()}
                             >
                                 {/* Image Placeholder - Aspect 3:4 */}
-                                <div className="w-full aspect-[3/4] bg-[#D4D4D4] mb-4 overflow-hidden relative">
+                                <div className="w-full aspect-[3/4] bg-[#D4D4D4] mb-3 overflow-hidden relative">
                                     {/* Placeholder styling to mimic portrait photo */}
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                                 </div>
 
                                 {/* Text Info */}
-                                <h3 className="text-[#1A1A1A] text-lg font-bold leading-tight group-hover:text-[#13343e] transition-colors">
+                                <h3 className="text-[#1A1A1A] text-sm md:text-lg font-bold leading-tight group-hover:text-[#13343e] transition-colors">
                                     {person.name}
                                 </h3>
-                                <p className="text-[#1A1A1A]/70 text-sm font-medium mt-1">
+                                <p className="text-[#1A1A1A]/70 text-xs md:text-sm font-medium mt-0.5">
                                     {person.role}
                                 </p>
                             </motion.div>
@@ -82,42 +83,43 @@ export default function People() {
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-                            className="bg-[#E5E5E5] w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col md:flex-row shadow-2xl relative"
+                            className="bg-[#E5E5E5] w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative rounded-lg"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Close Button */}
                             <button
                                 onClick={() => setSelectedPerson(null)}
-                                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/50 hover:bg-white transition-colors"
+                                className="absolute top-3 right-3 z-10 p-1.5 rounded-full bg-white/50 hover:bg-white transition-colors"
                             >
-                                <Icon icon="ph:x" className="text-[#1A1A1A] w-6 h-6" />
+                                <Icon icon="ph:x" className="text-[#1A1A1A] w-5 h-5" />
                             </button>
 
-                            {/* Left: Image (Large) */}
-                            <div className="w-full md:w-[45%] aspect-[3/4] md:aspect-auto bg-[#D4D4D4] relative">
-                                {/* Image would go here */}
-                                <div className="absolute bottom-8 left-8 hidden md:block">
-                                    {/* Optional overlaid text if we wanted */}
-                                </div>
-                            </div>
+                            {/* Scrollable Content Container */}
+                            <div className="overflow-y-auto p-6 md:p-10 flex flex-col md:flex-row gap-6 md:gap-10">
 
-                            {/* Right: Content */}
-                            <div className="w-full md:w-[55%] p-8 md:p-16 overflow-y-auto">
-                                <div className="mb-8">
-                                    <h2 className="text-[#1A1A1A] text-3xl md:text-4xl font-bold mb-2">
-                                        {selectedPerson.name}
-                                    </h2>
-                                    <p className="text-[#13343e] text-xl font-medium opacity-80">
-                                        {selectedPerson.role}
-                                    </p>
+                                {/* Photo - Small & Fixed */}
+                                <div className="flex-shrink-0 mx-auto md:mx-0">
+                                    <div className="w-32 h-40 md:w-48 md:h-64 bg-[#D4D4D4] shadow-md relative">
+                                        {/* Image would go here */}
+                                    </div>
                                 </div>
 
-                                <div className="space-y-6 text-[#1A1A1A]/80 text-base md:text-lg leading-relaxed font-light">
-                                    <p>{selectedPerson.bio}</p>
-                                    {selectedPerson.bio2 && <p>{selectedPerson.bio2}</p>}
+                                {/* Content */}
+                                <div className="flex-1 flex flex-col text-left">
+                                    <div className="mb-4">
+                                        <h2 className="text-[#1A1A1A] text-xl md:text-3xl font-bold mb-1">
+                                            {selectedPerson.name}
+                                        </h2>
+                                        <p className="text-[#13343e] text-sm md:text-lg font-medium opacity-80">
+                                            {selectedPerson.role}
+                                        </p>
+                                    </div>
+
+                                    <div className="space-y-3 text-[#1A1A1A]/80 text-[11px] md:text-base leading-relaxed font-light text-justify">
+                                        <p>{selectedPerson.bio}</p>
+                                        {selectedPerson.bio2 && <p>{selectedPerson.bio2}</p>}
+                                    </div>
                                 </div>
-
-
                             </div>
 
                         </motion.div>

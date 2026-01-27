@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
-import { useRouter } from "next/navigation";
+
+import Link from "next/link";
 import { Icon } from '@iconify/react';
 import { Pointer } from 'lucide-react';
+import { slugify } from '../utils/slugify';
 
 export default function Services() {
-  const router = useRouter();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [services, setServices] = useState<any[]>([]);
-  const [selectedService, setSelectedService] = useState<any>(null);
+  // const [selectedService, setSelectedService] = useState<any>(null); // Removed
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const lastWheelTime = useRef(0);
 
@@ -297,16 +299,15 @@ export default function Services() {
                   {service.title}.
                 </h2>
 
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedService(service);
-                  }}
-                  onPointerDown={(e) => e.stopPropagation()}
-                  className="text-black font-black text-2xl px-4 py-2 transition-all duration-300 hover:bg-[#13343e] hover:text-white"
+                <Link
+                  href={`/business-view/${slugify(service.title)}`}
+                  onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                  onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
+                  onTouchStart={(e: React.TouchEvent) => e.stopPropagation()}
+                  className="text-black font-black text-2xl px-4 py-2 transition-all duration-300 hover:bg-[#13343e] hover:text-white block"
                 >
                   see more
-                </button>
+                </Link>
               </motion.div>
             );
           })}
@@ -326,77 +327,6 @@ export default function Services() {
           </div>
         </motion.div>
       </div>
-
-      {/* Service Detail Modal */}
-      <AnimatePresence>
-        {selectedService && (
-          <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
-            transition={{ type: "tween", duration: 0.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-[200] flex flex-col"
-            data-theme="dark-teal"
-          >
-            {/* Backdrop Blur for empty areas - Optional, keeping transparent as per "not full page" implication */}
-
-            {/* Top Block - 50% width, Main Color */}
-            <div className="flex-1 w-[50%] bg-[#13343e] flex items-center justify-end pr-10 border-r border-white/10">
-              {/* Decorative Lines Removed */}
-            </div>
-
-            {/* Middle Block - Content Fit, Main Color (Solid) */}
-            <div className="min-h-[60vh] md:min-h-0 md:h-auto py-12 w-full bg-[#244751] flex flex-col md:flex-row items-center justify-center md:justify-start gap-12 md:gap-24 px-8 md:px-24 relative">
-
-              {/* Title */}
-              <div className="w-full md:w-1/3 mb-6 md:mb-0">
-                <h2 className="text-white text-[clamp(1.45rem,2.9vw,2.3rem)] font-black leading-none tracking-tight">
-                  {selectedService.title}.
-                </h2>
-              </div>
-
-              {/* Content */}
-              <div className="w-full md:w-1/2 text-white/90 pr-20 md:pr-0">
-                <p className="text-[0.85rem] md:text-[1.0rem] font-light leading-relaxed mb-8">
-                  {selectedService.description}
-                  <br className="hidden md:block" />
-                  We develop business applications as well as applications addressed to individual customers.
-                </p>
-                <div
-                  className="flex items-center gap-4 cursor-pointer group/link"
-                  onClick={() => router.push('/cases')}
-                >
-                  <span className="font-[900] text-[0.96rem]">see Case Study</span>
-                  <button className="group relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-white transition-colors">
-                    <motion.div
-                      className="absolute top-1/2 left-1/2 rounded-full border border-white"
-                      style={{ x: "-50%", y: "-50%" }}
-                      initial={{ width: 0, height: 0, opacity: 1 }}
-                      animate={{ width: "100%", height: "100%", opacity: 0 }}
-                      transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
-                    />
-                    <div className="w-3 h-3 bg-white rounded-full group-hover:bg-[#244751] transition-colors relative z-10"></div>
-                  </button>
-                </div>
-              </div>
-
-              {/* Close Button - Absolute Right Center */}
-              <button
-                onClick={() => setSelectedService(null)}
-                className="absolute right-8 md:right-16 top-8 md:top-1/2 md:-translate-y-1/2 p-2 group transition-transform duration-300 hover:scale-75 z-50"
-              >
-                <Icon icon="ph:x-light" width="80" className="text-white/50 group-hover:text-white transition-colors" />
-              </button>
-            </div>
-
-            {/* Bottom Block - 70% width, Main Color */}
-            <div className="flex-1 w-[75%] bg-[#13343e] flex items-end justify-end p-8 md:p-12 border-r border-white/10">
-              {/* Text Removed */}
-            </div>
-
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }

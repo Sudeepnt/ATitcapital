@@ -100,7 +100,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
 
         {/* Content Container - EXACT RESTORATION of Original UI */}
         <div
-          className={`relative w-full h-full flex flex-col justify-center px-8 md:px-24 py-24 md:py-32 pointer-events-auto transition-opacity duration-700 ${isAnimating ? "opacity-100" : "opacity-0"
+          className={`relative w-full h-full flex flex-col justify-center px-8 md:px-24 py-24 md:py-32 transition-opacity duration-700 ${isAnimating ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
             }`}
         >
           {/* Old Close Button Style */}
@@ -161,6 +161,6 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
