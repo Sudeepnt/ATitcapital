@@ -50,7 +50,7 @@ export default function IndiaThesis() {
                         transition={{ duration: 0.8 }}
                         className="mb-16 md:mb-20"
                     >
-                        <h1 className="text-[#13343e] text-[clamp(2.5rem,5vw,4rem)] font-black mb-6 uppercase tracking-tight leading-none">
+                        <h1 className="text-[#13343e] text-[clamp(2.0rem,3.2vw,2.5rem)] font-black mb-6 uppercase tracking-tight leading-none">
                             The India Thesis
                         </h1>
                         <p className="text-[#13343e] text-xl md:text-2xl font-medium">

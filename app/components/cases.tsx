@@ -104,7 +104,7 @@ export default function Cases() {
                       {/* Masked Text Reveal Wrapper - Title */}
                       <div className="overflow-hidden mb-0 md:mb-6">
                         <motion.h2
-                          className="text-[#13343e] text-[clamp(1.275rem,2.55vw,2.125rem)] font-bold leading-tight block"
+                          className="text-[#13343e] text-[clamp(1.275rem,2.04vw,1.7rem)] font-bold leading-tight block"
                           initial={{ y: "110%" }}
                           animate={{ y: 0 }}
                           transition={{

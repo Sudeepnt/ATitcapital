@@ -65,7 +65,7 @@ export default function Technologies() {
                   `}
                 >
                   <div>
-                    <h2 className="text-[#13343e] text-[clamp(1.275rem,2.55vw,2.125rem)] font-bold mb-1 md:mb-2 leading-tight">
+                    <h2 className="text-[#13343e] text-[clamp(1.275rem,2.04vw,1.7rem)] font-bold mb-1 md:mb-2 leading-tight">
                       {tech.title}.
                     </h2>
                     <p className="text-[#13343e]/70 text-sm md:text-base leading-relaxed font-light">
