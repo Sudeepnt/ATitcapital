@@ -46,8 +46,8 @@ export default function ClientLayout({
     };
 
     return (
-        <div className={`min-h-screen bg-[#F8F9FA] relative font-sans overflow-hidden ${isChecking ? 'invisible' : 'visible'}`}>
-            <Cursor isMenuOpen={isMenuOpen} />
+        <div className={`min-h-screen bg-white relative font-sans overflow-hidden ${isChecking ? 'invisible' : 'visible'}`}>
+            <Cursor />
 
             <AnimatePresence>
                 {!isChecking && loading && (
@@ -63,7 +63,7 @@ export default function ClientLayout({
             </AnimatePresence>
 
             {/* Global Header */}
-            <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-5 md:py-10 flex items-center justify-between bg-[#F8F9FA]">
+            <header className={`fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-5 md:py-10 flex items-center justify-between pointer-events-none ${pathname?.includes('principles') || pathname?.includes('people') ? 'bg-white' : ''}`}>
                 <Link href="/" className="pointer-events-auto">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -95,12 +95,14 @@ export default function ClientLayout({
 
             {/* Page Content */}
             {/* Page Content */}
-            <div className="h-full pt-24 md:pt-36">
+            <div className="h-full">
                 {children}
             </div>
 
+
+
             {/* Global Footer */}
-            {!pathname?.includes('principles') && (
+            {!pathname?.includes('/contact') && !pathname?.includes('principles') && !pathname?.includes('business-view') && (
                 <footer className="hidden md:flex absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 justify-end items-end text-[10px] md:text-[11px] font-medium tracking-[0.25em] text-[#5A5A80] select-none z-[10] pointer-events-none w-full">
                     <div className="hidden md:block text-[#13343e]">©2026 ATit Capital</div>
                 </footer>

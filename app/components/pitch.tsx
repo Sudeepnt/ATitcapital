@@ -37,19 +37,19 @@ export default function Pitch() {
   }
 
   return (
-    <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col px-8 md:px-32 max-w-[1920px] mx-auto w-full">
+    <div className="min-h-screen flex flex-col px-8 md:px-32 max-w-[1920px] mx-auto w-full bg-white justify-center">
       <main className="flex-1 w-full flex flex-col justify-center items-center">
 
         {/* Contact Form */}
         <motion.form
           onSubmit={handleSubmit}
-          className="mb-24 md:mb-32 w-full max-w-5xl"
+          className="w-full max-w-5xl"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
         >
           {/* Headline / Input Group 1 */}
-          <div className="mb-6 leading-relaxed text-[#1A1A1A]" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
+          <div className="mt-6 mb-6 leading-relaxed text-[#1A1A1A]" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
             <span className="font-light">Hi, my name is </span>
             <input
               type="text"
@@ -126,10 +126,32 @@ export default function Pitch() {
               />
             </motion.svg>
           </motion.button>
-        </motion.form>
+          {/* Info Grid - Moved inside form, closer to button */}
+          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 text-[#1A1A1A] opacity-80 text-sm leading-relaxed text-left mt-8">
+            {/* Column 1: Company & Contact */}
+            <div className="flex flex-col">
+              <p className="font-bold mb-1">ATit Capital Management LLP</p>
+              <p>info@ATitCapital.com</p>
+              <p>+91 9900114038</p>
+            </div>
 
-        {/* Footer Info Grid */}
-        {/* Footer Info Grid - REMOVED per user request */}
+            {/* Address Combined (Mobile Only) */}
+            <div className="flex flex-col md:hidden">
+              <p>No. 55, 1st Floor, 10th Cross, 2nd Stage, Mahalakshmipuram,</p>
+              <p>WOC Road, Bengaluru, Karnataka, India - 560086</p>
+            </div>
+
+            {/* Column 2: Address Part 1 (Desktop Only) */}
+            <div className="hidden md:flex items-center">
+              <p>No. 55, 1st Floor, 10th Cross, 2nd Stage, Mahalakshmipuram,</p>
+            </div>
+
+            {/* Column 3: Address Part 2 (Desktop Only) */}
+            <div className="hidden md:flex items-center">
+              <p>WOC Road, Bengaluru, Karnataka, India - 560086</p>
+            </div>
+          </div>
+        </motion.form>
       </main>
     </div>
   );

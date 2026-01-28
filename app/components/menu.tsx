@@ -34,7 +34,6 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
     { label: "Principles and Culture", href: "/principles-and-culture" },
     { label: "Business", href: "/services" },
     { label: "People", href: "/people" },
-    { label: "Animations", href: "/animations" },
     { label: "Contact Us", href: "/contact" },
   ];
 

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Icon } from '@iconify/react';
 import Image from "next/image";
+import { Icon } from '@iconify/react';
 
 export default function People() {
     const [selectedPerson, setSelectedPerson] = useState<any>(null);
@@ -12,35 +12,36 @@ export default function People() {
         {
             name: "Guru Datha",
             role: "Founding Partner",
-            image: "/guru.jpeg",
             bio: "Guru comes from a family with decades of experience in real estate investments and contracting—giving him an instinctive understanding of what works on the ground. Over the past decade, through his own entrepreneurial pursuits, he's built and managed investments across warehousing, hospitality, and land assemblage, learning to spot opportunities others miss and execute with speed and conviction.",
-            bio2: "At ATit Capital, he leads investment strategy and portfolio construction, combining operational know-how with sharp market intuition to identify, acquire, and deliver high-impact projects. He embeds sustainability into every development from day one, ensuring that long-term resilience is built into the foundation of each asset.",
-            education: "Guru holds a BBM from Jain Centre for Management Studies and certifications in Smart Sustainable City Development from Utrecht University and Economics of Urbanisation from Vrije Universiteit Amsterdam."
+            bio2: "At ATit Capital, he leads investment strategy and portfolio construction, combining operational know-how with sharp market intuition to identify, acquire, and deliver high-impact projects. He embeds sustainability into every development from day one, ensuring that long-term resilience is built into the foundation of each asset. Guru holds a BBM from Jain Centre for Management Studies and certifications in Smart Sustainable City Development from Utrecht University and Economics of Urbanisation from Vrije Universiteit Amsterdam.",
+            education: "",
+            image: "/guru.jpeg"
         },
         {
             name: "Utsav Shetty",
             role: "Founding Partner",
-            image: "/utsav.jpeg",
             bio: "Utsav comes from a family firm with deep experience in finance and real estate advisory, complemented by his own entrepreneurial pursuits. He brings a unique blend of financial rigor and design thinking to real estate—structuring deals not just for returns, but for resilience and architectural innovation. His expertise spans the entire asset lifecycle: underwriting with precision, crafting capital frameworks that unlock value, and identifying talent with a knack for unlocking synergies between people to drive collaboration and growth.",
-            bio2: "Before co-founding ATit Capital, he built these frameworks across family ventures and independent projects, proving that disciplined finance and creative problem-solving can coexist to deliver long-term value.",
-            education: "Utsav holds a Master's in Global Management from Dublin City University and is a qualified Chartered Accountant."
+            bio2: "Before co-founding ATit Capital, he built these frameworks across family ventures and independent projects, proving that disciplined finance and creative problem-solving can coexist to deliver long-term value. Utsav holds a Master's in Global Management from Dublin City University and is a qualified Chartered Accountant.",
+            education: "",
+            image: "/utsav.jpeg"
         }
     ];
 
     return (
-        <div className="h-screen w-full overflow-y-auto bg-[#F8F9FA] flex flex-col">
-            <main className="flex-1 flex flex-col items-center justify-start pt-32 px-4 md:px-32 w-full min-h-screen">
+        <div className="h-screen w-full overflow-y-auto bg-white flex flex-col">
+            <main className="flex-1 flex flex-col items-center justify-start pt-30 px-4 md:px-32 w-full min-h-screen">
+                <h1 className="text-[#13343e] text-xl md:text-3xl font-bold mb-8 text-center">Founding Team</h1>
                 <div className="w-full flex justify-center">
 
                     {/* Centered Flex Layout */}
-                    <div className="flex flex-wrap justify-center gap-4 md:gap-16 w-full max-w-5xl">
+                    <div className="flex flex-wrap justify-center gap-8 md:gap-12 w-full max-w-4xl mb-32">
                         {people.map((person, index) => (
                             <motion.div
                                 key={person.name}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="flex flex-col cursor-pointer group w-[45%] md:w-[320px]"
+                                className="flex flex-col cursor-pointer group w-[40%] md:w-[160px]"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setSelectedPerson(person);
@@ -49,14 +50,15 @@ export default function People() {
                                 onTouchStart={(e) => e.stopPropagation()}
                             >
                                 {/* Image Placeholder - Aspect 3:4 */}
+                                {/* Image Placeholder - Aspect 3:4 */}
                                 <div className="w-full aspect-[3/4] bg-[#D4D4D4] mb-4 overflow-hidden relative">
                                     <Image
                                         src={person.image}
                                         alt={person.name}
                                         fill
-                                        className="object-cover grayscale group-hover:grayscale-0 transition-all duration-500"
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        sizes="(max-width: 768px) 50vw, 320px"
                                     />
-                                    {/* Placeholder styling */}
                                     <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors" />
                                 </div>
 
@@ -89,7 +91,7 @@ export default function People() {
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.95, opacity: 0, y: 20 }}
                             transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
-                            className="bg-[#F8F9FA] w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative rounded-lg"
+                            className="bg-white w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl relative rounded-lg"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Close Button */}
@@ -105,12 +107,13 @@ export default function People() {
 
                                 {/* Photo - Small & Fixed */}
                                 <div className="flex-shrink-0 mx-auto md:mx-0">
-                                    <div className="w-32 h-40 md:w-48 md:h-64 bg-[#D4D4D4] shadow-md relative">
+                                    <div className="w-32 h-40 md:w-48 md:h-64 bg-[#D4D4D4] shadow-md relative overflow-hidden">
                                         <Image
                                             src={selectedPerson.image}
                                             alt={selectedPerson.name}
                                             fill
                                             className="object-cover"
+                                            sizes="(max-width: 768px) 128px, 192px"
                                         />
                                     </div>
                                 </div>
@@ -129,7 +132,6 @@ export default function People() {
                                     <div className="space-y-3 text-[#1A1A1A]/80 text-[11px] md:text-base leading-relaxed font-light text-justify">
                                         <p>{selectedPerson.bio}</p>
                                         {selectedPerson.bio2 && <p>{selectedPerson.bio2}</p>}
-                                        {selectedPerson.education && <p>{selectedPerson.education}</p>}
                                     </div>
                                 </div>
                             </div>

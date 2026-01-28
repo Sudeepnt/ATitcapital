@@ -7,11 +7,13 @@ import Link from "next/link";
 import { Icon } from '@iconify/react';
 import { Pointer } from 'lucide-react';
 import { slugify } from '../utils/slugify';
+import BusinessSideView from './business-side-view';
 
 export default function Services() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [services, setServices] = useState<any[]>([]);
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   // const [selectedService, setSelectedService] = useState<any>(null); // Removed
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const lastWheelTime = useRef(0);
@@ -203,7 +205,7 @@ export default function Services() {
 
   if (services.length === 0) {
     return (
-      <div className="min-h-screen bg-[#F8F9FA] flex items-center justify-center">
+      <div className="min-h-screen bg-white flex items-center justify-center">
         <p className="text-[#13343e]">Loading...</p>
       </div>
     );
@@ -213,7 +215,7 @@ export default function Services() {
 
   return (
     <motion.div
-      className="min-h-screen bg-[#F8F9FA] relative overflow-hidden flex flex-col items-center justify-center pb-20 touch-pan-y"
+      className="min-h-screen bg-white relative overflow-hidden flex flex-col items-center justify-center pb-20 touch-pan-y"
       onPanEnd={handleSwipe}
       onWheel={handleWheel}
     >
@@ -221,7 +223,7 @@ export default function Services() {
 
       {/* Intro Paragraph */}
       <div className="relative w-full max-w-4xl px-8 md:px-32 text-center mt-12 mb-0 z-10">
-        <p className="text-black text-[15px] md:text-xl font-medium leading-relaxed">
+        <p className="text-black text-[15px] md:text-lg font-medium leading-relaxed">
           ATit Capital is organized into complementary, senior-led real estate business lines supported by an integrated platform spanning acquisition, execution, and capital management. This structure produces proprietary, bottom-up insights that inform strategy and risk discipline.
         </p>
       </div>
@@ -299,19 +301,21 @@ export default function Services() {
                   )}
                 </motion.div>
 
-                <h2 className="text-[#13343e] text-[clamp(1.7rem,3.4vw,2.55rem)] font-black mb-4 tracking-tight text-center">
+                <h2 className="text-[#13343e] text-[clamp(1.7rem,3vw,2.55rem)] font-black mb-4 tracking-tight text-center">
                   {service.title}.
                 </h2>
 
-                <Link
-                  href={`/business-view/${slugify(service.title)}`}
-                  onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedSlug(slugify(service.title));
+                  }}
                   onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
                   onTouchStart={(e: React.TouchEvent) => e.stopPropagation()}
-                  className="text-black font-black text-2xl px-4 py-2 bg-gradient-to-r from-[#13343e] to-[#13343e] bg-no-repeat bg-[length:0%_100%] bg-right transition-[background-size,color] duration-500 hover:bg-[length:100%_100%] hover:bg-left hover:text-white block"
+                  className="text-black font-black text-xl px-4 py-2 bg-gradient-to-r from-[#13343e] to-[#13343e] bg-no-repeat bg-[length:0%_100%] bg-right transition-[background-size,color] duration-500 hover:bg-[length:100%_100%] hover:bg-left hover:text-white block cursor-pointer"
                 >
                   see more
-                </Link>
+                </button>
               </motion.div>
             );
           })}
@@ -319,18 +323,28 @@ export default function Services() {
       </div>
 
       {/* Swipe Hand Icon SELECTION */}
-      <div className="absolute bottom-12 w-full px-8 flex justify-center pointer-events-none">
+      <div className="absolute bottom-28 w-full px-8 flex justify-center pointer-events-none">
         <motion.div
           className="flex flex-col items-center gap-2"
           animate={{ x: [-10, 10, -10] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           <div className="flex flex-col items-center">
-            <span className="text-[#13343e] text-xs font-bold mb-0.5">&larr;&rarr;</span>
-            <Pointer size={32} className="text-[#13343e]" />
+            <span className="text-[#13343e] text-[10px] font-bold mb-0.5">&larr;&rarr;</span>
+            <Pointer size={24} className="text-[#13343e]" />
           </div>
         </motion.div>
       </div>
+
+      {/* Business Side View Overlay */}
+      <AnimatePresence>
+        {selectedSlug && (
+          <BusinessSideView
+            slug={selectedSlug}
+            onClose={() => setSelectedSlug(null)}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

@@ -8,9 +8,10 @@ import { slugify } from '../utils/slugify';
 
 interface BusinessSideViewProps {
     slug: string;
+    onClose?: () => void;
 }
 
-export default function BusinessSideView({ slug }: BusinessSideViewProps) {
+export default function BusinessSideView({ slug, onClose }: BusinessSideViewProps) {
     const router = useRouter();
     const [service, setService] = useState<any>(null);
     const [loading, setLoading] = useState(true);
@@ -33,6 +34,14 @@ export default function BusinessSideView({ slug }: BusinessSideViewProps) {
             });
     }, [slug]);
 
+    const handleClose = () => {
+        if (onClose) {
+            onClose();
+        } else {
+            router.back();
+        }
+    };
+
     if (loading) {
         return (
             <div className="min-h-screen bg-[#13343e] flex items-center justify-center">
@@ -45,15 +54,16 @@ export default function BusinessSideView({ slug }: BusinessSideViewProps) {
         return (
             <div className="min-h-screen bg-[#13343e] flex flex-col items-center justify-center gap-4">
                 <p className="text-white text-xl">Service not found.</p>
+                <button onClick={handleClose} className="text-white underline">Go back</button>
             </div>
         );
     }
 
     return (
         <motion.div
-            initial={{ x: "100%" }}
+            initial={{ x: "-100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: "-100%" }}
             transition={{ type: "tween", duration: 0.8, ease: "easeInOut" }}
             className="fixed inset-0 z-[200] flex flex-col h-screen w-screen overflow-hidden"
             data-theme="dark-teal"
@@ -66,7 +76,7 @@ export default function BusinessSideView({ slug }: BusinessSideViewProps) {
 
                 {/* Mobile-only Close Button (Top Right) */}
                 <div className="md:hidden w-full flex justify-end mb-6">
-                    <button onClick={() => router.back()} className="p-2">
+                    <button onClick={handleClose} className="p-2">
                         <Icon icon="ph:x-light" className="w-12 h-12 text-white/50" />
                     </button>
                 </div>
@@ -108,7 +118,7 @@ export default function BusinessSideView({ slug }: BusinessSideViewProps) {
                     {/* PC-only Close Button (Right side, centered vertically with text) */}
                     <div className="hidden md:flex md:w-[10%] justify-end">
                         <button
-                            onClick={() => router.back()}
+                            onClick={handleClose}
                             className="p-2 group transition-transform duration-300 hover:scale-75"
                         >
                             <Icon
