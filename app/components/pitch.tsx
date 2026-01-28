@@ -37,8 +37,8 @@ export default function Pitch() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col pt-32 md:pt-64 pb-24 px-8 md:px-32 max-w-[1920px] mx-auto">
-      <main className="flex-1 w-full flex flex-col justify-center">
+    <div className="h-[calc(100vh-6rem)] md:h-[calc(100vh-9rem)] flex flex-col px-8 md:px-32 max-w-[1920px] mx-auto w-full">
+      <main className="flex-1 w-full flex flex-col justify-center items-center">
 
         {/* Contact Form */}
         <motion.form

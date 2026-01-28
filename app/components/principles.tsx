@@ -36,26 +36,107 @@ const FoundationWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
     </motion.svg>
 );
 
-// SVG Wireframe 2: Pillars (Core Principles) - Three Towers (User Reference)
-const PillarsWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+// SVG Wireframe 2: Partnership (Stewardship) - Bridges/Handshake Abstract
+const PartnershipWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
     <motion.svg viewBox="0 0 600 300" className="w-full h-auto" fill="none" stroke="#13343e" strokeWidth="1.5" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-        {/* Top Hanging Line */}
-        <motion.line variants={draw} custom={1} x1="100" y1="50" x2="500" y2="50" strokeWidth="2" />
+        {/* Base Platform */}
+        <motion.line variants={draw} custom={1} x1="50" y1="250" x2="550" y2="250" strokeWidth="2" />
 
-        {/* Tower 1 */}
-        <motion.rect variants={draw} custom={2} x="150" y="50" width="80" height="200" />
-        <motion.line variants={draw} custom={3} x1="190" y1="50" x2="190" y2="250" /> {/* Vertical split */}
-        <motion.line variants={draw} custom={3} x1="150" y1="80" x2="230" y2="80" /> {/* Horizontal top split */}
+        {/* Left Structure (Client) */}
+        <motion.rect variants={draw} custom={2} x="100" y="100" width="120" height="150" />
+        <motion.line variants={draw} custom={3} x1="100" y1="140" x2="220" y2="140" />
+        <motion.line variants={draw} custom={4} x1="100" y1="180" x2="220" y2="180" />
 
-        {/* Tower 2 */}
-        <motion.rect variants={draw} custom={4} x="260" y="50" width="80" height="200" />
-        <motion.line variants={draw} custom={5} x1="300" y1="50" x2="300" y2="250" />
-        <motion.line variants={draw} custom={5} x1="260" y1="80" x2="340" y2="80" />
+        {/* Right Structure (Capital) */}
+        <motion.rect variants={draw} custom={2} x="380" y="100" width="120" height="150" />
+        <motion.line variants={draw} custom={3} x1="380" y1="140" x2="500" y2="140" />
+        <motion.line variants={draw} custom={4} x1="380" y1="180" x2="500" y2="180" />
 
-        {/* Tower 3 */}
-        <motion.rect variants={draw} custom={6} x="370" y="50" width="80" height="200" />
-        <motion.line variants={draw} custom={7} x1="410" y1="50" x2="410" y2="250" />
-        <motion.line variants={draw} custom={7} x1="370" y1="80" x2="450" y2="80" />
+        {/* Connecting Bridge (Stewardship/Partnership) */}
+        <motion.path variants={draw} custom={5} d="M 220 120 C 300 120, 300 120, 380 120" strokeWidth="2" />
+        <motion.path variants={draw} custom={6} d="M 220 230 C 300 230, 300 230, 380 230" strokeWidth="2" />
+
+        {/* Central Unity Symbol */}
+        <motion.circle variants={draw} custom={7} cx="300" cy="175" r="30" />
+        <motion.circle variants={draw} custom={8} cx="300" cy="175" r="10" />
+
+        {/* Vertical connections in bridge */}
+        <motion.line variants={draw} custom={9} x1="300" y1="145" x2="300" y2="205" />
+    </motion.svg>
+);
+
+// SVG Wireframe: Performance (Elevation) - Rising steps/graph
+const PerformanceWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 200" className="w-full h-auto mb-6" fill="none" stroke="#13343e" strokeWidth="1.5" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+        <motion.line variants={draw} custom={1} x1="50" y1="180" x2="550" y2="180" strokeWidth="2" />
+        <motion.path variants={draw} custom={2} d="M 100 180 L 100 140 L 180 140 L 180 180" />
+        <motion.path variants={draw} custom={3} d="M 220 180 L 220 100 L 300 100 L 300 180" />
+        <motion.path variants={draw} custom={4} d="M 340 180 L 340 60 L 420 60 L 420 180" />
+        <motion.path variants={draw} custom={5} d="M 460 180 L 460 20 L 540 20 L 540 180" strokeWidth="2" />
+        <motion.line variants={draw} custom={6} x1="100" y1="140" x2="540" y2="20" strokeDasharray="4 4" />
+    </motion.svg>
+);
+
+// SVG Wireframe: Specialization (Focus) - Lens/Target
+const SpecializationWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 200" className="w-full h-auto mb-6" fill="none" stroke="#13343e" strokeWidth="1.5" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+        <motion.circle variants={draw} custom={1} cx="300" cy="100" r="80" strokeWidth="1" />
+        <motion.circle variants={draw} custom={2} cx="300" cy="100" r="50" strokeWidth="2" />
+        <motion.circle variants={draw} custom={3} cx="300" cy="100" r="10" fill="#13343e" fillOpacity="0.1" />
+        <motion.line variants={draw} custom={4} x1="0" y1="100" x2="220" y2="100" />
+        <motion.line variants={draw} custom={4} x1="380" y1="100" x2="600" y2="100" />
+        <motion.line variants={draw} custom={5} x1="300" y1="0" x2="300" y2="50" />
+        <motion.line variants={draw} custom={5} x1="300" y1="150" x2="300" y2="200" />
+    </motion.svg>
+);
+
+// SVG Wireframe: Ownership (Entrepreneurial) - Hands/Building Block
+const OwnershipWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 200" className="w-full h-auto mb-6" fill="none" stroke="#13343e" strokeWidth="1.5" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+        <motion.rect variants={draw} custom={1} x="200" y="80" width="200" height="100" strokeWidth="2" />
+        <motion.path variants={draw} custom={2} d="M 200 80 L 300 30 L 400 80" />
+        <motion.line variants={draw} custom={3} x1="300" y1="30" x2="300" y2="180" />
+        <motion.path variants={draw} custom={4} d="M 150 180 L 180 140 L 200 140" />
+        <motion.path variants={draw} custom={5} d="M 450 180 L 420 140 L 400 140" />
+    </motion.svg>
+);
+
+// SVG Wireframe: Intelligence (Creative) - Connected Nodes
+const IntelligenceWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 200" className="w-full h-auto mb-6" fill="none" stroke="#13343e" strokeWidth="1.5" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+        <motion.circle variants={draw} custom={1} cx="150" cy="100" r="20" />
+        <motion.circle variants={draw} custom={2} cx="300" cy="50" r="25" />
+        <motion.circle variants={draw} custom={3} cx="450" cy="100" r="20" />
+        <motion.circle variants={draw} custom={4} cx="300" cy="150" r="25" />
+        <motion.line variants={draw} custom={5} x1="170" y1="100" x2="275" y2="50" />
+        <motion.line variants={draw} custom={6} x1="325" y1="50" x2="430" y2="100" />
+        <motion.line variants={draw} custom={7} x1="430" y1="100" x2="325" y2="150" />
+        <motion.line variants={draw} custom={8} x1="275" y1="150" x2="170" y2="100" />
+        <motion.line variants={draw} custom={9} x1="300" y1="75" x2="300" y2="125" />
+    </motion.svg>
+);
+
+// SVG Wireframe: Agility (Adaptation) - Flowing Curves
+const AgilityWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 200" className="w-full h-auto mb-6" fill="none" stroke="#13343e" strokeWidth="1.5" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+        <motion.path variants={draw} custom={1} d="M 50 100 Q 175 20, 300 100 T 550 100" strokeWidth="2" />
+        <motion.path variants={draw} custom={2} d="M 50 120 Q 175 40, 300 120 T 550 120" opacity="0.7" />
+        <motion.path variants={draw} custom={3} d="M 50 80 Q 175 0, 300 80 T 550 80" opacity="0.7" />
+        {/* Arrows indicating movement */}
+        <motion.path variants={draw} custom={4} d="M 500 80 L 550 80 L 530 60" />
+        <motion.path variants={draw} custom={5} d="M 500 120 L 550 120 L 530 140" />
+    </motion.svg>
+);
+
+const CollectiveWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
+    <motion.svg viewBox="0 0 600 200" className="w-full h-auto mb-6" fill="none" stroke="#13343e" strokeWidth="1.5" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }}>
+        <motion.circle variants={draw} custom={1} cx="300" cy="100" r="40" />
+        <motion.circle variants={draw} custom={2} cx="220" cy="100" r="30" />
+        <motion.circle variants={draw} custom={3} cx="380" cy="100" r="30" />
+        <motion.circle variants={draw} custom={4} cx="300" cy="40" r="30" />
+        <motion.circle variants={draw} custom={5} cx="300" cy="160" r="30" />
+        <motion.line variants={draw} custom={6} x1="260" y1="100" x2="340" y2="100" />
+        <motion.line variants={draw} custom={7} x1="300" y1="70" x2="300" y2="130" />
     </motion.svg>
 );
 
@@ -139,42 +220,38 @@ const CultureWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
     </motion.svg>
 );
 
-// SVG Wireframe 6: Invested (Land/Growth) - Modern Mixed-Use
+// SVG Wireframe 6: Invested (Stewardship & Impact) - Tree/Pillar/Growth
 const InvestedWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
     <motion.svg viewBox="0 0 600 300" className="w-full h-auto" fill="none" stroke="#13343e" strokeWidth="1.5" initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
-        {/* Ground */}
-        <motion.line variants={draw} custom={1} x1="50" y1="250" x2="550" y2="250" strokeWidth="2" />
+        {/* Ground/Roots - Stewardship */}
+        <motion.path variants={draw} custom={1} d="M 50 250 Q 150 280, 300 250 T 550 250" strokeWidth="2" />
+        <motion.path variants={draw} custom={2} d="M 300 250 L 300 280 M 250 250 L 220 280 M 350 250 L 380 280" opacity="0.6" />
 
-        {/* Building Outline - Solid Mass */}
-        <motion.rect variants={draw} custom={2} x="150" y="100" width="300" height="150" strokeWidth="2" />
+        {/* Central Institution - Stability/Trust */}
+        <motion.rect variants={draw} custom={3} x="220" y="100" width="160" height="150" strokeWidth="2" />
+        <motion.line variants={draw} custom={4} x1="260" y1="100" x2="260" y2="250" />
+        <motion.line variants={draw} custom={5} x1="340" y1="100" x2="340" y2="250" />
+        <motion.line variants={draw} custom={6} x1="300" y1="100" x2="300" y2="250" strokeDasharray="4 4" />
 
-        {/* Architectural Details - Fenestration */}
-        {/* Ground Floor (Retail/Lobby) */}
-        <motion.rect variants={draw} custom={3} x="170" y="210" width="260" height="40" />
+        {/* People/Interconnectedness - Circles/Nodes */}
+        <motion.circle variants={draw} custom={7} cx="220" cy="175" r="15" fill="#F8F9FA" stroke="#13343e" />
+        <motion.circle variants={draw} custom={8} cx="380" cy="175" r="15" fill="#F8F9FA" stroke="#13343e" />
+        <motion.circle variants={draw} custom={9} cx="300" cy="175" r="25" strokeWidth="2" />
+        <motion.path variants={draw} custom={10} d="M 235 175 L 275 175 M 325 175 L 365 175" />
 
-        {/* Upper Floors (Office/Resi) */}
-        {[130, 160, 190].map((y, i) => (
-            <motion.line key={i} variants={draw} custom={4 + i} x1="150" y1={y} x2="450" y2={y} strokeWidth="1" />
-        ))}
-
-        {/* Vertical Rhythm */}
-        {[200, 250, 300, 350, 400].map((x, i) => (
-            <motion.line key={i} variants={draw} custom={7 + i} x1={x} y1="100" x2={x} y2="210" strokeWidth="1" />
-        ))}
-
-        {/* Roof Feature / Overhang */}
-        <motion.rect variants={draw} custom={12} x="140" y="80" width="320" height="20" strokeWidth="2" />
-
-        {/* Context / Landscaping (Simple Trees) */}
-        <motion.circle variants={draw} custom={13} cx="100" cy="220" r="20" />
-        <motion.line variants={draw} custom={14} x1="100" y1="240" x2="100" y2="250" />
-
-        <motion.circle variants={draw} custom={15} cx="500" cy="220" r="20" />
-        <motion.line variants={draw} custom={16} x1="500" y1="240" x2="500" y2="250" />
+        {/* Impact/Growth - Upward Branches/Crown */}
+        <motion.path variants={draw} custom={11} d="M 220 100 Q 180 50, 150 80" />
+        <motion.path variants={draw} custom={12} d="M 380 100 Q 420 50, 450 80" />
+        <motion.path variants={draw} custom={13} d="M 300 100 L 300 40" strokeWidth="2" />
+        <motion.circle variants={draw} custom={14} cx="300" cy="40" r="10" />
+        <motion.path variants={draw} custom={15} d="M 280 40 L 250 20 M 320 40 L 350 20" opacity="0.5" />
     </motion.svg>
 );
 
+
+
 export default function Principles() {
+    // ... existing hook code ...
     const router = useRouter();
     const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -205,7 +282,7 @@ export default function Principles() {
         <div className="min-h-screen bg-[#F8F9FA] relative overflow-hidden">
             {/* Main Content Area */}
             <div
-                className="h-screen overflow-y-auto pt-40 pb-20 px-8 md:px-32 scrollbar-hide relative"
+                className="h-screen overflow-y-auto pt-40 pb-40 px-8 md:px-32 scrollbar-hide relative"
                 onScroll={handleScroll}
             >
                 {/* Navigation Button */}
@@ -253,9 +330,7 @@ export default function Principles() {
                             Delivering durable outcomes in real assets requires more than capital. It requires aligned partners, specialized expertise, and a culture that values accountability, judgment, and ownership. Our principles guide how we think, how we work, and how we build—across investments, operations, and long-term platform development.
                         </p>
 
-                        <div className="w-full mb-16">
-                            <FoundationWireframe draw={draw} fadeIn={fadeIn} />
-                        </div>
+
                     </motion.div>
 
                     {/* Section 2: Core Principles */}
@@ -264,35 +339,51 @@ export default function Principles() {
                         whileInView={{ opacity: 1, y: 0 }}
                         className="mb-20 max-w-2xl mx-auto"
                     >
-                        <div className="text-black text-base leading-relaxed mb-16 space-y-8">
+                        <div className="text-black text-base leading-relaxed mb-16 space-y-16">
                             <div>
+                                <div className="w-full mb-6">
+                                    <PartnershipWireframe draw={draw} fadeIn={fadeIn} />
+                                </div>
                                 <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Client & Capital Stewardship</h3>
                                 <p>We prioritize the interests of our capital partners through clarity, transparency, and disciplined decision-making—treating every investment as a long-term responsibility, not a transaction.</p>
                             </div>
+
                             <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-6old mb-2">Elevation of Performance</h3>
+                                <PerformanceWireframe draw={draw} fadeIn={fadeIn} />
+                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Elevation of Performance</h3>
                                 <p>We hold ourselves to institutional standards of execution, governance, reporting, and asset management—continually raising the bar across every project and platform.</p>
                             </div>
+
                             <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-6old mb-2">Deliberate Specialization</h3>
+                                <SpecializationWireframe draw={draw} fadeIn={fadeIn} />
+                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Deliberate Specialization</h3>
                                 <p>We believe real estate excellence is built through depth. Clear roles, domain expertise, and accountability across investment, development, and operations enable consistent outcomes.</p>
                             </div>
+
                             <div>
+                                <OwnershipWireframe draw={draw} fadeIn={fadeIn} />
                                 <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Entrepreneurial Ownership</h3>
                                 <p>We think like builders and operators, not intermediaries—bringing initiative, urgency, and long-term conviction to how assets are conceived, executed, and stewarded.</p>
                             </div>
+
                             <div>
+                                <IntelligenceWireframe draw={draw} fadeIn={fadeIn} />
                                 <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Creative Intelligence</h3>
                                 <p>We apply cross-disciplinary thinking across finance, design, policy, and operations—challenging convention to unlock differentiated value in land and built environments.</p>
                             </div>
+
                             <div>
+                                <AgilityWireframe draw={draw} fadeIn={fadeIn} />
                                 <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Agility & Adaptation</h3>
                                 <p>We anticipate shifts in markets, regulation, and demand—adapting strategy early to preserve resilience and capture emerging opportunity.</p>
                             </div>
+
                             <div>
+                                <CollectiveWireframe draw={draw} fadeIn={fadeIn} />
                                 <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Collective Alignment</h3>
                                 <p>We collaborate across partners, capabilities, and geographies—aligning incentives and execution to build platforms larger than any single asset or stakeholder.</p>
                             </div>
+
                             <div>
                                 <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Responsible Growth & Stewardship</h3>
                                 <p>We integrate sustainability, environmental responsibility, and sound governance into how assets are underwritten, developed, and operated—enhancing resilience, accountability, and long-term value for all stakeholders.</p>
@@ -361,7 +452,7 @@ export default function Principles() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                        viewport={{ margin: "0px 0px -50px 0px" }}
                         className="border-t border-gray-200 pt-8 mt-8 max-w-2xl mx-auto"
                     >
                         <div

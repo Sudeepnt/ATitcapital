@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 
-export default function Cursor() {
+export default function Cursor({ isMenuOpen }: { isMenuOpen?: boolean }) {
     const [isHovered, setIsHovered] = useState(false);
     const [isDarkBg, setIsDarkBg] = useState(false);
     const [isVisible, setIsVisible] = useState(false);
@@ -35,7 +35,7 @@ export default function Cursor() {
 
             // Check for dark background theme
             const darkThemeElement = target.closest('[data-theme="dark-teal"]');
-            setIsDarkBg(!!darkThemeElement);
+            setIsDarkBg(!!darkThemeElement || !!isMenuOpen);
         };
 
         const handleMouseLeave = () => {
@@ -55,7 +55,7 @@ export default function Cursor() {
             document.removeEventListener("mouseleave", handleMouseLeave);
             document.removeEventListener("mouseenter", handleMouseEnter);
         };
-    }, [cursorX, cursorY]);
+    }, [cursorX, cursorY, isMenuOpen]);
 
     return (
         <>

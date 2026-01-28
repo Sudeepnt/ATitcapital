@@ -51,9 +51,9 @@ export default function BusinessSideView({ slug }: BusinessSideViewProps) {
 
     return (
         <motion.div
-            initial={{ x: "-100%" }}
+            initial={{ x: "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
+            exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.8, ease: "easeInOut" }}
             className="fixed inset-0 z-[200] flex flex-col h-screen w-screen overflow-hidden"
             data-theme="dark-teal"

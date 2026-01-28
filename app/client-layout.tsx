@@ -47,7 +47,7 @@ export default function ClientLayout({
 
     return (
         <div className={`min-h-screen bg-[#F8F9FA] relative font-sans overflow-hidden ${isChecking ? 'invisible' : 'visible'}`}>
-            <Cursor />
+            <Cursor isMenuOpen={isMenuOpen} />
 
             <AnimatePresence>
                 {!isChecking && loading && (
@@ -63,7 +63,7 @@ export default function ClientLayout({
             </AnimatePresence>
 
             {/* Global Header */}
-            <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-5 md:py-10 flex items-center justify-between pointer-events-none">
+            <header className="fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-5 md:py-10 flex items-center justify-between bg-[#F8F9FA]">
                 <Link href="/" className="pointer-events-auto">
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -95,7 +95,7 @@ export default function ClientLayout({
 
             {/* Page Content */}
             {/* Page Content */}
-            <div className="h-full">
+            <div className="h-full pt-24 md:pt-36">
                 {children}
             </div>
 

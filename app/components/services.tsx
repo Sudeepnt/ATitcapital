@@ -319,15 +319,15 @@ export default function Services() {
       </div>
 
       {/* Swipe Hand Icon SELECTION */}
-      <div className="absolute bottom-28 w-full px-8 flex justify-center pointer-events-none">
+      <div className="absolute bottom-12 w-full px-8 flex justify-center pointer-events-none">
         <motion.div
           className="flex flex-col items-center gap-2"
           animate={{ x: [-10, 10, -10] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
         >
           <div className="flex flex-col items-center">
-            <span className="text-[#13343e] text-[10px] font-bold mb-0.5">&larr;&rarr;</span>
-            <Pointer size={24} className="text-[#13343e]" />
+            <span className="text-[#13343e] text-xs font-bold mb-0.5">&larr;&rarr;</span>
+            <Pointer size={32} className="text-[#13343e]" />
           </div>
         </motion.div>
       </div>
