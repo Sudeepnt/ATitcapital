@@ -58,8 +58,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
     <div className="fixed inset-0 z-[100] flex justify-end overflow-hidden pointer-events-none">
       {/* Backdrop */}
       <div
-        className={`absolute inset-0 bg-black/60 transition-opacity duration-1000 ease-in-out pointer-events-auto ${isAnimating ? "opacity-100" : "opacity-0"
-          }`}
+        className={`absolute inset-0 bg-black/60 transition-opacity duration-1000 ease-in-out pointer-events-auto ${isAnimating ? "opacity-100" : "opacity-0"}`}
         onClick={onClose}
       />
 
@@ -93,8 +92,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
 
         {/* Menu Content */}
         <div
-          className={`relative w-full h-full flex flex-col justify-center px-8 md:px-12 transition-opacity duration-700 delay-300 ${isAnimating ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-            }`}
+          className={`relative w-full h-full flex flex-col justify-center px-8 md:px-12 transition-opacity duration-700 delay-300 ${isAnimating ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
         >
           {/* Close Button */}
           <motion.button

@@ -65,14 +65,14 @@ export default function BusinessSideView({ slug, onClose }: BusinessSideViewProp
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "tween", duration: 0.8, ease: "easeInOut" }}
-            className="fixed inset-0 z-[200] flex flex-col h-screen w-screen overflow-hidden"
+            className="fixed inset-0 z-[200] flex flex-col h-[100dvh] w-screen overflow-hidden"
             data-theme="dark-teal"
         >
             {/* 1. Top Block - 50% width */}
             <div className="flex-1 w-[50%] bg-[#13343e] border-r border-white/10"></div>
 
             {/* 2. Middle Block - Content Section */}
-            <div className="min-h-[60vh] md:min-h-0 md:h-auto py-12 md:py-16 w-full bg-[#244751] flex flex-col px-8 md:px-24 relative">
+            <div className="w-full h-auto py-12 md:py-16 bg-[#244751] flex flex-col px-8 md:px-24 relative">
 
                 {/* Mobile-only Close Button (Top Right) */}
                 <div className="md:hidden w-full flex justify-end mb-6">
