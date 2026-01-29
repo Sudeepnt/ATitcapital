@@ -10,18 +10,20 @@ export default function People() {
 
     const people = [
         {
-            name: "Guru Datha",
+            name: "Guru Veera Datha",
             role: "Founding Partner",
-            bio: "Guru comes from a family with decades of experience in real estate investments and contracting—giving him an instinctive understanding of what works on the ground. Over the past decade, through his own entrepreneurial pursuits, he's built and managed investments across warehousing, hospitality, and land assemblage, learning to spot opportunities others miss and execute with speed and conviction.",
-            bio2: "At ATit Capital, he leads investment strategy and portfolio construction, combining operational know-how with sharp market intuition to identify, acquire, and deliver high-impact projects. He embeds sustainability into every development from day one, ensuring that long-term resilience is built into the foundation of each asset. Guru holds a BBM from Jain Centre for Management Studies and certifications in Smart Sustainable City Development from Utrecht University and Economics of Urbanisation from Vrije Universiteit Amsterdam.",
+            bio: "Guru is a second-generation real estate specialist with a decade of deep-market experience in land assemblage, warehousing, hospitality development and construction. He specializes in identifying undervalued, off-market opportunities and executing complex acquisitions with speed and precision.",
+            bio2: "At ATit Capital, Guru leads on-ground operations and development execution. His background in contracting and urban economics allows the firm to navigate operationally dense projects. By bridging the gap between site sourcing and physical delivery, he provides the firm with a distinct competitive advantage in asset speed-to-market and cost-efficiency.",
+            bio3: "He holds a BBM from Jain Centre for Management Studies, with certifications in Smart Sustainable City Development from Utrecht University and Economics of Urbanisation from Vrije Universiteit Amsterdam.",
             education: "",
             image: "/guru.jpeg"
         },
         {
             name: "Utsav Shetty",
             role: "Founding Partner",
-            bio: "Utsav comes from a family firm with deep experience in finance and real estate advisory, complemented by his own entrepreneurial pursuits. He brings a unique blend of financial rigor and design thinking to real estate—structuring deals not just for returns, but for resilience and architectural innovation. His expertise spans the entire asset lifecycle: underwriting with precision, crafting capital frameworks that unlock value, and identifying talent with a knack for unlocking synergies between people to drive collaboration and growth.",
-            bio2: "Before co-founding ATit Capital, he built these frameworks across family ventures and independent projects, proving that disciplined finance and creative problem-solving can coexist to deliver long-term value. Utsav holds a Master's in Global Management from Dublin City University and is a qualified Chartered Accountant.",
+            bio: "He operates at the intersection of capital structuring, governance design, and design-led land use to reposition underutilized land and real assets for institutional relevance across cycles. With a background spanning finance, taxation, real estate advisory, Outbound Investment Structuring and Deal Implementation and multi-sector entrepreneurship, he brings a rare \"operator's lens\" to capital deployment.",
+            bio2: "Proven track record Management of Real Estate syndication vehicles to de-risking the entry and hold phases of Commercial Real Estate, and Joint Developments by advising both institutional developers and large-scale landowners on tax-efficient structuring. Utsav drives yield optimization by applying design-thinking to asset positioning, specifically through adaptive reuse and mixed-use developments. By integrating architectural differentiation directly into the underwriting process, he structures assets for superior resilience and long-term value creation. His approach ensures a precise balance between innovative spatial strategy and disciplined financial performance with utmost importance to governance.",
+            bio3: "Utsav holds a Master's in Global Management from Dublin City University and is a qualified Chartered Accountant.",
             education: "",
             image: "/utsav.jpeg"
         }
@@ -140,6 +142,7 @@ export default function People() {
                                     <div className="space-y-3 text-[#1A1A1A]/80 text-[11px] md:text-base leading-relaxed font-light text-justify">
                                         <p>{selectedPerson.bio}</p>
                                         {selectedPerson.bio2 && <p>{selectedPerson.bio2}</p>}
+                                        {selectedPerson.bio3 && <p>{selectedPerson.bio3}</p>}
                                     </div>
                                 </div>
                             </div>
