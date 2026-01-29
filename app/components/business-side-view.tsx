@@ -80,7 +80,8 @@ export default function BusinessSideView({ slug, onClose }: BusinessSideViewProp
 
                             {/* Title Section (Left on PC) */}
                             <div className="md:w-[45%]">
-                                <h2 className="text-white text-[clamp(2.4rem,3vw,4.2rem)] font-black leading-[1.05] tracking-tighter lowercase">
+                                <h2 className="text-white text-[clamp(1.8rem,4vw,2.6rem)] md:text-[clamp(2.4rem,3vw,4.2rem)]  font-black leading-[1.05] tracking-tighter lowercase">
+
                                     {service.title}.
                                 </h2>
                             </div>

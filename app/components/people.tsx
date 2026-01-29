@@ -30,18 +30,26 @@ export default function People() {
     return (
         <div className="h-screen w-full overflow-y-auto bg-white flex flex-col">
             <main className="flex-1 flex flex-col items-center justify-start pt-30 px-4 md:px-32 w-full min-h-screen">
-                <h1 className="text-[#13343e] text-xl md:text-3xl font-bold mb-8 text-center">Founding Team</h1>
+                <motion.h1
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4, duration: 1.5 }}
+                    className="text-[#13343e] text-3xl md:text-4xl font-black mb-12 mt-4 text-center"
+                >
+                    Founding Team
+                </motion.h1>
+
                 <div className="w-full flex justify-center">
 
                     {/* Centered Flex Layout */}
-                    <div className="flex flex-wrap justify-center gap-8 md:gap-12 w-full max-w-4xl mb-32">
+                    <div className="flex flex-wrap justify-center gap-4 md:gap-12 w-full max-w-4xl mb-32">
                         {people.map((person, index) => (
                             <motion.div
                                 key={person.name}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
-                                className="flex flex-col cursor-pointer group w-[40%] md:w-[160px]"
+                                transition={{ duration: 1.5, delay: 0.4 + (index * 0.2) }}
+                                className="flex flex-col cursor-pointer group w-[45%] md:w-[264px]"
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setSelectedPerson(person);

@@ -88,8 +88,8 @@ export default function ClientLayout({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 }}
                 >
-                    <span className="w-[5.5rem] h-[2px] bg-[#13343e] group-hover:w-[5.5rem] transition-all duration-300 ease-out" />
-                    <span className="w-12 h-[2px] bg-[#13343e] group-hover:w-[5.5rem] transition-all duration-300 ease-out" />
+                    <span className="w-[5.5rem] h-[2px] bg-[#13343e] group-hover:w-32 transition-all duration-300 ease-out" />
+                    <span className="w-12 h-[2px] bg-[#13343e] group-hover:w-32 transition-all duration-300 ease-out" />
                 </motion.button>
             </header>
 

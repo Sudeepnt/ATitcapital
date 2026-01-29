@@ -127,7 +127,7 @@ export default function Pitch() {
             </motion.svg>
           </motion.button>
           {/* Info Grid - Moved inside form, closer to button */}
-          <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 text-[#1A1A1A] opacity-80 text-sm leading-relaxed text-left mt-8">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 text-[#1A1A1A] opacity-80 text-sm leading-relaxed text-left mt-8">
             {/* Column 1: Company & Contact */}
             <div className="flex flex-col">
               <p className="font-bold mb-1">ATit Capital Management LLP</p>
@@ -135,20 +135,11 @@ export default function Pitch() {
               <p>+91 9900114038</p>
             </div>
 
-            {/* Address Combined (Mobile Only) */}
-            <div className="flex flex-col md:hidden">
+            {/* Column 2: Address Combined */}
+            <div className="flex flex-col">
               <p>No. 55, 1st Floor, 10th Cross, 2nd Stage, Mahalakshmipuram,</p>
-              <p>WOC Road, Bengaluru, Karnataka, India - 560086</p>
-            </div>
-
-            {/* Column 2: Address Part 1 (Desktop Only) */}
-            <div className="hidden md:flex items-center">
-              <p>No. 55, 1st Floor, 10th Cross, 2nd Stage, Mahalakshmipuram,</p>
-            </div>
-
-            {/* Column 3: Address Part 2 (Desktop Only) */}
-            <div className="hidden md:flex items-center">
-              <p>WOC Road, Bengaluru, Karnataka, India - 560086</p>
+              <p>WOC Road, Bengaluru, Karnataka,</p>
+              <p>India - 560086</p>
             </div>
           </div>
         </motion.form>

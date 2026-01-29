@@ -227,7 +227,7 @@ export default function Principles() {
         <div className="min-h-screen bg-white relative overflow-hidden">
             {/* Main Content Area */}
             <div
-                className="h-screen overflow-y-auto pt-40 pb-20 px-8 md:px-32 scrollbar-hide relative"
+                className="h-screen overflow-y-auto pt-30 pb-20 px-8 md:px-32 scrollbar-hide relative"
                 onScroll={handleScroll}
             >
                 {/* Navigation Button */}
@@ -248,14 +248,14 @@ export default function Principles() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="mb-16 mt-12 max-w-2xl mx-auto text-center"
+                        transition={{ delay: 0.4, duration: 1.5 }}
+                        className="mb-4 max-w-2xl mx-auto text-center"
                     >
-                        <h1 className="text-[#13343e] text-3xl md:text-5xl font-black mb-12">
+                        <h1 className="text-[#13343e] text-3xl md:text-4xl font-black mb-12 mt-4 text-center">
                             Principles & Culture
                         </h1>
 
-                        <div className="w-full mb-16">
+                        <div className="w-full mb-0">
                             <IntentWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
                     </motion.div>
@@ -264,12 +264,12 @@ export default function Principles() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
-                        className="mb-16 max-w-2xl mx-auto"
+                        className="mb-8 max-w-2xl mx-auto"
                     >
-                        <h2 className="text-[#13343e] font-bold mb-2">
+                        <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
                             Values we believe in
                         </h2>
-                        <p className="text-black text-base leading-relaxed mb-16">
+                        <p className="text-black text-base leading-relaxed mb-8">
                             ATit Capital is committed to partnering with the next generation of real estate platforms emerging from India that set new standards for long-term value creation, institutional execution, and responsible growth rooted in land and communities.
                             <br /><br />
                             Delivering durable outcomes in real assets requires more than capital. It requires aligned partners, specialized expertise, and a culture that values accountability, judgment, and ownership. Our principles guide how we think, how we work, and how we build—across investments, operations, and long-term platform development.
@@ -279,14 +279,12 @@ export default function Principles() {
                     </motion.div>
 
                     {/* Section 2: Core Principles */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                    <div
                         className="mb-20 max-w-2xl mx-auto"
                     >
                         <div className="text-black text-base leading-relaxed mb-16 space-y-8">
                             <div>
-                                <StewardshipWireframe draw={draw} fadeIn={fadeIn} />
+
                                 <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Client & Capital Stewardship</h3>
                                 <p>We prioritize the interests of our capital partners through clarity, transparency, and disciplined decision-making—treating every investment as a long-term responsibility, not a transaction.</p>
                             </div>
@@ -319,7 +317,7 @@ export default function Principles() {
                                 <p>We integrate sustainability, environmental responsibility, and sound governance into how assets are underwritten, developed, and operated—enhancing resilience, accountability, and long-term value for all stakeholders.</p>
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
 
                     {/* Section 3: Culture & Institutional Intent */}
                     <motion.div
@@ -330,7 +328,7 @@ export default function Principles() {
                         <div className="w-full mb-8">
                             <GovernanceWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
-                        <h2 className="text-[#13343e] font-bold mb-2">
+                        <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
                             Culture & Institutional Intent
                         </h2>
                         <p className="text-black text-base leading-relaxed mb-16">
@@ -349,7 +347,7 @@ export default function Principles() {
                         <div className="w-full mb-8">
                             <DiversityWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
-                        <h2 className="text-[#13343e] font-bold mb-2">
+                        <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
                             People, Merit & Inclusion
                         </h2>
 
@@ -369,7 +367,7 @@ export default function Principles() {
                         <div className="w-full mb-8">
                             <InvestedWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
-                        <h2 className="text-[#13343e] font-bold mb-2">
+                        <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
                             Invested in Land. Invested in You.
                         </h2>
 
