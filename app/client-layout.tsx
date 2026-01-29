@@ -29,7 +29,7 @@ export default function ClientLayout({
         if (hasVisited) {
             setLoading(false);
             if (!cookiesAccepted) {
-                setTimeout(() => setShowCookies(true), 1000); // Show cookies if skipped loading
+                setTimeout(() => setShowCookies(true), 1000);
             }
         } else {
             // First visit, loading stays true
@@ -63,35 +63,37 @@ export default function ClientLayout({
             </AnimatePresence>
 
             {/* Global Header */}
-            <header className={`fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-5 md:py-10 flex items-center justify-between pointer-events-none ${pathname?.includes('principles') || pathname?.includes('people') ? 'bg-white' : ''}`}>
-                <Link href="/" className="pointer-events-auto">
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
+            {!pathname?.includes('/privacy-statement') && (
+                <header className={`fixed top-0 left-0 right-0 z-[60] px-8 md:px-32 py-5 md:py-10 flex items-center justify-between pointer-events-none ${pathname?.includes('principles') || pathname?.includes('people') ? 'bg-white' : ''}`}>
+                    <Link href="/" className="pointer-events-auto">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: 0.3 }}
+                        >
+                            <Image
+                                src="/favicon.png"
+                                alt="ATit Capital Logo"
+                                width={384}
+                                height={384}
+                                className="w-10 h-10 md:w-auto md:h-12 object-contain"
+                                priority
+                            />
+                        </motion.div>
+                    </Link>
+
+                    <motion.button
+                        onClick={() => setIsMenuOpen(true)}
+                        className="group flex flex-col gap-3 items-end pointer-events-auto cursor-pointer"
+                        initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.3 }}
                     >
-                        <Image
-                            src="/favicon.png"
-                            alt="ATit Capital Logo"
-                            width={384}
-                            height={384}
-                            className="w-10 h-10 md:w-auto md:h-12 object-contain"
-                            priority
-                        />
-                    </motion.div>
-                </Link>
-
-                <motion.button
-                    onClick={() => setIsMenuOpen(true)}
-                    className="group flex flex-col gap-3 items-end pointer-events-auto cursor-pointer"
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.3 }}
-                >
-                    <span className="w-[5.5rem] h-[2px] bg-[#13343e] group-hover:w-32 transition-all duration-300 ease-out" />
-                    <span className="w-12 h-[2px] bg-[#13343e] group-hover:w-32 transition-all duration-300 ease-out" />
-                </motion.button>
-            </header>
+                        <span className="w-[5.5rem] h-[2px] bg-[#13343e] group-hover:w-32 transition-all duration-300 ease-out" />
+                        <span className="w-12 h-[2px] bg-[#13343e] group-hover:w-32 transition-all duration-300 ease-out" />
+                    </motion.button>
+                </header>
+            )}
 
             {/* Page Content */}
             {/* Page Content */}
@@ -102,7 +104,7 @@ export default function ClientLayout({
 
 
             {/* Global Footer */}
-            {!pathname?.includes('/contact') && !pathname?.includes('principles') && !pathname?.includes('business-view') && (
+            {!pathname?.includes('/contact') && !pathname?.includes('principles') && !pathname?.includes('business-view') && !pathname?.includes('/privacy-statement') && (
                 <footer className="hidden md:flex absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 justify-end items-end text-[10px] md:text-[11px] font-medium tracking-[0.25em] text-[#5A5A80] select-none z-[10] pointer-events-none w-full">
                     <div className="hidden md:block text-[#13343e]">©2026 ATit Capital</div>
                 </footer>
@@ -135,7 +137,7 @@ export default function ClientLayout({
                             </div>
 
                             <p className="text-[#13343e] text-sm md:text-base leading-relaxed max-w-2xl font-medium">
-                                We're using cookies and third-party cookies to provide you with the best possible service. By continuing to use this website, you consent with our <a href="#" className="underline decoration-1 underline-offset-4 hover:no-underline">privacy statement</a>.
+                                We're using cookies and third-party cookies to provide you with the best possible service. By continuing to use this website, you consent with our <Link href="/privacy-statement" className="underline decoration-1 underline-offset-4 hover:no-underline">privacy statement</Link>.
                             </p>
                         </div>
 
