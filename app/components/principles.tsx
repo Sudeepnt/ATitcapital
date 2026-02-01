@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Icon } from '@iconify/react';
+import { getCMSData } from "../actions/cmsActions";
 
 // SVG Wireframe 1: Foundation (Land/Values) - Architectural Skyline & Construction - Complex
 const FoundationWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
@@ -199,6 +200,17 @@ const InvestedWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
 export default function Principles() {
     const router = useRouter();
     const [scrollProgress, setScrollProgress] = useState(0);
+    const [content, setContent] = useState<any>(null);
+
+    useEffect(() => {
+        const fetchContent = async () => {
+            const data = await getCMSData();
+            if (data?.principles) {
+                setContent(data.principles);
+            }
+        };
+        fetchContent();
+    }, []);
 
     const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
         const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
@@ -222,6 +234,12 @@ export default function Principles() {
         hidden: { opacity: 0 },
         visible: { opacity: 1, transition: { delay: 1, duration: 0.5 } }
     };
+
+    if (!content) return (
+        <div className="h-screen w-full flex items-center justify-center bg-white">
+            <p className="text-[#13343e]">Loading...</p>
+        </div>
+    );
 
     return (
         <div className="min-h-screen bg-white relative overflow-hidden">
@@ -252,7 +270,7 @@ export default function Principles() {
                         className="mb-4 max-w-2xl mx-auto text-center"
                     >
                         <h1 className="text-[#13343e] text-3xl md:text-4xl font-black mb-12 mt-4 text-center">
-                            Principles & Culture
+                            {content.mainHeading}
                         </h1>
 
                         <div className="w-full mb-0">
@@ -267,15 +285,11 @@ export default function Principles() {
                         className="mb-8 max-w-2xl mx-auto"
                     >
                         <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
-                            Values we believe in
+                            {content.section1.heading}
                         </h2>
-                        <p className="text-black text-base leading-relaxed mb-8">
-                            ATit Capital is committed to partnering with the next generation of real estate platforms emerging from India that set new standards for long-term value creation, institutional execution, and responsible growth rooted in land and communities.
-                            <br /><br />
-                            Delivering durable outcomes in real assets requires more than capital. It requires aligned partners, specialized expertise, and a culture that values accountability, judgment, and ownership. Our principles guide how we think, how we work, and how we build—across investments, operations, and long-term platform development.
+                        <p className="text-black text-base leading-relaxed mb-8 whitespace-pre-wrap">
+                            {content.section1.description}
                         </p>
-
-
                     </motion.div>
 
                     {/* Section 2: Core Principles */}
@@ -283,39 +297,12 @@ export default function Principles() {
                         className="mb-20 max-w-2xl mx-auto"
                     >
                         <div className="text-black text-base leading-relaxed mb-16 space-y-8">
-                            <div>
-
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Client & Capital Stewardship</h3>
-                                <p>We prioritize the interests of our capital partners through clarity, transparency, and disciplined decision-making—treating every investment as a long-term responsibility, not a transaction.</p>
-                            </div>
-                            <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-6old mb-2">Elevation of Performance</h3>
-                                <p>We hold ourselves to institutional standards of execution, governance, reporting, and asset management—continually raising the bar across every project and platform.</p>
-                            </div>
-                            <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-6old mb-2">Deliberate Specialization</h3>
-                                <p>We believe real estate excellence is built through depth. Clear roles, domain expertise, and accountability across investment, development, and operations enable consistent outcomes.</p>
-                            </div>
-                            <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Entrepreneurial Ownership</h3>
-                                <p>We think like builders and operators, not intermediaries—bringing initiative, urgency, and long-term conviction to how assets are conceived, executed, and stewarded.</p>
-                            </div>
-                            <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Creative Intelligence</h3>
-                                <p>We apply cross-disciplinary thinking across finance, design, policy, and operations—challenging convention to unlock differentiated value in land and built environments.</p>
-                            </div>
-                            <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Agility & Adaptation</h3>
-                                <p>We anticipate shifts in markets, regulation, and demand—adapting strategy early to preserve resilience and capture emerging opportunity.</p>
-                            </div>
-                            <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Collective Alignment</h3>
-                                <p>We collaborate across partners, capabilities, and geographies—aligning incentives and execution to build platforms larger than any single asset or stakeholder.</p>
-                            </div>
-                            <div>
-                                <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">Responsible Growth & Stewardship</h3>
-                                <p>We integrate sustainability, environmental responsibility, and sound governance into how assets are underwritten, developed, and operated—enhancing resilience, accountability, and long-term value for all stakeholders.</p>
-                            </div>
+                            {content.corePrinciples.map((item: any, idx: number) => (
+                                <div key={idx}>
+                                    <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">{item.title}</h3>
+                                    <p>{item.description}</p>
+                                </div>
+                            ))}
                         </div>
                     </div>
 
@@ -329,12 +316,10 @@ export default function Principles() {
                             <GovernanceWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
                         <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
-                            Culture & Institutional Intent
+                            {content.section3.heading}
                         </h2>
-                        <p className="text-black text-base leading-relaxed mb-16">
-                            ATit Capital operates with high standards, continuous learning, and an ownership mindset. We believe capital in Indian real estate must move beyond financing to true partnership in long-term value creation.
-                            <br /><br />
-                            Through disciplined governance, regulatory alignment, transparent reporting, and responsible development, we aim to strengthen the asset class and build resilient platforms that earn trust and perform across cycles.
+                        <p className="text-black text-base leading-relaxed mb-16 whitespace-pre-wrap">
+                            {content.section3.description}
                         </p>
                     </motion.div>
 
@@ -348,13 +333,11 @@ export default function Principles() {
                             <DiversityWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
                         <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
-                            People, Merit & Inclusion
+                            {content.section4.heading}
                         </h2>
 
-                        <p className="text-black text-base leading-relaxed mb-16">
-                            ATit Capital is built on merit, competence, and integrity. We value diversity of experience and perspective because stronger judgment and long-term performance depend on it.
-                            <br /><br />
-                            Our approach to teams and partnerships prioritizes capability, accountability, and values alignment. Inclusion is a natural outcome of disciplined standards and intentional institutional design.
+                        <p className="text-black text-base leading-relaxed mb-16 whitespace-pre-wrap">
+                            {content.section4.description}
                         </p>
                     </motion.div>
 
@@ -368,11 +351,11 @@ export default function Principles() {
                             <InvestedWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
                         <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
-                            Invested in Land. Invested in You.
+                            {content.section5.heading}
                         </h2>
 
-                        <p className="text-black text-base leading-relaxed mb-16">
-                            This is not just a line, it reflects how we think about capital, people, and responsibility. We aim to build an institution that performs at the highest level while remaining grounded in stewardship, trust, and long-term impact.
+                        <p className="text-black text-base leading-relaxed mb-16 whitespace-pre-wrap">
+                            {content.section5.description}
                         </p>
                     </motion.div>
 

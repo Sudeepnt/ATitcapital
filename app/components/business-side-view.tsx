@@ -7,32 +7,14 @@ import { Icon } from '@iconify/react';
 import { slugify } from '../utils/slugify';
 
 interface BusinessSideViewProps {
-    slug: string;
+    service: any;
     onClose?: () => void;
 }
 
-export default function BusinessSideView({ slug, onClose }: BusinessSideViewProps) {
+export default function BusinessSideView({ service, onClose }: BusinessSideViewProps) {
     const router = useRouter();
-    const [service, setService] = useState<any>(null);
-    const [loading, setLoading] = useState(true);
+    // No internal state needed for service, using prop directly
 
-    useEffect(() => {
-        fetch('/data/content.json')
-            .then(res => res.json())
-            .then(data => {
-                if (data?.services?.items) {
-                    const found = data.services.items.find((item: any) =>
-                        slugify(item.title) === slug
-                    );
-                    setService(found);
-                }
-                setLoading(false);
-            })
-            .catch(error => {
-                console.error('Failed to load services:', error);
-                setLoading(false);
-            });
-    }, [slug]);
 
     const handleClose = () => {
         if (onClose) {
@@ -51,11 +33,7 @@ export default function BusinessSideView({ slug, onClose }: BusinessSideViewProp
             className="fixed inset-0 z-[200] flex flex-col h-[100dvh] w-screen overflow-hidden"
             data-theme="dark-teal"
         >
-            {loading ? (
-                <div className="flex-1 w-full bg-[#13343e] flex items-center justify-center">
-                    <p className="text-white/50">Loading...</p>
-                </div>
-            ) : !service ? (
+            {!service ? (
                 <div className="flex-1 w-full bg-[#13343e] flex flex-col items-center justify-center gap-4">
                     <p className="text-white text-xl">Service not found.</p>
                     <button onClick={handleClose} className="text-white underline">Go back</button>
@@ -80,9 +58,9 @@ export default function BusinessSideView({ slug, onClose }: BusinessSideViewProp
 
                             {/* Title Section (Left on PC) */}
                             <div className="md:w-[45%]">
-                                <h2 className="text-white text-[clamp(1.8rem,4vw,2.6rem)] md:text-[clamp(2.4rem,3vw,4.2rem)]  font-black leading-[1.05] tracking-tighter">
+                                <h2 className="text-white text-[clamp(1.5rem,3vw,2.2rem)] md:text-[clamp(2.2rem,3vw,3.5rem)] font-black leading-[1.05] tracking-tighter max-w-[95%]">
 
-                                    {service.title}.
+                                    {service.fullTitle || service.title}.
                                 </h2>
                             </div>
 

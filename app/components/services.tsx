@@ -8,13 +8,16 @@ import { Icon } from '@iconify/react';
 import { Pointer } from 'lucide-react';
 import { slugify } from '../utils/slugify';
 import BusinessSideView from './business-side-view';
+import { getCMSData } from "../actions/cmsActions";
 
 export default function Services() {
+
+  const [introText, setIntroText] = useState("");
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [services, setServices] = useState<any[]>([]);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
-  // const [selectedService, setSelectedService] = useState<any>(null); // Removed
+  const [selectedService, setSelectedService] = useState<any>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const lastWheelTime = useRef(0);
 
@@ -23,14 +26,16 @@ export default function Services() {
   }, []);
 
   useEffect(() => {
-    fetch('/data/content.json')
-      .then(res => res.json())
-      .then(data => {
-        if (data?.services?.items) {
-          setServices(data.services.items);
-        }
-      })
-      .catch(error => console.error('Failed to load services:', error));
+    const loadData = async () => {
+      const data = await getCMSData();
+      if (data?.business?.intro) {
+        setIntroText(data.business.intro);
+      }
+      if (data?.services?.items) {
+        setServices(data.services.items);
+      }
+    };
+    loadData();
   }, []);
 
   // Consolidated swipe handler for both Drag (Cards) and Pan (Background)
@@ -177,7 +182,32 @@ export default function Services() {
         </Wrapper>
       );
     }
-    return null;
+
+
+    // Default / All-Rounder Animation (Network/Nexus) for Mobile, Advisory, etc.
+    return (
+      <Wrapper viewBox="0 0 400 300">
+        {/* Central Core */}
+        <motion.circle variants={draw} cx="200" cy="150" r="30" strokeWidth="2" />
+        <motion.circle variants={draw} cx="200" cy="150" r="15" />
+
+        {/* Contributing Nodes / Satellites */}
+        <motion.circle variants={draw} cx="100" cy="80" r="20" />
+        <motion.circle variants={draw} cx="300" cy="80" r="20" />
+        <motion.circle variants={draw} cx="100" cy="220" r="20" />
+        <motion.circle variants={draw} cx="300" cy="220" r="20" />
+
+        {/* Connections to Center */}
+        <motion.path variants={draw} d="M 120 95 L 180 135" />
+        <motion.path variants={draw} d="M 280 95 L 220 135" />
+        <motion.path variants={draw} d="M 120 205 L 180 165" />
+        <motion.path variants={draw} d="M 280 205 L 220 165" />
+
+        {/* Outer Ring / Orbit */}
+        <motion.path variants={draw} d="M 200 50 Q 350 50, 350 150 Q 350 250, 200 250" strokeWidth="1" strokeDasharray="5 5" />
+        <motion.path variants={draw} d="M 200 250 Q 50 250, 50 150 Q 50 50, 200 50" strokeWidth="1" strokeDasharray="5 5" />
+      </Wrapper>
+    );
   };
 
   // Handle Trackpad / MouseHorizontal Wheel
@@ -224,7 +254,7 @@ export default function Services() {
       {/* Intro Paragraph */}
       <div className="relative w-full max-w-4xl px-8 md:px-32 text-center mt-12 mb-0 z-10">
         <p className="text-black text-[15px] md:text-lg font-medium leading-relaxed">
-          ATit Capital is organized into complementary, senior-led real estate business lines supported by an integrated platform spanning acquisition, execution, and capital management. This structure produces proprietary, bottom-up insights that inform strategy and risk discipline.
+          {introText || "Loading..."}
         </p>
       </div>
 
@@ -301,14 +331,14 @@ export default function Services() {
                   )}
                 </motion.div>
 
-                <h2 className="text-[#13343e] text-[clamp(1.7rem,3vw,2.55rem)] font-black mb-4 tracking-tight text-center">
+                <h2 className="text-[#13343e] text-[clamp(1.4rem,2.5vw,2.2rem)] md:text-[clamp(1.8rem,3vw,3rem)] font-black mb-4 tracking-tight text-center max-w-[90%] leading-tight">
                   {service.title}.
                 </h2>
 
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedSlug(slugify(service.title));
+                    setSelectedService(service);
                   }}
                   onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
                   onTouchStart={(e: React.TouchEvent) => e.stopPropagation()}
@@ -338,10 +368,10 @@ export default function Services() {
 
       {/* Business Side View Overlay */}
       <AnimatePresence>
-        {selectedSlug && (
+        {selectedService && (
           <BusinessSideView
-            slug={selectedSlug}
-            onClose={() => setSelectedSlug(null)}
+            service={selectedService}
+            onClose={() => setSelectedService(null)}
           />
         )}
       </AnimatePresence>

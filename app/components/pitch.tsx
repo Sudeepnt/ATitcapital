@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import { getCMSData } from "../actions/cmsActions";
+
 export default function Pitch() {
   const [content, setContent] = useState<any>(null);
   const [formData, setFormData] = useState({
@@ -13,14 +14,17 @@ export default function Pitch() {
   });
 
   useEffect(() => {
-    fetch('/data/content.json')
-      .then(res => res.json())
-      .then(data => {
+    async function fetchData() {
+      try {
+        const data = await getCMSData();
         if (data?.contact) {
           setContent(data.contact);
         }
-      })
-      .catch(error => console.error('Failed to load contact:', error));
+      } catch (error) {
+        console.error('Failed to load contact:', error);
+      }
+    }
+    fetchData();
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -50,28 +54,28 @@ export default function Pitch() {
         >
           {/* Headline / Input Group 1 */}
           <div className="mt-6 mb-6 leading-relaxed text-[#1A1A1A]" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
-            <span className="font-light">Hi, my name is </span>
+            <span className="font-light">{content.formLine1Start} </span>
             <input
               type="text"
-              placeholder="your name"
+              placeholder={content.namePlaceholder}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               className="bg-[#E8E9F3] border-0 outline-none px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(100px,15vw,200px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-normal"
             />
-            <span className="font-light"> and I’m exploring a potential partnership or opportunity with ATit Capital.</span>
+            <span className="font-light"> {content.formLine1End}</span>
           </div>
 
           {/* Headline / Input Group 2 */}
           <div className="mb-12 leading-relaxed text-[#1A1A1A]" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
-            <span className="font-light">Get in touch with me at </span>
+            <span className="font-light">{content.formLine2Start} </span>
             <input
               type="email"
-              placeholder="your e-mail"
+              placeholder={content.emailPlaceholder}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               className="bg-[#E8E9F3] border-0 outline-none px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(150px,20vw,300px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-normal"
             />
-            <span className="font-light">.</span>
+            <span className="font-light">{content.formLine2End}</span>
           </div>
 
           {/* Consent Checkbox */}
@@ -86,7 +90,7 @@ export default function Pitch() {
                 />
               </div>
               <span className="text-[10px] md:text-xs text-gray-500 leading-relaxed pt-0.5 opacity-80 group-hover:opacity-100 transition-opacity">
-                Hereby I authorise ATit Capital, to process the given personal information in connection with my the inquiry. I am aware that submitting personal data is voluntary and that I have a right to view, edit and delete all the data concerning myself.
+                {content.consentText}
               </span>
             </label>
           </div>
@@ -104,7 +108,7 @@ export default function Pitch() {
               tap: { scale: 0.98 }
             }}
           >
-            Send
+            {content.buttonText}
             <motion.svg
               width="36"
               height="12"
@@ -130,16 +134,16 @@ export default function Pitch() {
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 text-[#1A1A1A] opacity-80 text-sm leading-relaxed text-left mt-8">
             {/* Column 1: Company & Contact */}
             <div className="flex flex-col">
-              <p className="font-bold mb-1">ATit Capital Management LLP</p>
-              <p>info@ATitCapital.com</p>
-              <p>+91 9900114038</p>
+              <p className="font-bold mb-1">{content.companyName}</p>
+              <p>{content.email}</p>
+              <p>{content.phone}</p>
             </div>
 
             {/* Column 2: Address Combined */}
             <div className="flex flex-col">
-              <p>No. 55, 1st Floor, 10th Cross, 2nd Stage, Mahalakshmipuram,</p>
-              <p>WOC Road, Bengaluru, Karnataka,</p>
-              <p>India - 560086</p>
+              <p>{content.address1}</p>
+              <p>{content.address2}</p>
+              <p>{content.address3}</p>
             </div>
           </div>
         </motion.form>

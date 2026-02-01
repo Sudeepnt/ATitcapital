@@ -1,34 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Icon } from '@iconify/react';
+import { getCMSData } from "../actions/cmsActions";
 
 export default function People() {
     const [selectedPerson, setSelectedPerson] = useState<any>(null);
+    const [content, setContent] = useState<any>(null);
 
-    const people = [
-        {
-            name: "Guru Veera Datha",
-            role: "Founding Partner",
-            bio: "Guru leads acquisition, platform and partnership strategies, and on-ground operations and development execution. His command of construction delivery and project economics enables the firm to navigate operationally dense projects. By bridging the gap between site sourcing and physical delivery, he provides the firm with a distinct competitive advantage in asset speed-to-market and cost-efficiency.",
-            bio2: "With a background in Real Estate and deep-market experience in land assemblage, warehousing, hospitality development and construction. He specializes in identifying undervalued, off-market opportunities and executing complex acquisitions with speed and precision while ensuring that the real assets are positioned to make neighbourhoods and communities great again.",
-            bio3: "Guru completed his BBM from Jain Centre for Management Studies Bengaluru, with certifications in Smart Sustainable City Development from Utrecht University and Economics of Urbanisation from Vrije Universiteit Amsterdam.",
-            education: "",
-            image: "/guru.jpeg"
-        },
-        {
-            name: "Utsav Shetty",
-            role: "Founding Partner",
-            bio: "Utsav Shetty leads ATit Capital's investment strategy and financial architecture, driving value creation through adaptive reuse, mixed-use frameworks, climate-forward infrastructure, and differentiated land-use models. He embeds architectural and spatial strategy directly into underwriting to enhance asset resilience, yield stability, and governance rigor.",
-            bio2: "Utsav operates at the intersection of financial discipline, governance, and design-led land use, repositioning underutilized land in India into institutionally relevant platforms across market cycles.",
-            bio3: "With a background spanning finance, taxation, outbound investment structuring, deal execution, and multi-sector entrepreneurship, he brings a distinct operator's lens to capital deployment. His advisory expertise spans tax-efficient real estate vehicles and de-risking commercial asset entry and hold phases.",
-            bio4: "Utsav completed his MS from Dublin City University and is a qualified Chartered Accountant.",
-            education: "",
-            image: "/utsav.jpeg"
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const data = await getCMSData();
+                if (data?.people) {
+                    setContent(data.people);
+                }
+            } catch (error) {
+                console.error("Failed to load people data", error);
+            }
         }
-    ];
+        fetchData();
+    }, []);
+
+    if (!content) {
+        return (
+            <div className="h-screen w-full flex items-center justify-center bg-white">
+                <p className="text-[#13343e]">Loading team...</p>
+            </div>
+        );
+    }
+
+    const people = content.members || [];
 
     return (
         <div className="h-screen w-full overflow-y-auto bg-white flex flex-col">
@@ -46,7 +50,7 @@ export default function People() {
 
                     {/* Centered Flex Layout */}
                     <div className="flex flex-wrap justify-center gap-4 md:gap-12 w-full max-w-4xl mb-32">
-                        {people.map((person, index) => (
+                        {people.map((person: any, index: number) => (
                             <motion.div
                                 key={person.name}
                                 initial={{ opacity: 0, y: 20 }}

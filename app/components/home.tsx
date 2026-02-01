@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
+import { getCMSData } from "../actions/cmsActions";
 // import Menu from "./menu"; // Removed
 
 import { useRouter } from "next/navigation";
@@ -9,12 +10,34 @@ import { useRouter } from "next/navigation";
 export default function Home() {
   const router = useRouter();
 
-  // Static content to avoid fetch delay
-  const content = {
-    title: "Invested in Land. Invested in You.",
-    subtitle: "ATit Capital operates at the intersection of people, capital, and land in India. We bring mission-aligned partners together to acquire, develop, and operate real estate assets that unlock neighborhoods, shape cities, and compound value over time.",
-    cta: "Start a conversation"
-  };
+  const [content, setContent] = useState<any>(null); // Start null to check for loading
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await getCMSData();
+        if (data && data.home) {
+          setContent(data.home);
+        }
+      } catch (error) {
+        console.error("Failed to load CMS data for home", error);
+      }
+    }
+    fetchData();
+  }, []);
+
+  if (!content) {
+    // Optional: Loading skeleton or just return null to avoid flicker
+    // Returning default static content as fallback to prevent layout shift is better
+    return (
+      <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-0 pb-0 bg-white">
+        <div className="animate-pulse flex flex-col space-y-8">
+          <div className="h-16 bg-gray-100 w-3/4 rounded-lg"></div>
+          <div className="h-24 bg-gray-100 w-2/3 rounded-lg"></div>
+        </div>
+      </main>
+    );
+  }
 
   return (
     // Replaced outer div with main only, layout handled by page.tsx
@@ -31,23 +54,17 @@ export default function Home() {
           transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         >
           <h2 className="text-[#13343e] text-[clamp(1.75rem,4vw,3.85rem)] leading-[1.1] font-black tracking-tight mb-6">
-            Invested in Land.<br />Invested in You.
+            <span dangerouslySetInnerHTML={{ __html: content.hero.title.replace(/\. /g, '.<br/>') }} />
           </h2>
-          <p className="text-[#13343e] text-[clamp(1rem,1.5vw,1.5rem)] leading-relaxed font-medium max-w-4xl opacity-90">
-            ATit Capital operates at the intersection of people, capital, and land in India.
-            <br className="block mb-4" />
-            We bring mission-aligned partners together to acquire, develop, and operate
-            <br className="block mb-4" />
-            real estate assets that unlock neighborhoods, shape cities, and compound
-            <br className="block mb-4" />
-            value over time.
+          <p className="text-[#13343e] text-[clamp(1rem,1.5vw,1.5rem)] leading-relaxed font-medium max-w-4xl opacity-90 whitespace-pre-line">
+            {content.hero.subtitle}
           </p>
         </motion.div>
 
         <div className="flex flex-col items-center gap-6 md:flex-row md:pl-1">
           <div className="relative group cursor-pointer inline-block">
             <p className="text-[#1A1A1A] text-[clamp(1.05rem,2.1vw,2.1rem)] font-black tracking-tight relative z-10 transition-colors">
-              {content.cta}
+              {content.hero.cta}
             </p>
             {/* Animated Underline */}
             <span className="absolute bottom-[-4px] left-0 w-full h-[5px] bg-[#13343e] origin-bottom-right scale-x-0 transition-transform duration-300 ease-out group-hover:origin-bottom-left group-hover:scale-x-100" />
