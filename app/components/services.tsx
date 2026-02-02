@@ -301,7 +301,7 @@ export default function Services() {
                 }}
                 transition={{
                   type: "spring",
-                  stiffness: 180,
+                  stiffness: 120,
                   damping: 24,
                   mass: 1
                 }}

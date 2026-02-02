@@ -265,7 +265,7 @@ export default function Principles() {
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4, duration: 1.5 }}
+                        transition={{ delay: 0.4, duration: 1.6 }}
                         className="mb-4 max-w-2xl mx-auto text-center"
                     >
                         <h1 className="text-[#13343e] text-3xl md:text-4xl font-black mb-12 mt-4 text-center">
