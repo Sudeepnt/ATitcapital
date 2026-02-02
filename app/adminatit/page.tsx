@@ -176,6 +176,12 @@ export default function AdminAtit() {
                 <h2 className="text-[#13343e] font-bold text-xl tracking-tight">Admin Portal</h2>
 
                 <div className="flex gap-3">
+                    <a
+                        href="/"
+                        className="border border-[#13343e] text-[#13343e] px-6 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition-all flex items-center gap-2 shadow-sm text-sm"
+                    >
+                        Go Back to Home
+                    </a>
                     <button
                         onClick={handleSave}
                         disabled={saving}
