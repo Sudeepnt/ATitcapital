@@ -13,7 +13,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
   const router = useRouter();
 
   // Animation configuration
-  const speedMultiplier = 3;
+  const speedMultiplier = 2;
   const baseDuration = 0.7;
 
   const morphTransition = {
@@ -104,8 +104,8 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{
-                          delay: 0.4 + (index * 0.15),
-                          duration: 0.8,
+                          delay: 0.2 + (index * 0.15),
+                          duration: 0.5,
                           ease: [0.33, 1, 0.68, 1]
                         }}
                         onClick={() => handleNavigate(item.href)}
