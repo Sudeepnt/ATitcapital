@@ -1,11 +1,14 @@
 "use server";
 
-import fs from "fs/promises";
-import path from "path";
+import { supabase } from "../utils/supabase";
 
 const PROTECTED_IMAGES = ["guru.jpeg", "utsav.jpeg"];
 
 export async function uploadImage(formData: FormData): Promise<{ success: boolean; path?: string; error?: string }> {
+    if (!supabase) {
+        return { success: false, error: "Supabase not configured." };
+    }
+
     try {
         const file = formData.get("file") as File;
         const memberName = formData.get("memberName") as string;
@@ -17,7 +20,7 @@ export async function uploadImage(formData: FormData): Promise<{ success: boolea
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        // Create a clean filename based on member name
+        // Create a clean filename
         const cleanName = memberName
             .toLowerCase()
             .replace(/[^a-z0-9]/g, "-")
@@ -26,39 +29,58 @@ export async function uploadImage(formData: FormData): Promise<{ success: boolea
 
         const ext = file.name.split(".").pop() || "jpg";
         const filename = `${cleanName}-${Date.now()}.${ext}`;
-        const publicPath = path.join(process.cwd(), "public", filename);
 
-        // Save the file
-        await fs.writeFile(publicPath, buffer);
+        // Upload to Supabase Storage
+        const { data, error } = await supabase
+            .storage
+            .from('uploads')
+            .upload(filename, buffer, {
+                contentType: file.type,
+                upsert: true
+            });
 
-        return { success: true, path: `/${filename}` };
+        if (error) {
+            console.error("Supabase storage upload error:", error);
+            return { success: false, error: "Failed to upload image." };
+        }
+
+        // Get Public URL
+        const { data: publicUrlData } = supabase
+            .storage
+            .from('uploads')
+            .getPublicUrl(filename);
+
+        return { success: true, path: publicUrlData.publicUrl };
+
     } catch (err: any) {
         console.error("Error uploading image:", err);
         return { success: false, error: err.message };
     }
 }
 
-export async function deleteImage(imagePath: string): Promise<{ success: boolean; error?: string }> {
-    try {
-        // Don't delete protected images
-        const filename = imagePath.split("/").pop() || "";
-        if (PROTECTED_IMAGES.includes(filename)) {
-            return { success: true }; // Silently succeed, don't actually delete
-        }
+export async function deleteImage(imageUrl: string): Promise<{ success: boolean; error?: string }> {
+    if (!supabase) return { success: false, error: "Supabase not configured" };
 
-        // Don't delete if it's a default/placeholder
-        if (imagePath.includes("placeholder")) {
+    try {
+        // Extract filename from URL
+        // URL format: .../storage/v1/object/public/uploads/filename.jpg
+        const parts = imageUrl.split('/');
+        const filename = parts[parts.length - 1];
+
+        // Don't delete protected or default images
+        if (PROTECTED_IMAGES.includes(filename) || !imageUrl.includes("supabase")) {
             return { success: true };
         }
 
-        const fullPath = path.join(process.cwd(), "public", filename);
+        const { error } = await supabase
+            .storage
+            .from('uploads')
+            .remove([filename]);
 
-        // Check if file exists before deleting
-        try {
-            await fs.access(fullPath);
-            await fs.unlink(fullPath);
-        } catch {
-            // File doesn't exist, that's fine
+        if (error) {
+            console.error("Supabase delete error:", error);
+            // Don't fail the whole layout update if just an image delete fails
+            return { success: false, error: error.message };
         }
 
         return { success: true };

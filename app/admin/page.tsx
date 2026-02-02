@@ -1,16 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Save, Loader2, Home, Info, Send, Briefcase, Mail } from "lucide-react";
+import { Save, Loader2, Home, Info, Send, Briefcase, Mail, Users } from "lucide-react";
 import { saveCMSData } from "../actions/saveCms";
+import { getContactSubmissions } from "../actions/adminActions";
+import { getCMSData } from "../actions/cmsActions";
 
-type Section = "home" | "cases" | "services" | "technologies" | "contact";
+type Section = "submissions" | "home" | "cases" | "services" | "technologies" | "contact";
 
 export default function AdminCMS() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
-  const [activeSection, setActiveSection] = useState<Section>("home");
+  const [activeSection, setActiveSection] = useState<Section>("submissions");
   const [content, setContent] = useState<any>(null);
+  const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
 
@@ -18,12 +21,11 @@ export default function AdminCMS() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      fetch('/data/content.json')
-        .then(res => res.json())
-        .then(data => {
-          setContent(data);
-        })
-        .catch(error => console.error('Load error:', error));
+      // Load CMS Content
+      getCMSData().then(data => setContent(data));
+
+      // Load Submissions
+      getContactSubmissions().then(data => setSubmissions(data));
     }
   }, [isAuthenticated]);
 
@@ -105,7 +107,8 @@ export default function AdminCMS() {
     );
   }
 
-  if (!content) {
+  // Loading state while fetching initial data
+  if (!content && !submissions) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <Loader2 className="animate-spin" size={40} />
@@ -113,8 +116,9 @@ export default function AdminCMS() {
     );
   }
 
-  const sections: Section[] = ["home", "cases", "services", "technologies", "contact"];
+  const sections: Section[] = ["submissions", "home", "cases", "services", "technologies", "contact"];
   const sectionLabels = {
+    submissions: "Client Inquiries",
     home: "Home Page",
     cases: "Cases",
     services: "Services",
@@ -122,6 +126,7 @@ export default function AdminCMS() {
     contact: "Contact"
   };
   const sectionIcons = {
+    submissions: Users,
     home: Home,
     cases: Info,
     services: Briefcase,
@@ -135,23 +140,31 @@ export default function AdminCMS() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
             <h1 className="text-[#121bde] text-3xl font-bold tracking-wider">361°</h1>
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="px-6 py-2.5 bg-black text-white rounded-xl hover:bg-gray-800 disabled:opacity-50 flex items-center gap-2 font-medium shadow-md transition-all hover:shadow-lg"
-            >
-              {saving ? (
-                <>
-                  <Loader2 className="animate-spin" size={16} />
-                  Saving...
-                </>
-              ) : (
-                <>
-                  <Save size={16} />
-                  Save All Changes
-                </>
-              )}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => window.open('/', '_blank')}
+                className="px-4 py-2.5 bg-gray-100 text-black text-sm rounded-xl hover:bg-gray-200 font-medium transition-all"
+              >
+                View Site
+              </button>
+              <button
+                onClick={handleSave}
+                disabled={saving}
+                className="px-6 py-2.5 bg-black text-white rounded-xl hover:bg-gray-800 disabled:opacity-50 flex items-center gap-2 font-medium shadow-md transition-all hover:shadow-lg"
+              >
+                {saving ? (
+                  <>
+                    <Loader2 className="animate-spin" size={16} />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <Save size={16} />
+                    Save All Changes
+                  </>
+                )}
+              </button>
+            </div>
           </div>
 
           <div className="flex gap-2 justify-center overflow-x-auto pb-1">
@@ -161,11 +174,10 @@ export default function AdminCMS() {
                 <button
                   key={section}
                   onClick={() => setActiveSection(section)}
-                  className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all whitespace-nowrap ${
-                    activeSection === section
+                  className={`flex items-center gap-2 px-6 py-2.5 rounded-lg font-medium transition-all whitespace-nowrap ${activeSection === section
                       ? "bg-black text-white shadow-md"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                    }`}
                 >
                   <Icon size={18} />
                   {sectionLabels[section]}
@@ -177,14 +189,68 @@ export default function AdminCMS() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {activeSection === "home" && <HomeEditor content={content.home} setContent={setContent} />}
-        {activeSection === "cases" && <CasesEditor content={content.cases} setContent={setContent} />}
-        {activeSection === "services" && <ServicesEditor content={content.services} setContent={setContent} />}
-        {activeSection === "technologies" && <TechnologiesEditor content={content.technologies} setContent={setContent} />}
-        {activeSection === "contact" && <ContactEditor content={content.contact} setContent={setContent} />}
+        {activeSection === "submissions" && <SubmissionsViewer submissions={submissions} />}
+        {content && <>
+          {activeSection === "home" && <HomeEditor content={content.home} setContent={setContent} />}
+          {activeSection === "cases" && <CasesEditor content={content.cases} setContent={setContent} />}
+          {activeSection === "services" && <ServicesEditor content={content.services} setContent={setContent} />}
+          {activeSection === "technologies" && <TechnologiesEditor content={content.technologies} setContent={setContent} />}
+          {activeSection === "contact" && <ContactEditor content={content.contact} setContent={setContent} />}
+        </>}
       </div>
     </div>
   );
+}
+
+function SubmissionsViewer({ submissions }: { submissions: any[] }) {
+  if (!submissions || submissions.length === 0) {
+    return (
+      <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-200">
+        <Users size={48} className="mx-auto text-gray-300 mb-4" />
+        <h3 className="text-xl font-bold text-gray-900">No Inquiries Yet</h3>
+        <p className="text-gray-500">Wait for potential clients to contact you.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-xl font-bold text-black border-b pb-4">Client Inquiries</h2>
+      <div className="grid gap-4">
+        {submissions.map((sub) => (
+          <div key={sub.id} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200 flex flex-col sm:flex-row justify-between gap-4">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold text-gray-900">{sub.name || "Unknown Name"}</h3>
+                <span className="text-xs font-mono bg-gray-100 px-2 py-1 rounded text-gray-500">
+                  {new Date(sub.created_at).toLocaleDateString()}
+                </span>
+              </div>
+              <div className="flex flex-col gap-1 text-sm text-gray-600">
+                {sub.email && (
+                  <div className="flex items-center gap-2">
+                    <Mail size={14} />
+                    <a href={`mailto:${sub.email}`} className="hover:text-black hover:underline">{sub.email}</a>
+                  </div>
+                )}
+                {sub.phone && (
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-xs border rounded px-1">TEL</span>
+                    <a href={`tel:${sub.phone}`} className="hover:text-black hover:underline">{sub.phone}</a>
+                  </div>
+                )}
+              </div>
+            </div>
+            {sub.message && (
+              <div className="bg-gray-50 p-4 rounded-xl text-gray-700 text-sm italic sm:max-w-md w-full">
+                "{sub.message}"
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
 }
 
 function HomeEditor({ content, setContent }: any) {
@@ -390,13 +456,13 @@ function CasesEditor({ content, setContent }: any) {
         ]
       }
     }));
-    
+
     setJustAdded(newIndex);
     setTimeout(() => {
       const element = document.getElementById(`project-${newIndex}`);
       element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 100);
-    
+
     setTimeout(() => setJustAdded(null), 2000);
   };
 
@@ -434,9 +500,8 @@ function CasesEditor({ content, setContent }: any) {
         <div
           key={index}
           id={`project-${index}`}
-          className={`bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-all duration-500 ${
-            justAdded === index ? 'animate-pulse border-black scale-105' : ''
-          }`}
+          className={`bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-all duration-500 ${justAdded === index ? 'animate-pulse border-black scale-105' : ''
+            }`}
         >
           <div className="flex items-center justify-between mb-3 sm:mb-4">
             <h3 className="text-base sm:text-lg font-semibold text-gray-900">
@@ -560,7 +625,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.person.name}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, person: { ...prev.contact.person, name: e.target.value }}
+                contact: { ...prev.contact, person: { ...prev.contact.person, name: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -574,7 +639,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.person.title}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, person: { ...prev.contact.person, title: e.target.value }}
+                contact: { ...prev.contact, person: { ...prev.contact.person, title: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -588,7 +653,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.person.email}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, person: { ...prev.contact.person, email: e.target.value }}
+                contact: { ...prev.contact, person: { ...prev.contact.person, email: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -602,7 +667,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.person.phone}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, person: { ...prev.contact.person, phone: e.target.value }}
+                contact: { ...prev.contact, person: { ...prev.contact.person, phone: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -624,7 +689,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.address.street}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, address: { ...prev.contact.address, street: e.target.value }}
+                contact: { ...prev.contact, address: { ...prev.contact.address, street: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -638,7 +703,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.address.city}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, address: { ...prev.contact.address, city: e.target.value }}
+                contact: { ...prev.contact, address: { ...prev.contact.address, city: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -652,7 +717,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.address.phone}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, address: { ...prev.contact.address, phone: e.target.value }}
+                contact: { ...prev.contact, address: { ...prev.contact.address, phone: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -666,7 +731,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.address.email}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, address: { ...prev.contact.address, email: e.target.value }}
+                contact: { ...prev.contact, address: { ...prev.contact.address, email: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -688,7 +753,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.careers.text}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, careers: { ...prev.contact.careers, text: e.target.value }}
+                contact: { ...prev.contact, careers: { ...prev.contact.careers, text: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />
@@ -702,7 +767,7 @@ function ContactEditor({ content, setContent }: any) {
               value={content.careers.email}
               onChange={(e) => setContent((prev: any) => ({
                 ...prev,
-                contact: { ...prev.contact, careers: { ...prev.contact.careers, email: e.target.value }}
+                contact: { ...prev.contact, careers: { ...prev.contact.careers, email: e.target.value } }
               }))}
               className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-black focus:border-black outline-none placeholder-gray-400 text-gray-900 transition-all text-sm sm:text-base"
             />

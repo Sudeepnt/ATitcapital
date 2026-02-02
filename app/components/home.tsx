@@ -30,12 +30,7 @@ export default function Home() {
     // Optional: Loading skeleton or just return null to avoid flicker
     // Returning default static content as fallback to prevent layout shift is better
     return (
-      <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-0 pb-0 bg-white">
-        <div className="animate-pulse flex flex-col space-y-8">
-          <div className="h-16 bg-gray-100 w-3/4 rounded-lg"></div>
-          <div className="h-24 bg-gray-100 w-2/3 rounded-lg"></div>
-        </div>
-      </main>
+      <main className="min-h-screen bg-white"></main>
     );
   }
 
@@ -51,7 +46,7 @@ export default function Home() {
           className="flex-1 flex flex-col items-center justify-center md:block md:flex-none"
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+          transition={{ duration: 1.6, ease: "easeOut", delay: 0.4 }}
         >
           <h2 className="text-[#13343e] text-[clamp(1.75rem,4vw,3.85rem)] leading-[1.1] font-black tracking-tight mb-6">
             <span dangerouslySetInnerHTML={{ __html: content.hero.title.replace(/\. /g, '.<br/>') }} />

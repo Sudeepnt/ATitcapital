@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Save, Loader2, Home, BookOpen, Briefcase, Users, Mail, Plus, Trash2, X, CheckCircle, AlertCircle, RotateCcw } from "lucide-react";
+import { Save, Loader2, Home, BookOpen, Briefcase, Users, Mail, Plus, Trash2, X, CheckCircle, AlertCircle, RotateCcw, MessageSquare } from "lucide-react";
 import { getCMSData, saveCMSData } from "../actions/cmsActions";
-import { defaultContent } from "../data/defaultContent";
+import { getContactSubmissions } from "../actions/adminActions"; // Assumed action exists
+import { DEFAULT_CONTENT as defaultContent } from "../data/defaultContent";
 
-type Tab = "home" | "principles" | "business" | "people" | "contact";
+type Tab = "submissions" | "home" | "principles" | "business" | "people" | "contact";
 type ToastType = { message: string; type: "success" | "error" } | null;
 
 export default function AdminAtit() {
@@ -13,9 +14,10 @@ export default function AdminAtit() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [saving, setSaving] = useState(false);
-    const [activeTab, setActiveTab] = useState<Tab>("home");
+    const [activeTab, setActiveTab] = useState<Tab>("submissions"); // Set submissions as default
     const [loginError, setLoginError] = useState("");
     const [toast, setToast] = useState<ToastType>(null);
+    const [submissions, setSubmissions] = useState<any[]>([]);
 
     // Initial Content State - Loaded from Server Action
     const [content, setContent] = useState<any>(null);
@@ -35,10 +37,16 @@ export default function AdminAtit() {
             if (password === ADMIN_PASSWORD) {
                 setIsAuthenticated(true);
                 try {
+                    // Fetch Content
                     const data = await getCMSData();
                     if (data) setContent(data);
+
+                    // Fetch Submissions
+                    const subs = await getContactSubmissions();
+                    setSubmissions(subs || []);
+
                 } catch (error) {
-                    console.error("Failed to fetch CMS data", error);
+                    console.error("Failed to fetch data", error);
                 }
             } else {
                 setLoginError("Invalid password. Please try again.");
@@ -91,10 +99,7 @@ export default function AdminAtit() {
 
     if (!isAuthenticated) {
         return (
-            <div className="fixed inset-0 z-[200] bg-[#13343e] flex items-center justify-center p-4 content-center cursor-auto" data-theme="dark-teal">
-                <style jsx global>{`
-                    .cursor-auto, .cursor-auto * { cursor: auto !important; }
-                `}</style>
+            <div className="min-h-screen w-full bg-[#13343e] flex items-center justify-center p-4">
                 <div className="bg-white rounded-[32px] shadow-2xl p-12 w-full max-w-[480px] flex flex-col items-center">
 
                     <h1 className="text-3xl font-bold text-black mb-2 tracking-tight">Admin Portal</h1>
@@ -187,7 +192,7 @@ export default function AdminAtit() {
                 {/* Tab Navigation */}
                 <div className="flex justify-center mb-10 overflow-x-auto pb-4">
                     <div className="flex space-x-2 bg-white p-1.5 rounded-xl shadow-sm border border-gray-200 whitespace-nowrap">
-                        {(["home", "principles", "business", "people", "contact"] as Tab[]).map((tab) => (
+                        {(["submissions", "home", "principles", "business", "people", "contact"] as Tab[]).map((tab) => (
                             <button
                                 key={tab}
                                 onClick={() => setActiveTab(tab)}
@@ -196,19 +201,22 @@ export default function AdminAtit() {
                                     : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                                     }`}
                             >
+                                {tab === "submissions" && <MessageSquare size={16} />}
                                 {tab === "home" && <Home size={16} />}
                                 {tab === "principles" && <BookOpen size={16} />}
                                 {tab === "business" && <Briefcase size={16} />}
                                 {tab === "people" && <Users size={16} />}
                                 {tab === "contact" && <Mail size={16} />}
-                                {tab === "principles" ? "Principles & Culture" :
-                                    tab.charAt(0).toUpperCase() + tab.slice(1)}
+                                {tab === "submissions" ? "Inquiries" :
+                                    tab === "principles" ? "Principles & Culture" :
+                                        tab.charAt(0).toUpperCase() + tab.slice(1)}
                             </button>
                         ))}
                     </div>
                 </div>
 
                 <div className="space-y-6">
+                    {activeTab === "submissions" && <SubmissionsContent submissions={submissions} />}
                     {activeTab === "home" && <HomeContent content={content} setContent={setContent} handleReset={handleReset} />}
                     {activeTab === "principles" && <PrinciplesContent content={content} setContent={setContent} handleReset={handleReset} />}
                     {activeTab === "business" && <BusinessContent content={content} setContent={setContent} handleReset={handleReset} />}
@@ -936,6 +944,61 @@ function ContactContent({ content, setContent, handleReset }: { content: any, se
                     />
                 </div>
 
+            </div>
+        </div>
+    );
+}
+
+function SubmissionsContent({ submissions }: { submissions: any[] }) {
+    if (!submissions || submissions.length === 0) {
+        return (
+            <div className="bg-white rounded-[24px] border border-gray-200 p-12 shadow-sm text-center">
+                <MessageSquare size={48} className="mx-auto text-gray-200 mb-4" />
+                <h3 className="text-xl font-bold text-black mb-2">No Inquiries Yet</h3>
+                <p className="text-gray-500">Messages sent via the contact form will appear here.</p>
+            </div>
+        );
+    }
+
+    return (
+        <div className="bg-white rounded-[24px] border border-gray-200 shadow-sm overflow-hidden">
+            <div className="p-8 border-b border-gray-100 flex justify-between items-center">
+                <h3 className="text-xl font-bold text-black">Client Inquiries ({submissions.length})</h3>
+            </div>
+            <div className="overflow-x-auto">
+                <table className="w-full text-left text-sm">
+                    <thead>
+                        <tr className="bg-gray-50/50 border-b border-gray-100">
+                            <th className="px-8 py-4 font-bold text-[#13343e] uppercase tracking-wider text-xs">Date & Time</th>
+                            <th className="px-8 py-4 font-bold text-[#13343e] uppercase tracking-wider text-xs">Name</th>
+                            <th className="px-8 py-4 font-bold text-[#13343e] uppercase tracking-wider text-xs">Email</th>
+                        </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                        {submissions.map((sub) => (
+                            <tr key={sub.id} className="hover:bg-gray-50 transition-colors">
+                                <td className="px-8 py-4 text-gray-500 whitespace-nowrap text-xs font-mono">
+                                    {new Date(sub.created_at).toLocaleString()}
+                                </td>
+                                <td className="px-8 py-4 font-semibold text-gray-900">
+                                    {sub.name || "N/A"}
+                                </td>
+                                <td className="px-8 py-4">
+                                    {sub.email ? (
+                                        <a
+                                            href={`mailto:${sub.email}`}
+                                            className="text-[#13343e] hover:underline font-medium inline-flex items-center gap-1"
+                                        >
+                                            {sub.email}
+                                        </a>
+                                    ) : (
+                                        <span className="text-gray-400">-</span>
+                                    )}
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

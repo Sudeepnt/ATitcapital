@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Icon } from '@iconify/react';
+import { Loader2 } from 'lucide-react';
 import { getCMSData } from "../actions/cmsActions";
 
 // SVG Wireframe 1: Foundation (Land/Values) - Architectural Skyline & Construction - Complex
@@ -224,21 +225,19 @@ export default function Principles() {
             pathLength: 1,
             opacity: 1,
             transition: {
-                pathLength: { delay: i * 0.05, type: "spring", duration: 1.5, bounce: 0 },
-                opacity: { delay: i * 0.05, duration: 0.01 }
+                pathLength: { delay: i * 0.1, type: "spring", duration: 3, bounce: 0 },
+                opacity: { delay: i * 0.1, duration: 0.02 }
             }
         })
     };
 
     const fadeIn = {
         hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { delay: 1, duration: 0.5 } }
+        visible: { opacity: 1, transition: { delay: 2, duration: 1 } }
     };
 
     if (!content) return (
-        <div className="h-screen w-full flex items-center justify-center bg-white">
-            <p className="text-[#13343e]">Loading...</p>
-        </div>
+        <div className="h-screen w-full bg-white"></div>
     );
 
     return (

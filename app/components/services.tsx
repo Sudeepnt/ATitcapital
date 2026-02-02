@@ -5,7 +5,7 @@ import { motion, AnimatePresence, PanInfo } from "framer-motion";
 
 import Link from "next/link";
 import { Icon } from '@iconify/react';
-import { Pointer } from 'lucide-react';
+import { Pointer, Loader2 } from 'lucide-react';
 import { slugify } from '../utils/slugify';
 import BusinessSideView from './business-side-view';
 import { getCMSData } from "../actions/cmsActions";
@@ -72,8 +72,8 @@ export default function Services() {
       pathLength: 1,
       opacity: 1,
       transition: {
-        pathLength: { duration: 2, bounce: 0, repeat: Infinity, repeatDelay: 1, ease: "easeInOut" },
-        opacity: { duration: 0.01 }
+        pathLength: { duration: 4, bounce: 0, repeat: Infinity, repeatDelay: 1, ease: "easeInOut" },
+        opacity: { duration: 0.02 }
       }
     }
   };
@@ -235,9 +235,7 @@ export default function Services() {
 
   if (services.length === 0) {
     return (
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <p className="text-[#13343e]">Loading...</p>
-      </div>
+      <div className="min-h-screen bg-white"></div>
     );
   }
 
@@ -254,7 +252,7 @@ export default function Services() {
       {/* Intro Paragraph */}
       <div className="relative w-full max-w-4xl px-8 md:px-32 text-center mt-12 mb-0 z-10">
         <p className="text-black text-[15px] md:text-lg font-medium leading-relaxed">
-          {introText || "Loading..."}
+          {introText || ""}
         </p>
       </div>
 

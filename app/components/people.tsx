@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Icon } from '@iconify/react';
+import { Loader2 } from 'lucide-react';
 import { getCMSData } from "../actions/cmsActions";
 
 export default function People() {
@@ -26,9 +27,7 @@ export default function People() {
 
     if (!content) {
         return (
-            <div className="h-screen w-full flex items-center justify-center bg-white">
-                <p className="text-[#13343e]">Loading team...</p>
-            </div>
+            <div className="h-screen w-full bg-white"></div>
         );
     }
 
@@ -55,7 +54,7 @@ export default function People() {
                                 key={person.name}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 1.5, delay: 0.4 + (index * 0.2) }}
+                                transition={{ duration: 3, delay: 0.8 + (index * 0.4) }}
                                 className="flex flex-col cursor-pointer group w-[45%] md:w-[264px]"
                                 onClick={(e) => {
                                     e.stopPropagation();

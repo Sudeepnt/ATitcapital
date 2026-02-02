@@ -1,96 +1,121 @@
 "use server";
 
-import fs from "fs/promises";
-import path from "path";
+import { supabase } from "../utils/supabase";
+import { DEFAULT_CONTENT } from "../data/defaultContent";
+import { FullCMSContent } from "../types/cms";
 
-const DATA_FILE_PATH = path.join(process.cwd(), "app/data/content.json");
-
-const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
-const REPO_OWNER = "Sudeepnt";
-const REPO_NAME = "ATitcapital";
-const FILE_PATH = "app/data/content.json"; // Path in the repo
-const BRANCH = "main"; // Or 'master' depending on your default
-
-export async function saveCMSData(data: any): Promise<{ success: boolean; error?: string }> {
-    // 1. Local Development: Save to filesystem
-    if (process.env.NODE_ENV === "development" || !GITHUB_TOKEN) {
-        try {
-            // If local but no token, just warn and try FS (will fail in prod)
-            if (process.env.NODE_ENV === "production" && !GITHUB_TOKEN) {
-                return { success: false, error: "Missing GITHUB_TOKEN. Cannot save in production." };
-            }
-            const jsonString = JSON.stringify(data, null, 2);
-            await fs.writeFile(DATA_FILE_PATH, jsonString, "utf8");
-            return { success: true };
-        } catch (err: any) {
-            console.error("Error saving locally:", err);
-            return { success: false, error: err.message };
-        }
+/**
+ * Fetches all content from the 'content_sections' table in Supabase.
+ * If data is missing or Supabase is offline, falls back to DEFAULT_CONTENT.
+ */
+export async function getCMSData(): Promise<FullCMSContent> {
+    if (!supabase) {
+        console.warn("Supabase not configured. Using default content.");
+        return DEFAULT_CONTENT;
     }
 
-    // 2. Production (Vercel): Save to GitHub
     try {
-        const jsonString = JSON.stringify(data, null, 2);
-        const contentEncoded = Buffer.from(jsonString).toString("base64");
+        const { data: rows, error } = await supabase
+            .from("content_sections")
+            .select("section_key, content");
 
-        // A. Get the current file SHA (required for update)
-        const getFileRes = await fetch(
-            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}?ref=${BRANCH}`,
-            {
-                headers: {
-                    Authorization: `Bearer ${GITHUB_TOKEN}`,
-                    Accept: "application/vnd.github.v3+json",
-                },
-                cache: "no-store", // Critical: Don't use cached SHA
-            }
-        );
-
-        if (!getFileRes.ok) {
-            throw new Error(`Failed to fetch current file SHA: ${getFileRes.statusText}`);
+        if (error) {
+            console.error("Supabase fetch error:", error);
+            return DEFAULT_CONTENT;
         }
 
-        const fileData = await getFileRes.json();
-        const sha = fileData.sha;
+        // Convert rows (key-value pairs) into a single object
+        const dbContent: any = {};
+        rows.forEach((row: any) => {
+            dbContent[row.section_key] = row.content;
+        });
 
-        // B. Commit the update
-        const updateRes = await fetch(
-            `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
-            {
-                method: "PUT",
-                headers: {
-                    Authorization: `Bearer ${GITHUB_TOKEN}`,
-                    Accept: "application/vnd.github.v3+json",
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    message: "CMS Update: Content updated via Admin Portal",
-                    content: contentEncoded,
-                    sha: sha,
-                    branch: BRANCH,
-                }),
-            }
-        );
+        // Merge DB content over Default content to ensure structure exists
+        // This allows us to have new fields in code that might not be in DB yet
+        return deepMerge(DEFAULT_CONTENT, dbContent) as FullCMSContent;
 
-        if (!updateRes.ok) {
-            const errorData = await updateRes.json();
-            throw new Error(`GitHub Commit Failed: ${errorData.message}`);
-        }
+    } catch (error) {
+        console.error("Unexpected error fetching CMS data:", error);
+        return DEFAULT_CONTENT;
+    }
+}
+
+/**
+ * Saves the full CMS content state to Supabase.
+ * Breaks the big object into sections and upserts them independently.
+ */
+export async function saveCMSData(data: any): Promise<{ success: boolean; error?: string }> {
+    if (!supabase) {
+        return { success: false, error: "Supabase not connected. Cannot save on Vercel." };
+    }
+
+    try {
+        // We break the huge JSON object into smaller chunks (sections)
+        // capable of being stored in our 'content_sections' table.
+        const updates = [
+            { section_key: 'home', content: data.home },
+            { section_key: 'principles', content: data.principles },
+            { section_key: 'business', content: data.business },
+            { section_key: 'services', content: data.services }, // Saving services list as JSON
+            { section_key: 'people', content: data.people },     // Saving people list as JSON
+            { section_key: 'contact', content: data.contact },
+        ];
+
+        // Check if 'technologies' or 'cases' exist in incoming data (from your admin tool)
+        // If you added new tabs to the admin, add them here to persist them.
+        if (data.technologies) updates.push({ section_key: 'technologies', content: data.technologies });
+        if (data.cases) updates.push({ section_key: 'cases', content: data.cases });
+
+        const { error } = await supabase
+            .from('content_sections')
+            .upsert(updates, { onConflict: 'section_key' });
+
+        if (error) throw error;
 
         return { success: true };
-
     } catch (err: any) {
-        console.error("Error saving to GitHub:", err);
+        console.error("Error saving to Supabase:", err);
         return { success: false, error: err.message };
     }
 }
 
-export async function getCMSData(): Promise<any> {
-    try {
-        const fileContent = await fs.readFile(DATA_FILE_PATH, "utf8");
-        return JSON.parse(fileContent);
-    } catch (error) {
-        console.error("Error reading CMS data:", error);
-        // Return null or a default structure to avoid crashing
-        return null;
+/**
+ * Resets the database content to match the hardcoded DEFAULT_CONTENT.
+ */
+export async function resetToDefault(): Promise<{ success: boolean; error?: string }> {
+    return saveCMSData(DEFAULT_CONTENT);
+}
+
+/**
+ * Helper to deep merge objects (Target = Default, Source = DB)
+ */
+function deepMerge(target: any, source: any): any {
+    if (typeof target !== 'object' || target === null) {
+        return source !== undefined ? source : target;
     }
+
+    if (Array.isArray(target)) {
+        // Ideally we trust the DB array. If DB has the array, use it.
+        return Array.isArray(source) ? source : target;
+    }
+
+    const output = { ...target };
+    if (isObject(target) && isObject(source)) {
+        Object.keys(source).forEach(key => {
+            if (isObject(source[key])) {
+                if (!(key in target)) {
+                    Object.assign(output, { [key]: source[key] });
+                } else {
+                    output[key] = deepMerge(target[key], source[key]);
+                }
+            } else {
+                Object.assign(output, { [key]: source[key] });
+            }
+        });
+    }
+    return output;
+}
+
+function isObject(item: any) {
+    return (item && typeof item === 'object' && !Array.isArray(item));
 }

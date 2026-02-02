@@ -104,8 +104,8 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{
-                          delay: 0.8 + (index * 0.3),
-                          duration: 1.6,
+                          delay: 0.4 + (index * 0.15),
+                          duration: 0.8,
                           ease: [0.33, 1, 0.68, 1]
                         }}
                         onClick={() => handleNavigate(item.href)}
