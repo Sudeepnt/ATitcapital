@@ -11,11 +11,6 @@ const outfit = Outfit({
 export const metadata: Metadata = {
   title: "ATit Capital",
   description: "ATit Capital operates at the intersection of people, capital, and land in India.",
-  icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
-  },
 };
 
 import ClientLayout from "./client-layout";
