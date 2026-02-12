@@ -54,20 +54,20 @@ export default function Home({ initialContent }: { initialContent: any }) {
           className="flex-1 flex flex-col items-center justify-center md:block md:flex-none"
           variants={fadeInUp}
         >
-          <h2 className="text-[#13343e] text-[clamp(1.75rem,4vw,3.85rem)] leading-[1.1] font-black tracking-tight mb-6">
+          <h2 className="text-[#13343e] text-[clamp(1.4rem,3.2vw,3.08rem)] leading-[1.1] font-serif font-bold tracking-tight mb-6 [-webkit-text-stroke:1px]">
             <span dangerouslySetInnerHTML={{ __html: content.hero.title.replace(/\. /g, '.<br/>') }} />
           </h2>
-          <p className="text-[#13343e] text-[clamp(1rem,1.5vw,1.5rem)] leading-relaxed font-medium max-w-4xl opacity-90 whitespace-pre-line">
+          <p className="text-[#13343e] text-[clamp(0.935rem,1.4vw,1.4rem)] leading-relaxed font-sans font-medium max-w-4xl opacity-90 whitespace-pre-line">
             {content.hero.subtitle}
           </p>
         </motion.div>
 
         <motion.div
-          className="flex flex-col items-center gap-6 md:flex-row md:pl-1"
+          className="flex flex-col items-center gap-6 md:flex-row"
           variants={fadeInUp}
         >
           <div className="relative group cursor-pointer inline-block">
-            <p className="text-[#1A1A1A] text-[clamp(1.05rem,2.1vw,2.1rem)] font-black tracking-tight relative z-10 transition-colors">
+            <p className="text-[#1A1A1A] text-[clamp(0.89rem,1.79vw,1.79rem)] font-sans font-black tracking-tight relative z-10 transition-colors">
               {content.hero.cta}
             </p>
             {/* Animated Underline */}

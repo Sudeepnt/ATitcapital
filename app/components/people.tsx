@@ -36,7 +36,7 @@ export default function People({ initialContent }: { initialContent?: any }) {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.1, duration: 0.6 }}
-                    className="text-[#13343e] text-3xl md:text-4xl font-black mb-12 mt-4 text-center"
+                    className="text-[#13343e] text-3xl md:text-4xl font-serif font-bold mb-12 mt-4 text-center [-webkit-text-stroke:1px]"
                 >
                     Founding Team
                 </motion.h1>
@@ -73,10 +73,10 @@ export default function People({ initialContent }: { initialContent?: any }) {
                                 </div>
 
                                 {/* Text Info */}
-                                <h3 className="text-[#1A1A1A] text-sm md:text-base font-medium leading-tight">
+                                <h3 className="text-[#1A1A1A] text-sm md:text-base font-serif font-bold leading-tight [-webkit-text-stroke:0.15px]">
                                     {person.name}
                                 </h3>
-                                <p className="text-[#1A1A1A]/60 text-xs md:text-sm font-normal mt-1">
+                                <p className="text-[#1A1A1A]/60 text-xs md:text-sm font-sans font-light mt-1">
                                     {person.role}
                                 </p>
                             </motion.div>
@@ -131,15 +131,15 @@ export default function People({ initialContent }: { initialContent?: any }) {
                                 {/* Content */}
                                 <div className="flex-1 flex flex-col text-left">
                                     <div className="mb-4">
-                                        <h2 className="text-[#1A1A1A] text-xl md:text-3xl font-bold mb-1">
+                                        <h2 className="text-[#1A1A1A] text-xl md:text-3xl font-serif font-bold mb-1 [-webkit-text-stroke:0.4px]">
                                             {selectedPerson.name}
                                         </h2>
-                                        <p className="text-[#13343e] text-sm md:text-lg font-medium opacity-80">
+                                        <p className="text-[#13343e] text-sm md:text-lg font-sans font-medium opacity-80">
                                             {selectedPerson.role}
                                         </p>
                                     </div>
 
-                                    <div className="space-y-3 text-[#1A1A1A]/80 text-[11px] md:text-base leading-relaxed font-light text-justify">
+                                    <div className="space-y-3 text-[#1A1A1A]/80 text-[11px] md:text-base leading-relaxed font-sans font-light text-justify">
                                         <p>{selectedPerson.bio}</p>
                                         {selectedPerson.bio2 && <p>{selectedPerson.bio2}</p>}
                                         {selectedPerson.bio3 && <p>{selectedPerson.bio3}</p>}

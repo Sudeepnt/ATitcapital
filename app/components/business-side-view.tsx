@@ -58,7 +58,7 @@ export default function BusinessSideView({ service, onClose }: BusinessSideViewP
 
                             {/* Title Section (Left on PC) */}
                             <div className="md:w-[45%]">
-                                <h2 className="text-white text-[clamp(1.5rem,3vw,2.2rem)] md:text-[clamp(2.2rem,3vw,3.5rem)] font-black leading-[1.05] tracking-tighter max-w-[95%]">
+                                <h2 className="text-white text-[clamp(1.275rem,2.55vw,1.87rem)] md:text-[clamp(1.87rem,2.55vw,2.975rem)] font-serif font-bold leading-[1.05] tracking-tighter max-w-[95%] [-webkit-text-stroke:1px]">
 
                                     {service.fullTitle || service.title}.
                                 </h2>
@@ -66,7 +66,7 @@ export default function BusinessSideView({ service, onClose }: BusinessSideViewP
 
                             {/* Description Section (Center on PC) */}
                             <div className="md:w-[35%] text-white/90">
-                                <p className="text-[1.05rem] md:text-[1.15rem] font-light leading-relaxed mb-10">
+                                <p className="text-[1.05rem] md:text-[1.15rem] font-sans font-light leading-relaxed mb-10">
                                     {service.description}
                                 </p>
 
@@ -74,7 +74,7 @@ export default function BusinessSideView({ service, onClose }: BusinessSideViewP
                                     className="flex items-center gap-6 cursor-pointer group/link w-fit"
                                     onClick={() => router.push('/contact')}
                                 >
-                                    <span className="font-black text-[1.1rem] md:text-[0.96rem]">Start a conversation</span>
+                                    <span className="font-sans font-bold text-[1.1rem] md:text-[0.96rem]">Start a conversation</span>
                                     <div className="group relative w-10 h-10 rounded-full flex items-center justify-center">
                                         <motion.div
                                             className="absolute top-1/2 left-1/2 rounded-full border border-white"

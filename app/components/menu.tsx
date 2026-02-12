@@ -95,21 +95,21 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
 
               {/* Links */}
               <LayoutGroup>
-                <nav className="flex flex-col items-center md:items-end gap-6 md:gap-8 relative z-10 lowercase">
+                <nav className="flex flex-col items-center md:items-end gap-6 md:gap-8 relative z-10">
                   {menuItems.map((item, index) => {
                     const isActive = pathname === item.href;
                     return (
-                      <motion.button
+                      <button
                         key={item.label}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{
+                        // initial={{ opacity: 0 }} // removed due to render issue
+                        // animate={{ opacity: 1 }}
+                        /* transition={{
                           delay: 0.2 + (index * 0.15),
                           duration: 0.5,
                           ease: [0.33, 1, 0.68, 1]
-                        }}
+                        }} */
                         onClick={() => handleNavigate(item.href)}
-                        className="group relative text-2xl md:text-[1.5rem] font-bold tracking-tighter transition-all text-white py-1 whitespace-nowrap"
+                        className="group relative text-2xl md:text-[1.5rem] font-serif font-bold tracking-tighter transition-all text-white py-1 whitespace-nowrap"
                       >
                         <span className="relative z-10">{item.label}</span>
                         {isActive && (
@@ -119,7 +119,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
                           />
                         )}
                         <div className="absolute -bottom-1 right-0 w-0 h-[2px] bg-white/20 transition-all duration-300 group-hover:w-full" />
-                      </motion.button>
+                      </button>
                     );
                   })}
                 </nav>

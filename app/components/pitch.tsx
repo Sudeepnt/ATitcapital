@@ -86,31 +86,31 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
           transition={{ delay: 0.1, duration: 0.5 }}
         >
           {/* Headline / Input Group 1 */}
-          <div className="mt-6 mb-6 leading-relaxed text-[#1A1A1A]" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
-            <span className="font-light">{content.formLine1Start} </span>
+          <div className="mt-6 mb-6 leading-relaxed text-[#1A1A1A] font-sans font-light" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
+            <span>{content.formLine1Start} </span>
             <input
               type="text"
               placeholder={content.namePlaceholder}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="bg-[#E8E9F3] border-0 outline-none px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(100px,15vw,200px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-normal transition-all"
+              className="bg-[#E8E9F3] border-0 outline-none px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(100px,15vw,200px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-sans font-light transition-all"
               disabled={status === 'loading' || status === 'success'}
             />
-            <span className="font-light"> {content.formLine1End}</span>
+            <span> {content.formLine1End}</span>
           </div>
 
           {/* Headline / Input Group 2 */}
-          <div className="mb-12 leading-relaxed text-[#1A1A1A]" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
-            <span className="font-light">{content.formLine2Start} </span>
+          <div className="mb-12 leading-relaxed text-[#1A1A1A] font-sans font-light" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
+            <span>{content.formLine2Start} </span>
             <input
               type="email"
               placeholder={content.emailPlaceholder}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="bg-[#E8E9F3] border-0 outline-none px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(150px,20vw,300px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-normal transition-all focus:ring-1 focus:ring-[#13343e]"
+              className="bg-[#E8E9F3] border-0 outline-none px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(150px,20vw,300px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-sans font-light transition-all focus:ring-1 focus:ring-[#13343e]"
               disabled={status === 'loading' || status === 'success'}
             />
-            <span className="font-light">{content.formLine2End}</span>
+            <span>{content.formLine2End}</span>
           </div>
 
           {/* Consent Checkbox */}
@@ -125,7 +125,7 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
                   disabled={status === 'loading' || status === 'success'}
                 />
               </div>
-              <span className="text-[10px] md:text-xs text-gray-500 leading-relaxed pt-0.5 opacity-80 group-hover:opacity-100 transition-opacity">
+              <span className="text-[10px] md:text-xs text-gray-500 font-sans font-light leading-relaxed pt-0.5 opacity-80 group-hover:opacity-100 transition-opacity">
                 {content.consentText}
               </span>
             </label>
@@ -138,7 +138,7 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
-                className="flex items-center gap-2 text-red-500 mb-6 font-medium text-sm"
+                className="flex items-center gap-2 text-red-500 mb-6 font-medium text-sm font-sans"
               >
                 <AlertCircle size={16} />
                 {errorMessage}
@@ -159,14 +159,14 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
                   <div className="bg-[#13343e] rounded-full p-1 shadow-sm">
                     <Check size={20} className="text-white" strokeWidth={3} />
                   </div>
-                  <span className="font-bold text-lg">Message Sent Successfully!</span>
+                  <span className="font-bold text-lg font-sans">Message Sent Successfully!</span>
                 </motion.div>
               ) : (
                 <motion.button
                   key="submit-btn"
                   type="submit"
                   disabled={status === 'loading'}
-                  className="bg-[#13343e] text-white pl-8 pr-6 py-4 rounded font-bold text-lg flex items-center gap-4 group hover:bg-[#0e262d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="bg-[#13343e] text-white pl-8 pr-6 py-4 rounded font-sans font-bold text-lg flex items-center gap-4 group hover:bg-[#0e262d] transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
                   initial="initial"
                   whileHover={status === 'loading' ? {} : "hover"}
                   whileTap={status === 'loading' ? {} : "tap"}
@@ -213,10 +213,10 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
           </div>
 
           {/* Info Grid - Moved inside form, closer to button */}
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 text-[#1A1A1A] opacity-80 text-sm leading-relaxed text-left mt-8">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 text-[#1A1A1A] opacity-80 text-sm leading-relaxed text-left mt-8 font-sans font-light">
             {/* Column 1: Company & Contact */}
             <div className="flex flex-col">
-              <p className="font-bold mb-1">{content.companyName}</p>
+              <p className="font-bold mb-1 font-sans">{content.companyName}</p>
               <p>{content.email}</p>
               <p>{content.phone}</p>
             </div>

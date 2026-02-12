@@ -72,7 +72,7 @@ export default function ClientLayout({
                             transition={{ delay: 0.3 }}
                         >
                             <Image
-                                src="/favicon.png"
+                                src="/new-mesfasmber-1769944306305.png"
                                 alt="ATit Capital Logo"
                                 width={384}
                                 height={384}
@@ -105,7 +105,7 @@ export default function ClientLayout({
 
             {/* Global Footer */}
             {!pathname?.includes('/contact') && !pathname?.includes('principles') && !pathname?.includes('business-view') && !pathname?.includes('/privacy-statement') && (
-                <footer className="hidden md:flex absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 justify-end items-end text-[10px] md:text-[11px] font-medium tracking-[0.25em] text-[#5A5A80] select-none z-[10] pointer-events-none w-full">
+                <footer className="hidden md:flex absolute bottom-0 left-0 right-0 px-8 md:px-32 py-8 md:py-16 justify-end items-end text-[10px] md:text-[11px] font-sans font-light tracking-[0.25em] text-[#5A5A80] select-none z-[10] pointer-events-none w-full">
                     <div className="hidden md:block text-[#13343e]">©2026 ATit Capital</div>
                 </footer>
             )}

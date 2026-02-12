@@ -1,10 +1,17 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Libre_Baskerville, Montserrat } from "next/font/google";
 import "./globals.css";
 
-const outfit = Outfit({
+const libreBaskerville = Libre_Baskerville({
   subsets: ["latin"],
-  variable: "--font-outfit",
+  weight: ["400", "700"],
+  variable: "--font-libre",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -26,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.variable} font-sans antialiased`}>
+      <body className={`${libreBaskerville.variable} ${montserrat.variable} font-sans antialiased`}>
 
         <ClientLayout>{children}</ClientLayout>
       </body>

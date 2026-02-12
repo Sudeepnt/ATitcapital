@@ -268,7 +268,7 @@ export default function Principles({ initialContent }: { initialContent?: any })
                         transition={{ delay: 0.4, duration: 1.6 }}
                         className="mb-4 max-w-2xl mx-auto text-center"
                     >
-                        <h1 className="text-[#13343e] text-3xl md:text-4xl font-black mb-12 mt-4 text-center">
+                        <h1 className="text-[#13343e] text-3xl md:text-4xl font-serif font-bold mb-12 mt-4 text-center [-webkit-text-stroke:1px]">
                             {content.mainHeading}
                         </h1>
 
@@ -283,10 +283,10 @@ export default function Principles({ initialContent }: { initialContent?: any })
                         whileInView={{ opacity: 1, y: 0 }}
                         className="mb-8 max-w-2xl mx-auto"
                     >
-                        <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
+                        <h2 className="text-[#13343e] text-lg font-serif font-bold mb-2 [-webkit-text-stroke:0.4px]">
                             {content.section1.heading}
                         </h2>
-                        <p className="text-black text-base leading-relaxed mb-8 whitespace-pre-wrap">
+                        <p className="text-black text-base font-sans font-light leading-relaxed mb-8 whitespace-pre-wrap [-webkit-text-stroke:0.15px]">
                             {content.section1.description}
                         </p>
                     </motion.div>
@@ -298,8 +298,8 @@ export default function Principles({ initialContent }: { initialContent?: any })
                         <div className="text-black text-base leading-relaxed mb-16 space-y-8">
                             {content.corePrinciples.map((item: any, idx: number) => (
                                 <div key={idx}>
-                                    <h3 className="text-[#13343e] text-md font-bold tracking-wide mb-2">{item.title}</h3>
-                                    <p>{item.description}</p>
+                                    <h3 className="text-[#13343e] text-md font-serif font-bold tracking-wide mb-2 [-webkit-text-stroke:0.4px]">{item.title}</h3>
+                                    <p className="font-sans font-light [-webkit-text-stroke:0.15px]">{item.description}</p>
                                 </div>
                             ))}
                         </div>
@@ -314,10 +314,10 @@ export default function Principles({ initialContent }: { initialContent?: any })
                         <div className="w-full mb-8">
                             <GovernanceWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
-                        <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
+                        <h2 className="text-[#13343e] text-lg font-serif font-bold mb-2 [-webkit-text-stroke:0.4px]">
                             {content.section3.heading}
                         </h2>
-                        <p className="text-black text-base leading-relaxed mb-16 whitespace-pre-wrap">
+                        <p className="text-black text-base font-sans font-light leading-relaxed mb-16 whitespace-pre-wrap [-webkit-text-stroke:0.15px]">
                             {content.section3.description}
                         </p>
                     </motion.div>
@@ -331,11 +331,11 @@ export default function Principles({ initialContent }: { initialContent?: any })
                         <div className="w-full mb-8">
                             <DiversityWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
-                        <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
+                        <h2 className="text-[#13343e] text-lg font-serif font-bold mb-2 [-webkit-text-stroke:0.4px]">
                             {content.section4.heading}
                         </h2>
 
-                        <p className="text-black text-base leading-relaxed mb-16 whitespace-pre-wrap">
+                        <p className="text-black text-base font-sans font-light leading-relaxed mb-16 whitespace-pre-wrap [-webkit-text-stroke:0.15px]">
                             {content.section4.description}
                         </p>
                     </motion.div>
@@ -349,11 +349,11 @@ export default function Principles({ initialContent }: { initialContent?: any })
                         <div className="w-full mb-8">
                             <InvestedWireframe draw={draw} fadeIn={fadeIn} />
                         </div>
-                        <h2 className="text-[#13343e] text-lg font-extrabold mb-2">
+                        <h2 className="text-[#13343e] text-lg font-serif font-bold mb-2 [-webkit-text-stroke:0.4px]">
                             {content.section5.heading}
                         </h2>
 
-                        <p className="text-black text-base leading-relaxed mb-16 whitespace-pre-wrap">
+                        <p className="text-black text-base font-sans font-light leading-relaxed mb-16 whitespace-pre-wrap [-webkit-text-stroke:0.15px]">
                             {content.section5.description}
                         </p>
                     </motion.div>
@@ -369,7 +369,7 @@ export default function Principles({ initialContent }: { initialContent?: any })
                             className="flex items-center justify-center gap-4 mb-8 cursor-pointer hover:opacity-70 transition-opacity"
                             onClick={() => router.push('/contact')}
                         >
-                            <h2 className="text-[#13343e] text-xl font-bold">
+                            <h2 className="text-[#13343e] text-xl font-sans font-bold">
                                 Start a conversation
                             </h2>
                             <div className="relative flex h-6 w-6 items-center justify-center">

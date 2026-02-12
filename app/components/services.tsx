@@ -254,7 +254,7 @@ export default function Services({ initialData }: { initialData?: any }) {
 
       {/* Intro Paragraph */}
       <div className="relative w-full max-w-4xl px-8 md:px-32 text-center mt-12 mb-0 z-10">
-        <p className="text-black text-[15px] md:text-lg font-medium leading-relaxed">
+        <p className="text-black text-[15px] md:text-lg font-sans font-medium leading-relaxed">
           {introText || ""}
         </p>
       </div>
@@ -332,7 +332,7 @@ export default function Services({ initialData }: { initialData?: any }) {
                   )}
                 </motion.div>
 
-                <h2 className="text-[#13343e] text-[clamp(1.4rem,2.5vw,2.2rem)] md:text-[clamp(1.8rem,3vw,3rem)] font-black mb-4 tracking-tight text-center max-w-[90%] leading-tight">
+                <h2 className="text-[#13343e] text-[clamp(1.19rem,2.125vw,1.87rem)] md:text-[clamp(1.53rem,2.55vw,2.55rem)] font-serif font-bold mb-4 tracking-tight text-center max-w-[90%] leading-tight [-webkit-text-stroke:1px]">
                   {service.title}.
                 </h2>
 
@@ -343,7 +343,7 @@ export default function Services({ initialData }: { initialData?: any }) {
                   }}
                   onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
                   onTouchStart={(e: React.TouchEvent) => e.stopPropagation()}
-                  className="text-black font-black text-xl px-4 py-2 bg-gradient-to-r from-[#13343e] to-[#13343e] bg-no-repeat bg-[length:0%_100%] bg-right transition-[background-size,color] duration-500 hover:bg-[length:100%_100%] hover:bg-left hover:text-white block cursor-pointer"
+                  className="text-black font-sans font-bold text-xl px-4 py-2 bg-gradient-to-r from-[#13343e] to-[#13343e] bg-no-repeat bg-[length:0%_100%] bg-right transition-[background-size,color] duration-500 hover:bg-[length:100%_100%] hover:bg-left hover:text-white block cursor-pointer"
                 >
                   see more
                 </button>
