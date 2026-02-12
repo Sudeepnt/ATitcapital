@@ -18,7 +18,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       finishLoading();
-    }, 2000);
+    }, 800);
     return () => clearTimeout(timer);
   }, []);
 

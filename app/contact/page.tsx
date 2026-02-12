@@ -1,5 +1,9 @@
 import Pitch from "../components/pitch";
+import { getCMSData } from "../actions/cmsActions";
 
-export default function Page() {
-    return <Pitch />;
+export const revalidate = 60;
+
+export default async function Page() {
+    const data = await getCMSData();
+    return <Pitch initialContent={data?.contact} />;
 }

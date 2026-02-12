@@ -1,52 +1,58 @@
+// removed "use client" because we can keep components as client components if they use hooks, but data comes via props
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
-import { getCMSData } from "../actions/cmsActions";
-// import Menu from "./menu"; // Removed
-
+// import { getCMSData } from "../actions/cmsActions"; // No longer needed
 import { useRouter } from "next/navigation";
 
-export default function Home() {
+export default function Home({ initialContent }: { initialContent: any }) {
   const router = useRouter();
 
-  const [content, setContent] = useState<any>(null); // Start null to check for loading
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const data = await getCMSData();
-        if (data && data.home) {
-          setContent(data.home);
-        }
-      } catch (error) {
-        console.error("Failed to load CMS data for home", error);
-      }
-    }
-    fetchData();
-  }, []);
+  // If initialContent is passed, use it directly. optimize: removed useEffect fetch
+  const content = initialContent || null;
 
   if (!content) {
-    // Optional: Loading skeleton or just return null to avoid flicker
-    // Returning default static content as fallback to prevent layout shift is better
+    // Fallback if something fails, though server should provide it
     return (
       <main className="min-h-screen bg-white"></main>
     );
   }
 
+  // Animation variants
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+        delayChildren: 0.1
+      }
+    }
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 30 },
+    show: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8
+      }
+    }
+  };
+
   return (
-    // Replaced outer div with main only, layout handled by page.tsx
-    // Main Content
     <main className="min-h-screen flex flex-col justify-center px-8 md:px-32 w-full mx-auto z-10 pt-0 pb-0 bg-white">
-      {/* Added padding top/bottom to account for fixed header/footer if needed, though flex centering usually handles it. */}
       <motion.div
         className="flex flex-col h-[70vh] justify-between items-center text-center md:h-auto md:block md:text-left md:space-y-12"
+        variants={staggerContainer}
+        initial="hidden"
+        animate="show"
       >
         <motion.div
           className="flex-1 flex flex-col items-center justify-center md:block md:flex-none"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.6, ease: "easeOut", delay: 0.4 }}
+          variants={fadeInUp}
         >
           <h2 className="text-[#13343e] text-[clamp(1.75rem,4vw,3.85rem)] leading-[1.1] font-black tracking-tight mb-6">
             <span dangerouslySetInnerHTML={{ __html: content.hero.title.replace(/\. /g, '.<br/>') }} />
@@ -56,7 +62,10 @@ export default function Home() {
           </p>
         </motion.div>
 
-        <div className="flex flex-col items-center gap-6 md:flex-row md:pl-1">
+        <motion.div
+          className="flex flex-col items-center gap-6 md:flex-row md:pl-1"
+          variants={fadeInUp}
+        >
           <div className="relative group cursor-pointer inline-block">
             <p className="text-[#1A1A1A] text-[clamp(1.05rem,2.1vw,2.1rem)] font-black tracking-tight relative z-10 transition-colors">
               {content.hero.cta}
@@ -65,7 +74,7 @@ export default function Home() {
             <span className="absolute bottom-[-4px] left-0 w-full h-[5px] bg-[#13343e] origin-bottom-right scale-x-0 transition-transform duration-300 ease-out group-hover:origin-bottom-left group-hover:scale-x-100" />
           </div>
           <CtaPulse onClick={() => router.push("/contact")} />
-        </div>
+        </motion.div>
       </motion.div>
     </main>
   );

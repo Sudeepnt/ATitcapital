@@ -6,8 +6,8 @@ import { getCMSData } from "../actions/cmsActions";
 import { submitContactForm } from "../actions/contact";
 import { Loader2, Check, AlertCircle } from "lucide-react";
 
-export default function Pitch() {
-  const [content, setContent] = useState<any>(null);
+export default function Pitch({ initialContent }: { initialContent?: any }) {
+  const [content, setContent] = useState<any>(initialContent || null);
   const [formData, setFormData] = useState({
     name: "",
     project: "",
@@ -17,19 +17,15 @@ export default function Pitch() {
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState("");
 
+  // optimization: removed useEffect fetch since data is passed as prop
+  /*
   useEffect(() => {
     async function fetchData() {
-      try {
-        const data = await getCMSData();
-        if (data?.contact) {
-          setContent(data.contact);
-        }
-      } catch (error) {
-        console.error('Failed to load contact:', error);
-      }
+      // ...
     }
     fetchData();
   }, []);
+  */
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -87,7 +83,7 @@ export default function Pitch() {
           className="w-full max-w-5xl"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
+          transition={{ delay: 0.1, duration: 0.5 }}
         >
           {/* Headline / Input Group 1 */}
           <div className="mt-6 mb-6 leading-relaxed text-[#1A1A1A]" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>

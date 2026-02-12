@@ -7,23 +7,19 @@ import { Icon } from '@iconify/react';
 import { Loader2 } from 'lucide-react';
 import { getCMSData } from "../actions/cmsActions";
 
-export default function People() {
+export default function People({ initialContent }: { initialContent?: any }) {
     const [selectedPerson, setSelectedPerson] = useState<any>(null);
-    const [content, setContent] = useState<any>(null);
+    const [content, setContent] = useState<any>(initialContent || null);
 
+    // efficient: removed client-side fetch since data is passed as prop
+    /*
     useEffect(() => {
         async function fetchData() {
-            try {
-                const data = await getCMSData();
-                if (data?.people) {
-                    setContent(data.people);
-                }
-            } catch (error) {
-                console.error("Failed to load people data", error);
-            }
+            // ...
         }
         fetchData();
     }, []);
+    */
 
     if (!content) {
         return (
@@ -39,7 +35,7 @@ export default function People() {
                 <motion.h1
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2, duration: 1 }}
+                    transition={{ delay: 0.1, duration: 0.6 }}
                     className="text-[#13343e] text-3xl md:text-4xl font-black mb-12 mt-4 text-center"
                 >
                     Founding Team
@@ -54,7 +50,7 @@ export default function People() {
                                 key={person.name}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 1, delay: 0.5 + (index * 0.4) }}
+                                transition={{ duration: 0.5, delay: 0.1 + (index * 0.05) }}
                                 className="flex flex-col cursor-pointer group w-[45%] md:w-[264px]"
                                 onClick={(e) => {
                                     e.stopPropagation();

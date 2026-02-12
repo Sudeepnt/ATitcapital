@@ -10,12 +10,12 @@ import { slugify } from '../utils/slugify';
 import BusinessSideView from './business-side-view';
 import { getCMSData } from "../actions/cmsActions";
 
-export default function Services() {
+export default function Services({ initialData }: { initialData?: any }) {
 
-  const [introText, setIntroText] = useState("");
+  const [introText, setIntroText] = useState(initialData?.business?.intro || "");
+  const [services, setServices] = useState<any[]>(initialData?.services?.items || []);
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [services, setServices] = useState<any[]>([]);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -25,6 +25,8 @@ export default function Services() {
     setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
   }, []);
 
+  // Removed client-side fetch since we pass data from server
+  /* 
   useEffect(() => {
     const loadData = async () => {
       const data = await getCMSData();
@@ -35,8 +37,9 @@ export default function Services() {
         setServices(data.services.items);
       }
     };
-    loadData();
-  }, []);
+    if (!initialData) loadData();
+  }, [initialData]);
+  */
 
   // Consolidated swipe handler for both Drag (Cards) and Pan (Background)
   const handleSwipe = (event: any, info: PanInfo) => {

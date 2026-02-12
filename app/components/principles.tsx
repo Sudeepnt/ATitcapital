@@ -198,20 +198,20 @@ const InvestedWireframe = ({ draw, fadeIn }: { draw: any, fadeIn: any }) => (
     </motion.svg>
 );
 
-export default function Principles() {
+export default function Principles({ initialContent }: { initialContent?: any }) {
     const router = useRouter();
     const [scrollProgress, setScrollProgress] = useState(0);
-    const [content, setContent] = useState<any>(null);
+    const [content, setContent] = useState<any>(initialContent || null);
 
+    // efficient: removed client-side fetch since data is passed as prop
+    /*
     useEffect(() => {
         const fetchContent = async () => {
-            const data = await getCMSData();
-            if (data?.principles) {
-                setContent(data.principles);
-            }
-        };
-        fetchContent();
+            // ...
+        }
+        fetchData();
     }, []);
+    */
 
     const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
         const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
@@ -225,15 +225,15 @@ export default function Principles() {
             pathLength: 1,
             opacity: 1,
             transition: {
-                pathLength: { delay: i * 0.1, type: "spring", duration: 3, bounce: 0 },
-                opacity: { delay: i * 0.1, duration: 0.02 }
+                pathLength: { delay: i * 0.05, type: "spring", duration: 1.5, bounce: 0 }, // Speed up drawing
+                opacity: { delay: i * 0.05, duration: 0.02 }
             }
         })
     };
 
     const fadeIn = {
         hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { delay: 2, duration: 1 } }
+        visible: { opacity: 1, transition: { delay: 0.2, duration: 0.8 } } // Reduced delay from 2s to 0.2s
     };
 
     if (!content) return (
