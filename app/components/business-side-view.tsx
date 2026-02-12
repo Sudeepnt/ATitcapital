@@ -24,6 +24,18 @@ export default function BusinessSideView({ service, onClose }: BusinessSideViewP
         }
     };
 
+    const handleStartConversation = () => {
+        if (onClose) {
+            onClose();
+            // Wait for exit animation (0.8s) before navigating
+            setTimeout(() => {
+                router.push('/contact');
+            }, 800);
+        } else {
+            router.push('/contact');
+        }
+    };
+
     return (
         <motion.div
             initial={{ x: "-100%" }}
@@ -72,7 +84,7 @@ export default function BusinessSideView({ service, onClose }: BusinessSideViewP
 
                                 <div
                                     className="flex items-center gap-6 cursor-pointer group/link w-fit"
-                                    onClick={() => router.push('/contact')}
+                                    onClick={handleStartConversation}
                                 >
                                     <span className="font-sans font-bold text-[1.1rem] md:text-[0.96rem]">Start a conversation</span>
                                     <div className="group relative w-10 h-10 rounded-full flex items-center justify-center">
