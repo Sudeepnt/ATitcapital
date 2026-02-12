@@ -54,7 +54,7 @@ export default function Home({ initialContent }: { initialContent: any }) {
           className="flex-1 flex flex-col items-center justify-center md:block md:flex-none"
           variants={fadeInUp}
         >
-          <h2 className="text-[#13343e] text-[clamp(1.4rem,3.2vw,3.08rem)] leading-[1.1] font-serif font-bold tracking-tight mb-6 [-webkit-text-stroke:1px]">
+          <h2 className="text-[#13343e] text-[clamp(1.61rem,3.68vw,3.54rem)] leading-[1.1] font-serif font-bold tracking-tight mb-6 [-webkit-text-stroke:1px]">
             <span dangerouslySetInnerHTML={{ __html: content.hero.title.replace(/\. /g, '.<br/>') }} />
           </h2>
           <p className="text-[#13343e] text-[clamp(0.935rem,1.4vw,1.4rem)] leading-relaxed font-sans font-medium max-w-4xl opacity-90 whitespace-pre-line">
