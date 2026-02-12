@@ -86,14 +86,14 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
           transition={{ delay: 0.1, duration: 0.5 }}
         >
           {/* Headline / Input Group 1 */}
-          <div className="mt-6 mb-6 leading-relaxed text-[#1A1A1A] font-sans font-light" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
+          <div className="mt-6 mb-6 leading-relaxed text-[#1A1A1A] font-sans font-normal" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
             <span>{content.formLine1Start} </span>
             <input
               type="text"
               placeholder={content.namePlaceholder}
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="bg-[#E8E9F3] border-0 outline-none px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(100px,15vw,200px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-sans font-light transition-all"
+              className="bg-[#E8E9F3] border-0 outline-none px-2 md:px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(120px,15vw,200px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-sans font-normal transition-all"
               disabled={status === 'loading' || status === 'success'}
             />
             <span> {content.formLine1End}</span>
@@ -101,13 +101,13 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
 
           {/* Headline / Input Group 2 */}
           <div className="mb-12 leading-relaxed text-[#1A1A1A] font-sans font-light" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
-            <span>{content.formLine2Start} </span>
+            <span className="font-normal">{content.formLine2Start} </span>
             <input
               type="email"
               placeholder={content.emailPlaceholder}
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="bg-[#E8E9F3] border-0 outline-none px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(150px,20vw,300px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-sans font-light transition-all focus:ring-1 focus:ring-[#13343e]"
+              className="bg-[#E8E9F3] border-0 outline-none px-2 md:px-4 py-1 mx-2 rounded text-[#13343e] placeholder-[#13343e]/30 inline-block align-baseline w-[clamp(150px,20vw,300px)] h-[clamp(1.5rem,3vw,3rem)] text-center font-sans font-light transition-all focus:ring-1 focus:ring-[#13343e]"
               disabled={status === 'loading' || status === 'success'}
             />
             <span>{content.formLine2End}</span>
