@@ -109,7 +109,7 @@ export default function Menu({ isOpen, onClose }: MenuProps) {
                           ease: [0.33, 1, 0.68, 1]
                         }} */
                         onClick={() => handleNavigate(item.href)}
-                        className="group relative text-2xl md:text-[1.5rem] font-serif font-bold tracking-tighter transition-all text-white py-1 whitespace-nowrap"
+                        className="group relative text-xl md:text-[1.3rem] font-serif font-bold tracking-tighter transition-all text-white py-1 whitespace-nowrap"
                       >
                         <span className="relative z-10">{item.label}</span>
                         {isActive && (

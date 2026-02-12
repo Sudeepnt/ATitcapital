@@ -9,9 +9,10 @@ import { slugify } from '../utils/slugify';
 interface BusinessSideViewProps {
     service: any;
     onClose?: () => void;
+    onStartConversation?: () => void;
 }
 
-export default function BusinessSideView({ service, onClose }: BusinessSideViewProps) {
+export default function BusinessSideView({ service, onClose, onStartConversation }: BusinessSideViewProps) {
     const router = useRouter();
     // No internal state needed for service, using prop directly
 
@@ -25,7 +26,9 @@ export default function BusinessSideView({ service, onClose }: BusinessSideViewP
     };
 
     const handleStartConversation = () => {
-        if (onClose) {
+        if (onStartConversation) {
+            onStartConversation();
+        } else if (onClose) {
             onClose();
             // Wait for exit animation (0.8s) before navigating
             setTimeout(() => {

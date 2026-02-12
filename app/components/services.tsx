@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Icon } from '@iconify/react';
 import { Pointer, Loader2 } from 'lucide-react';
 import { slugify } from '../utils/slugify';
@@ -20,7 +21,9 @@ export default function Services({ initialData }: { initialData?: any }) {
   const [selectedService, setSelectedService] = useState<any>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
   const lastWheelTime = useRef(0);
+  const router = useRouter();
 
   useEffect(() => {
     setHasMounted(true);
@@ -254,120 +257,132 @@ export default function Services({ initialData }: { initialData?: any }) {
     >
       {/* pb-20 pulls visual center down */}
 
-      {/* Intro Paragraph */}
-      <div className="relative w-full max-w-4xl px-8 md:px-32 text-center mt-12 mb-0 z-10">
-        <p className="text-black text-[15px] md:text-lg font-sans font-medium leading-relaxed">
-          {introText || ""}
-        </p>
-      </div>
+      <AnimatePresence>
+        {!isNavigating && (
+          <motion.div
+            key="services-content"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.4 }}
+            className="w-full flex flex-col items-center justify-center"
+          >
+            {/* Intro Paragraph */}
+            <div className="relative w-full max-w-4xl px-8 md:px-32 text-center mt-12 mb-0 z-10">
+              <p className="text-black text-[15px] md:text-lg font-sans font-medium leading-relaxed">
+                {introText || ""}
+              </p>
+            </div>
 
-      {/* Carousel Container - Adjusted margin */}
-      <div className="relative w-full h-[50vh] flex items-center justify-center -mt-12">
-        <AnimatePresence mode="popLayout">
-          {services.map((service, index) => {
-            const position = getPosition(index);
-            if (position === "hidden") return null;
+            {/* Carousel Container - Adjusted margin */}
+            <div className="relative w-full h-[50vh] flex items-center justify-center -mt-12">
+              <AnimatePresence mode="popLayout">
+                {services.map((service, index) => {
+                  const position = getPosition(index);
+                  if (position === "hidden") return null;
 
-            const isCenter = position === "center";
+                  const isCenter = position === "center";
 
-            let animateX = 0;
-            let scale = 1;
-            let opacity = 1;
-            let zIndex = 0;
-            let blur = "0px";
+                  let animateX = 0;
+                  let scale = 1;
+                  let opacity = 1;
+                  let zIndex = 0;
+                  let blur = "0px";
 
-            // Determine X positions
-            const isMobile = hasMounted && typeof window !== 'undefined' && window.innerWidth < 768;
-            const offsetMultiplier = isMobile ? 1.5 : 0.55; // 1.5 ensures completely offscreen for mobile
+                  // Determine X positions
+                  const isMobile = hasMounted && typeof window !== 'undefined' && window.innerWidth < 768;
+                  const offsetMultiplier = isMobile ? 1.5 : 0.55; // 1.5 ensures completely offscreen for mobile
 
-            if (position === "left") {
-              animateX = (hasMounted && typeof window !== 'undefined') ? -window.innerWidth * offsetMultiplier : -800;
-              scale = 0.8;
-              zIndex = 10;
-            } else if (position === "right") {
-              animateX = (hasMounted && typeof window !== 'undefined') ? window.innerWidth * offsetMultiplier : 800;
-              scale = 0.8;
-              zIndex = 10;
-            } else {
-              // Center
-              zIndex = 20;
-            }
+                  if (position === "left") {
+                    animateX = (hasMounted && typeof window !== 'undefined') ? -window.innerWidth * offsetMultiplier : -800;
+                    scale = 0.8;
+                    zIndex = 10;
+                  } else if (position === "right") {
+                    animateX = (hasMounted && typeof window !== 'undefined') ? window.innerWidth * offsetMultiplier : 800;
+                    scale = 0.8;
+                    zIndex = 10;
+                  } else {
+                    // Center
+                    zIndex = 20;
+                  }
 
-            return (
-              <motion.div
-                key={index}
-                className="absolute flex flex-col items-center justify-center w-full max-w-2xl px-6"
-                initial={{ x: animateX, opacity: 0 }}
-                animate={{
-                  x: animateX,
-                  scale: scale,
-                  opacity: 1,
-                  filter: `blur(${blur})`
-                }}
-                transition={{
-                  type: "spring",
-                  stiffness: 120,
-                  damping: 24,
-                  mass: 1
-                }}
-                style={{ zIndex }}
-              >
-                {/* Dynamic Background */}
-                <motion.div
-                  className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none"
-                  animate={{ y: [-10, 10, -10] }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                >
-                  {renderBackground(service.title, isCenter)}
-                  {isCenter && (
+                  return (
                     <motion.div
-                      initial={{ opacity: 0, x: -5 }}
-                      animate={{ opacity: 1, x: [-5, 5, -5] }}
-                      transition={{
-                        opacity: { duration: 0.5 },
-                        x: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                      key={index}
+                      className="absolute flex flex-col items-center justify-center w-full max-w-2xl px-6"
+                      initial={{ x: animateX, opacity: 0 }}
+                      animate={{
+                        x: animateX,
+                        scale: scale,
+                        opacity: 1,
+                        filter: `blur(${blur})`
                       }}
-                      className="absolute top-0 right-[20%] text-[#9CA3AF] text-3xl font-black"
+                      transition={{
+                        type: "spring",
+                        stiffness: 120,
+                        damping: 24,
+                        mass: 1
+                      }}
+                      style={{ zIndex }}
                     >
-                      +
+                      {/* Dynamic Background */}
+                      <motion.div
+                        className="absolute inset-0 -z-10 flex items-center justify-center pointer-events-none"
+                        animate={{ y: [-10, 10, -10] }}
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                      >
+                        {renderBackground(service.title, isCenter)}
+                        {isCenter && (
+                          <motion.div
+                            initial={{ opacity: 0, x: -5 }}
+                            animate={{ opacity: 1, x: [-5, 5, -5] }}
+                            transition={{
+                              opacity: { duration: 0.5 },
+                              x: { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                            }}
+                            className="absolute top-0 right-[20%] text-[#9CA3AF] text-3xl font-black"
+                          >
+                            +
+                          </motion.div>
+                        )}
+                      </motion.div>
+
+                      <h2 className="text-[#13343e] text-[clamp(1.19rem,2.125vw,1.87rem)] md:text-[clamp(1.53rem,2.55vw,2.55rem)] font-serif font-bold mb-4 tracking-tight text-center max-w-[90%] leading-tight [-webkit-text-stroke:1px]">
+                        {service.title}.
+                      </h2>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedService(service);
+                        }}
+                        onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
+                        onTouchStart={(e: React.TouchEvent) => e.stopPropagation()}
+                        className="text-black font-sans font-bold text-xl px-4 py-2 bg-gradient-to-r from-[#13343e] to-[#13343e] bg-no-repeat bg-[length:0%_100%] bg-right transition-[background-size,color] duration-500 hover:bg-[length:100%_100%] hover:bg-left hover:text-white block cursor-pointer"
+                      >
+                        see more
+                      </button>
                     </motion.div>
-                  )}
-                </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            </div>
 
-                <h2 className="text-[#13343e] text-[clamp(1.19rem,2.125vw,1.87rem)] md:text-[clamp(1.53rem,2.55vw,2.55rem)] font-serif font-bold mb-4 tracking-tight text-center max-w-[90%] leading-tight [-webkit-text-stroke:1px]">
-                  {service.title}.
-                </h2>
-
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedService(service);
-                  }}
-                  onPointerDown={(e: React.PointerEvent) => e.stopPropagation()}
-                  onTouchStart={(e: React.TouchEvent) => e.stopPropagation()}
-                  className="text-black font-sans font-bold text-xl px-4 py-2 bg-gradient-to-r from-[#13343e] to-[#13343e] bg-no-repeat bg-[length:0%_100%] bg-right transition-[background-size,color] duration-500 hover:bg-[length:100%_100%] hover:bg-left hover:text-white block cursor-pointer"
-                >
-                  see more
-                </button>
+            {/* Swipe Hand Icon SELECTION */}
+            <div className="absolute bottom-28 w-full px-8 flex justify-center pointer-events-none">
+              <motion.div
+                className="flex flex-col items-center gap-2"
+                animate={{ x: [-10, 10, -10] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              >
+                <div className="flex flex-col items-center">
+                  <span className="text-[#13343e] text-[10px] font-bold mb-0.5">&larr;&rarr;</span>
+                  <Pointer size={24} className="text-[#13343e]" />
+                </div>
               </motion.div>
-            );
-          })}
-        </AnimatePresence>
-      </div>
-
-      {/* Swipe Hand Icon SELECTION */}
-      <div className="absolute bottom-28 w-full px-8 flex justify-center pointer-events-none">
-        <motion.div
-          className="flex flex-col items-center gap-2"
-          animate={{ x: [-10, 10, -10] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-          <div className="flex flex-col items-center">
-            <span className="text-[#13343e] text-[10px] font-bold mb-0.5">&larr;&rarr;</span>
-            <Pointer size={24} className="text-[#13343e]" />
-          </div>
-        </motion.div>
-      </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Business Side View Overlay */}
       <AnimatePresence>
@@ -375,6 +390,16 @@ export default function Services({ initialData }: { initialData?: any }) {
           <BusinessSideView
             service={selectedService}
             onClose={() => setSelectedService(null)}
+            onStartConversation={() => {
+              // 1. Hide the carousel content behind the side panel
+              setIsNavigating(true);
+              // 2. Trigger the side panel slide-out animation
+              setSelectedService(null);
+              // 3. Start navigation while side panel is still sliding
+              setTimeout(() => {
+                router.push('/contact');
+              }, 300);
+            }}
           />
         )}
       </AnimatePresence>

@@ -83,7 +83,7 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
           className="w-full max-w-5xl"
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.1, duration: 0.5 }}
+          transition={{ delay: 0.01, duration: 0.5 }}
         >
           {/* Headline / Input Group 1 */}
           <div className="mt-6 mb-6 leading-relaxed text-[#1A1A1A] font-sans font-normal" style={{ fontSize: 'clamp(0.9rem, 1.5vw, 1.5rem)' }}>
