@@ -22,7 +22,7 @@ export default function Services({ initialData }: { initialData?: any }) {
   const lastWheelTime = useRef(0);
 
   useEffect(() => {
-    setIsTouchDevice('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    setIsTouchDevice(typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
   }, []);
 
   // Removed client-side fetch since we pass data from server
@@ -275,15 +275,15 @@ export default function Services({ initialData }: { initialData?: any }) {
             let blur = "0px";
 
             // Determine X positions
-            const isMobile = window.innerWidth < 768;
+            const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
             const offsetMultiplier = isMobile ? 1.5 : 0.55; // 1.5 ensures completely offscreen for mobile
 
             if (position === "left") {
-              animateX = -window.innerWidth * offsetMultiplier;
+              animateX = typeof window !== 'undefined' ? -window.innerWidth * offsetMultiplier : -800;
               scale = 0.8;
               zIndex = 10;
             } else if (position === "right") {
-              animateX = window.innerWidth * offsetMultiplier;
+              animateX = typeof window !== 'undefined' ? window.innerWidth * offsetMultiplier : 800;
               scale = 0.8;
               zIndex = 10;
             } else {
