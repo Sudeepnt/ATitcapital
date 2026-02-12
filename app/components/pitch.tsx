@@ -81,8 +81,8 @@ export default function Pitch({ initialContent }: { initialContent?: any }) {
         <motion.form
           onSubmit={handleSubmit}
           className="w-full max-w-5xl"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.1, duration: 0.5 }}
         >
           {/* Headline / Input Group 1 */}

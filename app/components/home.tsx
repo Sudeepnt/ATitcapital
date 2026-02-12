@@ -31,11 +31,11 @@ export default function Home({ initialContent }: { initialContent: any }) {
     }
   };
 
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 30 },
+  const fadeInLeft = {
+    hidden: { opacity: 0, x: -30 },
     show: {
       opacity: 1,
-      y: 0,
+      x: 0,
       transition: {
         duration: 0.8
       }
@@ -52,7 +52,7 @@ export default function Home({ initialContent }: { initialContent: any }) {
       >
         <motion.div
           className="flex-1 flex flex-col items-center justify-center md:block md:flex-none"
-          variants={fadeInUp}
+          variants={fadeInLeft}
         >
           <h2 className="text-[#13343e] text-[clamp(1.61rem,3.68vw,3.54rem)] leading-[1.1] font-serif font-bold tracking-tight mb-6 [-webkit-text-stroke:1px]">
             <span dangerouslySetInnerHTML={{ __html: content.hero.title.replace(/\. /g, '.<br/>') }} />
@@ -64,7 +64,7 @@ export default function Home({ initialContent }: { initialContent: any }) {
 
         <motion.div
           className="flex flex-col items-center gap-6 md:flex-row"
-          variants={fadeInUp}
+          variants={fadeInLeft}
         >
           <div className="relative group cursor-pointer inline-block">
             <p className="text-[#1A1A1A] text-[clamp(0.89rem,1.79vw,1.79rem)] font-sans font-black tracking-tight relative z-10 transition-colors">

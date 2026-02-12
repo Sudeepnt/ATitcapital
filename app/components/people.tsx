@@ -33,8 +33,8 @@ export default function People({ initialContent }: { initialContent?: any }) {
         <div className="h-screen w-full overflow-y-auto bg-white flex flex-col">
             <main className="flex-1 flex flex-col items-center justify-start pt-30 px-4 md:px-32 w-full min-h-screen">
                 <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: -30 }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1, duration: 0.6 }}
                     className="text-[#13343e] text-3xl md:text-4xl font-serif font-bold mb-12 mt-4 text-center [-webkit-text-stroke:1px]"
                 >
@@ -48,8 +48,8 @@ export default function People({ initialContent }: { initialContent?: any }) {
                         {people.map((person: any, index: number) => (
                             <motion.div
                                 key={person.name}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
                                 transition={{ duration: 0.5, delay: 0.1 + (index * 0.05) }}
                                 className="flex flex-col cursor-pointer group w-[45%] md:w-[264px]"
                                 onClick={(e) => {

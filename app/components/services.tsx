@@ -19,9 +19,11 @@ export default function Services({ initialData }: { initialData?: any }) {
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<any>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   const lastWheelTime = useRef(0);
 
   useEffect(() => {
+    setHasMounted(true);
     setIsTouchDevice(typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0));
   }, []);
 
@@ -275,15 +277,15 @@ export default function Services({ initialData }: { initialData?: any }) {
             let blur = "0px";
 
             // Determine X positions
-            const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+            const isMobile = hasMounted && typeof window !== 'undefined' && window.innerWidth < 768;
             const offsetMultiplier = isMobile ? 1.5 : 0.55; // 1.5 ensures completely offscreen for mobile
 
             if (position === "left") {
-              animateX = typeof window !== 'undefined' ? -window.innerWidth * offsetMultiplier : -800;
+              animateX = (hasMounted && typeof window !== 'undefined') ? -window.innerWidth * offsetMultiplier : -800;
               scale = 0.8;
               zIndex = 10;
             } else if (position === "right") {
-              animateX = typeof window !== 'undefined' ? window.innerWidth * offsetMultiplier : 800;
+              animateX = (hasMounted && typeof window !== 'undefined') ? window.innerWidth * offsetMultiplier : 800;
               scale = 0.8;
               zIndex = 10;
             } else {
