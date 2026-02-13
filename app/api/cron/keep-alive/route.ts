@@ -14,7 +14,7 @@ export async function GET(request: Request) {
         const { error } = await supabase
             .from('project_heartbeat')
             .insert([
-                { message: 'hi, keeping the database awake!' }
+                { message: 'hi' }
             ]);
 
         if (error) {
