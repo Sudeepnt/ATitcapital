@@ -18,7 +18,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       finishLoading();
-    }, 800);
+    }, 2500);
     return () => clearTimeout(timer);
   }, []);
 
@@ -33,7 +33,7 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
             className="fixed inset-0 z-[100] bg-[#13343e] flex items-center justify-center overflow-hidden font-sans cursor-pointer"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 1.5, ease: "easeInOut" }}
           >
             {/* Architectural Grid Background */}
             <div
