@@ -46,7 +46,10 @@ export async function getCMSData(): Promise<FullCMSContent> {
  */
 export async function saveCMSData(data: any): Promise<{ success: boolean; error?: string }> {
     if (!supabase) {
-        return { success: false, error: "Supabase not connected. Cannot save on Vercel." };
+        return {
+            success: false,
+            error: "Supabase client not initialized. Check your .env.local file and restart the development server."
+        };
     }
 
     try {
